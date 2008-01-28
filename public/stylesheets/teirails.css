@@ -1,0 +1,58 @@
+body {
+    margin: 0;
+    padding: 50px;
+    font: 1em Georgia, palatino, serif;
+    color: #352805;
+    background-color: #760404;
+}
+
+#mainContent {
+    border: 1px solid;
+    padding: 20px;
+    background-color: white;
+}
+
+#locationPath {
+    background-color: #d7a7a7;
+    padding: 5px;
+}
+
+ul.thumbnailImages li {
+    display: inline;
+    padding: 20px;
+    line-height: 80px;
+}
+
+#errorBox {
+    width: 400px;
+    border: 2px solid #760404;
+    padding: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+#noticeBox {
+    width: 400px;
+    border: 2px solid #003f0d;
+    color: #003f0d;
+    padding: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+}
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: #760404;
+  display: table;
+}
+
+#footerText {
+    font-size: .8em;
+}
+
+.css1 { font-size: 1.0em; }
+.css2 { font-size: 1.2em; }
+.css3 { font-size: 1.4em; }
+.css4 { font-size: 1.6em; }

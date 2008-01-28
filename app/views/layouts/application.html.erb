@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+
+<head>
+  <title>TeiRails</title>
+
+  <%= javascript_include_tag :defaults %>
+  <%= stylesheet_link_tag 'teirails' %>
+</head>
+
+<body>
+
+  <div id="mainContent">
+
+    <% if flash[:error] -%>
+      <div id="errorBox">
+        <p>
+          <%= flash[:error] -%>
+        </p>
+      </div>
+    <% end -%>
+
+    <% if flash[:notice] -%>
+      <div id="noticeBox">
+        <p>
+          <%= flash[:notice] -%>
+        </p>
+      </div>
+    <% end -%>
+
+    <%= yield -%>
+
+    <hr />
+
+    <div id="footerText">
+      Go <%= link_to 'home', '/' -%>.<br />
+
+      <p><a href='http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary'>Code, git</a></p>
+
+      <p>
+	<% if logged_in? -%>
+          You are logged in as user "<%= current_user.login -%>."
+          <%= link_to 'Log out?', logout_path -%><br />
+	<% else -%>
+	  You aren't logged in.  <%= link_to 'Create an account?', new_user_path -%>
+	<% end -%>
+      </p>
+    </div>
+
+  </div>
+</html>
