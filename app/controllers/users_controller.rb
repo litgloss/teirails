@@ -19,19 +19,29 @@ class UsersController < ApplicationController
     # reset_session
     @user = User.new(params[:user])
     @user.save!
-    self.current_user = @user
+    
+    # Don't log in user who just signed up, since activation is
+    # required.  
+    # self.current_user = @user
+
     redirect_back_or_default('/')
-    flash[:notice] = "Thanks for signing up!"
+    flash[:notice] = "Thanks for signing up!  Please check your email account " +
+      "in a few minutes for an activation message."
+
   rescue ActiveRecord::RecordInvalid
     render :action => 'new'
   end
 
   def activate
     self.current_user = params[:activation_code].blank? ? :false : User.find_by_activation_code(params[:activation_code])
+
     if logged_in? && !current_user.active?
       current_user.activate!
       flash[:notice] = "Signup complete!"
+    else
+      flash[:error] = "Sorry, we couldn't activate your account."
     end
+
     redirect_back_or_default('/')
   end
 

@@ -1,0 +1,10 @@
+<h1>Edit Content</h1>
+
+<%= error_messages_for :content %>
+
+<% form_for :content, :url => content_path, :html => { :method => :put } do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+  <p><%= submit_tag 'Update content' %></p>
+<% end -%>

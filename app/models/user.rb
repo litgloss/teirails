@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
+  has_many :contents, :foreign_key => :creator_id
+
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
@@ -19,7 +21,8 @@ class User < ActiveRecord::Base
 
   acts_as_state_machine :initial => :pending
   state :passive
-  state :pending, :enter => :make_activation_code
+
+  state :pending
   state :active,  :enter => :do_activate
   state :suspended
   state :deleted, :enter => :do_delete
@@ -91,6 +94,12 @@ class User < ActiveRecord::Base
     save(false)
   end
 
+  #def make_activation_code
+  #  self.deleted_at = nil
+  #  self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+  #  self.save!
+  #end
+
   protected
     # before filter 
     def encrypt_password
@@ -103,10 +112,6 @@ class User < ActiveRecord::Base
       crypted_password.blank? || !password.blank?
     end
     
-    def make_activation_code
-      self.deleted_at = nil
-      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-    end
     
     def do_delete
       self.deleted_at = Time.now.utc

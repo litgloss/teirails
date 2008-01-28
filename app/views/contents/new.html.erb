@@ -1,0 +1,11 @@
+<h1>Create new content</h1>
+
+
+<%= error_messages_for :content %>
+
+<% form_for :content, :url => contents_path do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+  <p><%= submit_tag 'Create Content' %></p>
+<% end -%>

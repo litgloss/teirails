@@ -3,6 +3,8 @@ class CreateContents < ActiveRecord::Migration
     create_table :contents, :force => true do |t|
       t.text :teidata
 
+      t.integer :creator_id
+
       t.timestamps
     end
   end

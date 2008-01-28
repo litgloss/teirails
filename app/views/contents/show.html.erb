@@ -1,0 +1,9 @@
+<h1>Content</h1>
+
+<center>
+<iframe src="<%= xhtml_teidata_content_path(@content) -%>" HEIGHT="400" WIDTH="90%">
+</iframe>
+</center>
+
+<p><%= link_to 'Edit content', edit_content_path(@content) %></p>
+<p><%= link_to 'List content items', contents_path %></p>

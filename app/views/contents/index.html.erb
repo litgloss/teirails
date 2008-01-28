@@ -1,0 +1,9 @@
+<h1>Content Item Index</h1>
+
+<% if !@contents.empty? -%>
+<ul>
+<% @contents.each do |c| -%>
+<li><%= link_to "Content id #{c.id}", content_path(c) -%></li>
+<% end -%>
+</ul>
+<% end -%>

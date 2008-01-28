@@ -17,6 +17,10 @@ body {
     padding: 5px;
 }
 
+textarea.teidata {	
+		 width: 90%;
+}
+
 ul.thumbnailImages li {
     display: inline;
     padding: 20px;
@@ -52,7 +56,3 @@ ul.thumbnailImages li {
     font-size: .8em;
 }
 
-.css1 { font-size: 1.0em; }
-.css2 { font-size: 1.2em; }
-.css3 { font-size: 1.4em; }
-.css4 { font-size: 1.6em; }

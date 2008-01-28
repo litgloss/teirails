@@ -6,6 +6,10 @@ ActionController::Routing::Routes.draw do |map|
     :purge     => :delete 
   }
 
+  map.resources :contents, :member => {
+    :xhtml_teidata => :get
+  }
+
   map.resource :session
 
   ###
