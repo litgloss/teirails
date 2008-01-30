@@ -37,19 +37,12 @@ class AnnotationsController < ApplicationController
     end
   end
 
-  # Not sure if update will be useful, we may just have
-  # to parse parameters from the regular post request to
-  # see if it has a previous url.
-  def update
-
-  end
 
   # Returns the body of the annotation.
   def body
-    respond_to do |format|
-      format.html
-      format.xml
-    end
+    @annotation = Annotation.find(params[:id])
+
+    render :xml =>@annotation.body_to_xml, :content_type => @annotation.body_content_type
   end
 
   # Assume that the body of the message is not empty.  That 
@@ -58,26 +51,25 @@ class AnnotationsController < ApplicationController
   # of this submission.  The first one must contain in the body
   # the location of the real body.  phew.
   def create
-    logger.info(pp(params['RDF']))
+    # logger.info(pp(params['RDF']))
     
-    external_body_rec = Annotation.new
+    @annotation = nil
 
-    external_body_rec.body = params['RDF']['Description']['body']['Message']['Body']['html']['body']
+    # Get the last digit set from the replace_source if it exists as
+    # the annotation ID we're working on.  This means that we're really
+    # doing an update and not a create.
+    if params[:replace_source]
+      params[:replace_source].scan(/(\d+)$/)
+      @annotation = Annotation.find($1)
+    else
+      @annotation = Annotation.new
+    end
 
-    rec.creator = params['RDF']['Description']['creator']
-    rec.language = params['RDF']['Description']['language']
-    rec.title = params['RDF']['Description']['body']['Message']['Body']['html']['head']['title']
+    @annotation.rdf_data = request.raw_post
 
-    rec.date = params['RDF']['Description']['date']
-    rec.created = params['RDF']['Description']['created']
-    rec.annotates = params['RDF']['Description']['annotates']['r:resource']
-    rec.context = params['RDF']['Description']['context']
- 
-    body_rec = Annotation.new
-
-    if external_body_rec.save && body_rec.save
-      @annotation = rec
-      render :xml => rec, :status => "201 Created", :location => formatted_annotation_path(rec, 'xml')
+    if @annotation.save
+      @annotation.set_meta_fields
+      render :xml => @annotation, :status => "201 Created", :location => formatted_annotation_path(@annotation, 'xml')
     end
   end
 

@@ -2,28 +2,17 @@ class CreateAnnotations < ActiveRecord::Migration
   def self.up
     create_table :annotations, :force => true do |t|
 
-      ### 
-      # Begin RDF fields
-      ###
-      t.string :title
-      t.string :content_type
-      t.string :type
-      t.string :annotates
-      t.string :context
-      t.string :language
+      t.text :rdf_data
 
-      # Leaving this as a string to accept the RDF
-      # field of the same name.  We'll probably also
-      # store the user_id to properly connect this to user
-      # though.  This will just hold whatever string the user
-      # provides through their annotea client software.
-      t.string :creator
-      t.datetime :created
-      t.datetime :date
-      t.string :body
+      # Fields we store outside of the RDF content for 
+      # querying efficiency.
+      t.string :annotates
+
+      # The specification uses name "inReplyTo" for this field.
+      t.string :in_reply_to
+
       t.string :root
-      t.string :inreplyto
-      t.string :encoding
+
       ### 
       # End RDF fields
       ###
