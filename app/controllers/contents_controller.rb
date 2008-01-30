@@ -1,6 +1,6 @@
 class ContentsController < ApplicationController
-  
-  layout "layouts/application", :except => :xhtml_teidata
+
+  layout "layouts/application", :except => [:xhtml_teidata, :annotatable]
 
   def index
     @contents = Content.find(:all)
@@ -17,11 +17,17 @@ class ContentsController < ApplicationController
   def show
     @content = Content.find(params[:id])
 
-    logger.info("hey, junk.")
     respond_to do |format|
       format.html
       format.xml { render :xml => @content.teidata }
     end
+  end
+
+  def annotatable
+    headers["Content-Type"] = "application/xhtml+xml"
+
+    @content = Content.find(params[:id])
+    render :xml => @content.teidata
   end
 
   def xhtml_teidata

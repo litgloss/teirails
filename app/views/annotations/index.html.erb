@@ -1,0 +1,9 @@
+<h1>Annotations</h1>
+
+<% if !@annotations.empty? -%>
+<ul>
+<% @annotations.each do |a| -%>
+<li><%= link_to "Content id #{a.id}", formatted_annotation_path(a, 'xml' ) -%></li>
+<% end -%>
+</ul>
+<% end -%>

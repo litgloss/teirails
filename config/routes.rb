@@ -7,7 +7,13 @@ ActionController::Routing::Routes.draw do |map|
   }
 
   map.resources :contents, :member => {
-    :xhtml_teidata => :get
+    :xhtml_teidata => :get,
+    :annotatable => :get
+  }
+
+  # The annotea server!
+  map.resources :annotations, :member => {
+    :body => :get
   }
 
   map.resource :session

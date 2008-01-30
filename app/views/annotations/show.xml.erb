@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<r:RDF xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+       xmlns:a="http://www.w3.org/2000/10/annotation-ns#"
+       xmlns:d="http://purl.org/dc/elements/1.1/">
+ <r:Description r:about="http://foucault.phq.org:3000/annotations.xml/<%= @annotation.id %>">
+  <r:type r:resource="http://www.w3.org/2000/10/annotation-ns#Annotation"/>
+  <r:type r:resource="http://www.w3.org/2000/10/annotationType#Comment"/>
+  <a:annotates r:resource="<%= @annotation.annotates %>"/>
+  <d:title><%= @annotation.title %></d:title>
+  <a:context>
+    <%= @annotation.context %>
+  </a:context>
+  <d:creator><%= @annotation.creator %></d:creator>
+  <a:created><%= @annotation.created %></a:created>
+  <d:date><%= @annotation.date %></d:date>
+  <a:body otations/<%= @annotation.id %>.xml"/>
+ </r:Description>
+</r:RDF>

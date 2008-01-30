@@ -1,9 +1,29 @@
 <h1>Content</h1>
 
+<script language="javascript">
+  cur_window = 0;
+
+  function change_to_annotation_mode() {
+    if (cur_window == 0) {
+      frames['content_iframe'].location.href = "<%= annotatable_content_path(@content) -%>";      
+      cur_window = 1;
+    } else {
+      frames['content_iframe'].location.href = "<%= xhtml_teidata_content_path(@content) -%>";      
+      cur_window = 0;
+    }
+
+  }
+</script>
+
+
 <center>
-<iframe src="<%= xhtml_teidata_content_path(@content) -%>" HEIGHT="400" WIDTH="90%">
+<iframe src="<%= xhtml_teidata_content_path(@content) -%>" HEIGHT="400" WIDTH="90%"
+	name="content_iframe"
+	id="content_iframe">
 </iframe>
 </center>
 
 <p><%= link_to 'Edit content', edit_content_path(@content) %></p>
 <p><%= link_to 'List content items', contents_path %></p>
+<p><a href="javascript:change_to_annotation_mode()">Chg mod</a></p>
+
