@@ -9,4 +9,28 @@
    xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#" />
 <% else -%>
 
+<r:RDF xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+       xmlns:a="http://www.w3.org/2000/10/annotation-ns#"
+       xmlns:d="http://purl.org/dc/elements/1.1/">
+
+<% @annotations.each do |a| %>
+
+ <r:Description r:about="http://<%= HOSTNAME %>/annotations.xml/<%= a.id %>">
+  <r:type r:resource="http://www.w3.org/2000/10/annotation-ns#Annotation"/>
+  <r:type r:resource="http://www.w3.org/2000/10/annotationType#Comment"/>
+  <a:annotates r:resource="<%= a.annotates %>"/>
+  <d:title><%= a.get_tag_value('title') %></d:title>
+  <a:context>
+    <%= a.get_tag_value('context') %>
+  </a:context>
+  <d:creator><%= a.get_tag_value('creator') %></d:creator>
+  <a:created><%= a.get_tag_value('created') %></a:created>
+  <d:date><%= a.get_tag_value('date') %></d:date>
+  <a:body r:resource="http://<%= HOSTNAME %>/annotations/<%= a.id %>/body.xml"/>
+ </r:Description>
+
+<% end %>
+
+</r:RDF>
+
 <% end  -%>

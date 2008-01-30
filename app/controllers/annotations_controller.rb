@@ -7,6 +7,7 @@ class AnnotationsController < ApplicationController
 
   # Return list of annotations matching "target".
   def index
+
     if params[:w3c_annotates]
       @annotations = Annotation.find(:all, :conditions => {
                                        :annotates => params[:w3c_annotates]
@@ -14,6 +15,8 @@ class AnnotationsController < ApplicationController
     else
       @annotations = Annotation.find(:all)
     end
+
+    logger.info("\n\nWe got #{@annotations.size} annotations to show!!!\n\n")
 
     respond_to do |format|
       format.html
