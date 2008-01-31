@@ -1,10 +1,9 @@
-require 'pp'
-
-# Annotea protocol:
-# http://www.w3.org/2002/12/AnnoteaProtocol-20021219
 class AnnotationsController < ApplicationController
-  # requires_authentication :using => :authenticate
 
+  # Require HTTP auth for the create and update method,
+  # since this comes from random annotea clients.
+  before_filter :authenticate, :only => [ :create ]
+  
   # Return list of annotations matching "target".
   def index
 
@@ -83,7 +82,11 @@ class AnnotationsController < ApplicationController
 
   
   private
-  def authenticate(username, password)
-    return username == 'justin' && password == 'test'
+  # Basic HTTP auth for users sending credentials through annotea
+  # client.
+  def authenticate
+    authenticate_or_request_with_http_basic do |username, password| 
+      !User.authenticate(username, password).nil?
+    end
   end
 end
