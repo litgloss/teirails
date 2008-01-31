@@ -17,6 +17,23 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   before_save :encrypt_password
 
+
+  after_create :create_profile
+
+  def create_profile
+    self.profile = Profile.new
+    self.save
+  end
+
+  def full_name
+    if self.profile.first_name.nil? ||
+        self.profile.last_name.nil?
+      return self.login
+    else
+      return self.profile.first_name + " " + self.profile.last_name
+    end
+  end
+
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :password, :password_confirmation

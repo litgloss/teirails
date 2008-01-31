@@ -1,12 +1,25 @@
-<h1><%= @profile.first_name -%> <%= @profile.last_name %></h1>
+<h1>
+  <%= @profile.user.full_name %>
+</h1>
 
+<p>
+  <h2>Description:</h2>
+<% if  @description.nil? || @description.empty?%>
+<p>User hasn't provided any additional information to share.</p>
+<% else %>
 <p><%= @profile.description -%></p>
+<% end %>
+</p>
 
 <% if @profile.user == current_user -%>
-  <% if @profile.photo.nil? -%>
-    <p>You don't have a photo set!  <%= link_to 'Add one', new_photo_path({:imageable_type => :profile, :imageable_id => @profile}) %></p>
+<h2>User-Provided Image</h2>
+
+  <% if @profile.image.nil? -%>
+    <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %></p>
 
   <% else -%>
-    <%= streamed_image_tag(@photo) -%>
+    <% if !@profile.image.nil? %>
+     <%= streamed_image_tag(@image) -%>
+    <% end %>
   <% end -%>
 <% end -%>

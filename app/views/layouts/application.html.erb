@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html>
 
@@ -7,12 +8,40 @@
   <title>TeiRails</title>
 
   <%= javascript_include_tag :defaults %>
-  <%= stylesheet_link_tag 'teirails' %>
+  <%= javascript_include_tag 'niftycube' %>
+
+  <%= stylesheet_link_tag :teirails %>
+  <%= stylesheet_link_tag 'niftyCorners.css' %>
+
+  <script type="text/javascript">
+      window.onload=function(){
+         Nifty("ul#headernav a","big transparent top");
+      }
+  </script>
+
 </head>
 
 <body>
 
-  <div id="mainContent">
+  <span class="mainlogo">
+   <a href="/">
+  <img src="/images/Litgloss_banner.png" height="73" width="160">
+  </a>
+  </span>
+
+  <div id="main-navigation">
+
+      <ul id="headernav">
+          <li><a href="#">About Litgloss</a></li>
+          <li><a href="#">Help</a></li>
+          <li><a href="#">Catalog</a></li>
+          <li><a href="#">Reading</a></li>
+          <li><a href="#">My Litgloss</a></li>
+          <li><a href="#">Search</a></li>
+      </ul>
+</div>
+
+<div id="mainContent">
 
     <% if flash[:error] -%>
       <div id="errorBox">
@@ -40,12 +69,12 @@
 
 
       <p>
-	<% if logged_in? -%>
+        <% if logged_in? -%>
           You are logged in as user "<%= current_user.login -%>."
           <%= link_to 'Log out?', logout_path -%><br />
-	<% else -%>
-	  You aren't logged in.  <%= link_to 'Create an account', new_user_path -%>, or <%= link_to 'log in', login_path -%>?
-	<% end -%>
+        <% else -%>
+          You aren't logged in.  <%= link_to 'Create an account', new_user_path -%>, or <%= link_to 'log in', login_path -%>?
+        <% end -%>
       </p>
 
       <p><a href='http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary'>Code, git</a></p>

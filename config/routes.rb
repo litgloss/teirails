@@ -12,6 +12,10 @@ ActionController::Routing::Routes.draw do |map|
     :annotatable => :get
   }
 
+  map.resources :images, :member => {
+    :stream => :get
+  }
+
   # The annotea server!
   map.resources :annotations, :member => {
     :body => :get
