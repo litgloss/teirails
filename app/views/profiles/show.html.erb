@@ -4,8 +4,8 @@
 
 <% if @profile.user == current_user -%>
   <% if @profile.photo.nil? -%>
-    <p>You don't have a photo set!  <%= link_to 'Add one', new_photo_path({:imageable_type => :profile, :imageable_id => @profile}) -%></p>
-    
+    <p>You don't have a photo set!  <%= link_to 'Add one', new_photo_path({:imageable_type => :profile, :imageable_id => @profile}) %></p>
+
   <% else -%>
     <%= streamed_image_tag(@photo) -%>
   <% end -%>

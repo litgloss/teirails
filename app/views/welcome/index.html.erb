@@ -5,11 +5,12 @@
 <p><%= link_to 'List content items', contents_path %></p>
 
 <% if logged_in? -%>
-
-  <% if !current_user.contents.empty? -%>
-    <p>You have some contents.</p>
-  <% end -%>
-
   <p><%= link_to 'Create some contents?', new_content_path -%></p>
-
+  <% if !current_user.profile.nil? %>
+  <p><%= link_to 'Show', user_profile_path(current_user) %> or
+         <%= link_to 'edit', edit_user_profile(current_user) %>
+         your user profile.</p>
+  <% else %>
+      <p>We see that you don't have a user profile.  <%= link_to 'Create one?', new_user_profile_path(current_user) %>
+  <% end %>
 <% end -%>

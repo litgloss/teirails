@@ -4,7 +4,9 @@ ActionController::Routing::Routes.draw do |map|
     :suspend   => :put,
     :unsuspend => :put,
     :purge     => :delete
-  }
+  } do |user|
+    user.resource :profile
+  end
 
   map.resources :contents, :member => {
     :annotatable => :get
@@ -17,7 +19,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
-  map.resource :profile
 
   ###
   # Map certain URLs to more intuitive paths.

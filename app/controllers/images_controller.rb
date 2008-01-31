@@ -1,10 +1,9 @@
 class ImagesController < ApplicationController
   include ActionController::Streaming
 
-
   before_filter :login_required, :only => [ :new, :create, :edit,
                                             :update, :destroy ]
-  imageable_classes = ['Profile', 'Wedding']
+  imageable_classes = ['Profile', 'Content']
 
   def update
     @image = Image.find(params[:id])
@@ -55,11 +54,6 @@ class ImagesController < ApplicationController
                            :imageable_type => @imageable_type,
                            :imageable_id => @imageable_id
                          })
-
-    if @imageable_type == "wedding"
-      @wedding = Wedding.find(@imageable_id)
-      @tags = @wedding.images.tag_counts
-    end
   end
 
   def edit
@@ -119,7 +113,6 @@ class ImagesController < ApplicationController
 
     if p.destroy
       flash[:notice] = 'Image deleted.'
-
       redirect_to images_path
     else
       flash[:error] = 'Error deleting image.'
