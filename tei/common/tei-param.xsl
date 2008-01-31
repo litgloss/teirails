@@ -77,10 +77,12 @@
   <xd:doc class="links" type="anyURI">Project Home</xd:doc>
   <xsl:param name="homeURL">/</xsl:param>
   <xd:doc class="links" type="string">Project</xd:doc>
-  <xsl:param name="homeWords">TEI</xsl:param>
+  <xsl:param name="homeWords">Litgloss Home</xsl:param>
   <xd:doc class="links" type="string"> Institution</xd:doc>
-  <xsl:param name="institution">LitGloss Project</xsl:param>
-  <xd:doc class="links" type="anyURI"> Institution link</xd:doc>
+
+  <xsl:param name="institution" />
+
+  <xd:doc class="links" type="anyURI">Institution link</xd:doc>
   <xsl:param name="parentURL">http://www.buffalo.edu/</xsl:param>
   <xd:doc class="links" type="string"> Name of overall institution</xd:doc>
   <xsl:param name="parentWords">University at Buffalo</xsl:param>

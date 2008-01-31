@@ -1,4 +1,4 @@
-/* 
+/*
 ** Copyright 2005 TEI Consortium
 
 $Id: tei.css 3790 2007-10-26 10:58:03Z rahtz $
@@ -12,8 +12,8 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
  You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the 
-Free Software Foundation, Inc., 
+License along with this library; if not, write to the
+Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
@@ -25,23 +25,23 @@ Free Software Foundation, Inc.,
 
 body.simple {
    color: #000000;
-   background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
    margin: 10pt;
 }
 
 body{
    color: #000000;
-   background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
    margin: 0;
    padding:0;
 }
 
 body.pagetable {
    color: #000000;
-   background-color: #FFFFFF;
+    /* background-color: #FFFFFF; */
 }
 
-/* 3 columns allowed for, or just a right and left */  
+/* 3 columns allowed for, or just a right and left */
 #col1{
    width: 20%;
    background: #FFFFFF;
@@ -215,7 +215,7 @@ h2.subtitle {
 
 .footer {
    text-align : center;
-   font-family: Arial,Helvetica,sans-serif; 
+   font-family: Arial,Helvetica,sans-serif;
    font-size : 0.8em;
 }
 
@@ -349,8 +349,8 @@ div.cdata{
  white-space: pre;
 }
 
-div.pre,pre	{ 
- background-color: #FFFFCC;  
+div.pre,pre     {
+ background-color: #FFFFCC;
  font-family: monospace ;
  margin: 5px;
 }
@@ -373,15 +373,15 @@ li.toc {list-style: none;}
 a.inlinetoc:link,a.inlinetoc:visited
 {
    color: #7A7A7A;
-   font-size: smaller; 
+   font-size: smaller;
    text-decoration: none;
 }
 
 a.inlinetoc-this:visited,a.inlinetoc-this:link
-{   
-   font-size: smaller; 
+{
+   font-size: smaller;
    color: #000000;
-   font-weight: bold; 
+   font-weight: bold;
    text-decoration: underline;
 }
 
@@ -390,41 +390,41 @@ a.inlinetoc-sub:visited,a.inlinetoc-sub:link
    text-decoration: none;
    color: #000000;
    font-weight: normal;
-   font-size: smaller; 
+   font-size: smaller;
 }
 
 span.toclist{
-   font-size: smaller; 
+   font-size: smaller;
    font-family: Arial,Helvetica,sans-serif;
    font-weight: bold;
 }
 
 p.toclist0 {
-   margin-left: 0.5em; 
-   margin-top: 1pt; 
-   margin-bottom: 3pt; 
+   margin-left: 0.5em;
+   margin-top: 1pt;
+   margin-bottom: 3pt;
    text-indent: -0.5em;
-   font-size: small;    
+   font-size: small;
 }
 
 p.toclist1 {
-   margin-left: 1em; 
-   margin-top: 1pt; 
-   margin-bottom: 2pt; 
+   margin-left: 1em;
+   margin-top: 1pt;
+   margin-bottom: 2pt;
    text-indent: -0.7em;
-   font-size: small;    
+   font-size: small;
 }
 
 p.toclist2 {
-   margin-left: 1.5em; 
+   margin-left: 1.5em;
    text-indent: -1em;
-   font-size: small;    
+   font-size: small;
 }
 
 p.toclist3 {
-   margin-left: 2em; 
+   margin-left: 2em;
    text-indent: -1.5em;
-   font-size: small;    
+   font-size: small;
 }
 
 span.toclist-this {
@@ -433,7 +433,7 @@ span.toclist-this {
 
 a.toclist:visited,a.toclist:link
 {
-   font-weight: bold; 
+   font-weight: bold;
    color: #000000;
    text-decoration: none;
 }
@@ -455,8 +455,8 @@ div.noteBody {
 }
 
 div.note {
-   margin-left: 1em; 
-   margin-bottom: 2pt; 
+   margin-left: 1em;
+   margin-bottom: 2pt;
    text-indent: -1em;
 }
 
@@ -494,10 +494,10 @@ div.titlePage {
    text-align: center;
 }
 div.docImprint {
-   font-style: italic;    
+   font-style: italic;
 }
 div.docDate {
-   font-style: italic;    
+   font-style: italic;
 }
 div.docTitle {
     font-weight: bold;
@@ -507,7 +507,7 @@ div.docAuthor {
 }
 
 div.byline {
-}   
+}
 
 div.dateline{
    text-align: right;
@@ -585,13 +585,13 @@ tr.label td {
    background-color: #AAAAAA;
 }
 
-h5 {    
+h5 {
    font-size: 100%;
 }
-h5 {    
+h5 {
    font-size: 100%;
 }
-h6 {    
+h6 {
    font-size: 100%;
 }
 
@@ -606,16 +606,16 @@ div.tocBody {
 }
 /* a listBibl rend='labels' */
 div.listBibl {
-	     margin-top: 6pt;
-	     margin-bottom: 6pt;
+             margin-top: 6pt;
+             margin-bottom: 6pt;
 }
 div.bibl {
-   margin-left: 0.5em; 
+   margin-left: 0.5em;
    text-indent: -0.5em;
 }
 span.biblLabel {
-	       font-weight: bold;
-	       margin-right: 1em;
+               font-weight: bold;
+               margin-right: 1em;
 }
 
 /* a <bibl> inside a <cit> */
@@ -641,8 +641,8 @@ span.hi {
 }
 
 /* from drama */
-span.actor {  
-	   font-style:italic;
+span.actor {
+           font-style:italic;
 }
 span.camera {
  font-style: italic;

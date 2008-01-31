@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:xd="http://www.pnp-software.com/XSLTdoc" 
-    xmlns:tei="http://www.tei-c.org/ns/1.0" 
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    exclude-result-prefixes="tei xd" 
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xd="http://www.pnp-software.com/XSLTdoc"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    exclude-result-prefixes="tei xd"
     version="1.0">
   <xd:doc type="stylesheet">
     <xd:short>
@@ -23,8 +23,8 @@
     License along with this library; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-   
-   
+
+
       </xd:detail>
     <xd:author>See AUTHORS</xd:author>
     <xd:cvsId>$Id: tei-param.xsl 3806 2007-10-26 21:21:04Z rahtz $</xd:cvsId>
@@ -65,16 +65,20 @@ Whether to include CSS by reference or by XInclusion
   <xd:doc type="anyURI" class="CSS">
 CSS style file to be associated with output file(s)
 </xd:doc>
-  <xsl:param name="cssFile">http://www.tei-c.org/stylesheet/tei.css</xsl:param>
+  <xsl:param name="cssFile">/stylesheets/tei.css</xsl:param>
+
   <xd:doc type="anyURI" class="CSS">
-Secondary CSS style file; this will be given a media=screen attribute,
-so that it does not affect printing. It should be used for screen layout.
-</xd:doc>
+    Secondary CSS style file; this will be given a media=screen attribute,
+    so that it does not affect printing. It should be used for screen layout.
+  </xd:doc>
+
+  <xsl:param name="cssSecondaryFile">/stylesheets/teirails.css</xsl:param>
+
   <xsl:param name="cssPrintFile"/>
   <xd:doc type="anyURI" class="CSS">
 CSS style file for print; this will be given a media=print attribute.
 </xd:doc>
-  <xsl:param name="cssSecondaryFile"/>
+
   <xd:doc type="integer" class="figures">
 Resolution of images. This is needed to calculate
 HTML width and height (in pixels) from supplied dimensions.
@@ -88,28 +92,47 @@ Display figures.
     <xd:short>[html] Hook where HTML can be inserted just after &lt;body&gt;</xd:short>
     <xd:detail>  </xd:detail>
   </xd:doc>
-  <xsl:template name="bodyHook"/>
+
+  <xsl:template name="bodyHook">
+    <span class="mainlogo">
+      <a href="/">
+        <img src="/images/Litgloss_banner.png" height="73" width="160" />
+        </a>
+      </span>
+
+  </xsl:template>
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted just before the
     &lt;body&gt; ends.</xd:short>
     <xd:detail>This can be used to add a page-wide footer block.</xd:detail>
   </xd:doc>
-  <xsl:template name="bodyEndHook"/>
+
+  <xsl:template name="bodyEndHook" />
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where Javascript calls can be inserted  just after &lt;body&gt;</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
-  <xsl:template name="bodyJavascriptHook"/>
+
+  <xsl:template name="bodyJavascriptHook" />
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where extra CSS can be inserted</xd:short>
     <xd:detail>  </xd:detail>
   </xd:doc>
-  <xsl:template name="cssHook"/>
+
+  <xsl:template name="cssHook" />
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where code can be added to the HTML &lt;head&gt;.</xd:short>
     <xd:detail>This would be used insert &lt;meta&gt; tags.</xd:detail>
   </xd:doc>
-  <xsl:template name="headHook"/>
+
+  <xsl:template name="headHook">
+
+  </xsl:template>
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted when creating an &lt;img&gt;</xd:short>
     <xd:detail> </xd:detail>
@@ -125,24 +148,31 @@ Display figures.
     <xd:short>[html] Hook where extra Javascript functions can be defined</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
-  <xsl:template name="javascriptHook"/>
+
+  <xsl:template name="javascriptHook" />
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted just before the &lt;address&gt;</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
+
   <xsl:template name="preAddressHook"/>
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted at the start of
     processing each section</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
+
   <xsl:template name="startDivHook"/>
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted at the beginning
     of the main text, after the header</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
-  <xsl:template name="startHook"/>
+
+  <xsl:template name="startHook" />
+
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted after processing &lt;TEI&gt;</xd:short>
     <xd:detail> </xd:detail>
@@ -164,7 +194,7 @@ Display figures.
     <xd:short>[html] Make a copyright claim</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
-  <xsl:template name="copyrightStatement">This page is copyrighted</xsl:template>
+  <xsl:template name="copyrightStatement" />
   <xd:doc class="layout">
     <xd:short>[html] Banner for top of column</xd:short>
     <xd:detail> </xd:detail>
@@ -260,14 +290,15 @@ Width of left-hand column when $pageLayout is "Table"
   <xsl:template name="logoPicture">
     <a class="framelogo" href="http://www.tei-c.org/Stylesheets/teic/">
       <img src="http://www.tei-c.org/Stylesheets/teic/teixsl.png"
-	   vspace="5" width="124" height="161" border="0" 
-	   alt="created by TEI XSL Stylesheets"/>
+           vspace="5" width="124" height="161" border="0"
+           alt="created by TEI XSL Stylesheets"/>
     </a>
   </xsl:template>
   <xd:doc class="layout">
     <xd:short>[html] Making elements in HTML &lt;head&gt;</xd:short>
     <xd:param name="title">The text used to create the DC.Title field
     in the HTML header</xd:param>
+
     <xd:detail> </xd:detail>
   </xd:doc>
   <xsl:template name="metaHTML">
@@ -281,7 +312,7 @@ Width of left-hand column when $pageLayout is "Table"
     <meta name="DC.Title" content="{$title}"/>
     <meta name="DC.Type" content="Text"/>
     <meta name="DC.Format" content="application/xhtml+xml"/>
-    <meta http-equiv="Content-Type" 
+    <meta http-equiv="Content-Type"
       content="application/xhtml+xml; charset={$outputEncoding}"/>
   </xsl:template>
   <xd:doc class="layout">
@@ -323,24 +354,24 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</xd:detail>
         <table width="100%" border="0">
           <tr>
             <td height="98" class="bgimage"
-		onclick="window.location='{$homeURL}'"
-		cellpadding="0">
+                onclick="window.location='{$homeURL}'"
+                cellpadding="0">
 
-	      <xsl:call-template name="makeHTMLHeading">
-		<xsl:with-param name="class">subtitle</xsl:with-param>
-		<xsl:with-param name="text">
-		  <xsl:call-template name="generateSubTitle"/>
-		</xsl:with-param>
-		<xsl:with-param name="level">2</xsl:with-param>
-	      </xsl:call-template>
+              <xsl:call-template name="makeHTMLHeading">
+                <xsl:with-param name="class">subtitle</xsl:with-param>
+                <xsl:with-param name="text">
+                  <xsl:call-template name="generateSubTitle"/>
+                </xsl:with-param>
+                <xsl:with-param name="level">2</xsl:with-param>
+              </xsl:call-template>
 
-	      <xsl:call-template name="makeHTMLHeading">
-		<xsl:with-param name="class">title</xsl:with-param>
-		<xsl:with-param name="text">
-		  <xsl:call-template name="generateTitle"/>
-		</xsl:with-param>
-		<xsl:with-param name="level">1</xsl:with-param>
-	      </xsl:call-template>
+              <xsl:call-template name="makeHTMLHeading">
+                <xsl:with-param name="class">title</xsl:with-param>
+                <xsl:with-param name="text">
+                  <xsl:call-template name="generateTitle"/>
+                </xsl:with-param>
+                <xsl:with-param name="level">1</xsl:with-param>
+              </xsl:call-template>
 
             </td>
             <td valign="top"/>
@@ -348,21 +379,21 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</xd:detail>
         </table>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:call-template name="makeHTMLHeading">
-	  <xsl:with-param name="class">subtitle</xsl:with-param>
-	  <xsl:with-param name="text">
-	    <xsl:call-template name="generateSubTitle"/>
-	  </xsl:with-param>
-	  <xsl:with-param name="level">2</xsl:with-param>
-	</xsl:call-template>
-	
-	<xsl:call-template name="makeHTMLHeading">
-	  <xsl:with-param name="class">title</xsl:with-param>
-	  <xsl:with-param name="text">
-	    <xsl:call-template name="generateTitle"/>
-	  </xsl:with-param>
-	  <xsl:with-param name="level">1</xsl:with-param>
-	</xsl:call-template>
+        <xsl:call-template name="makeHTMLHeading">
+          <xsl:with-param name="class">subtitle</xsl:with-param>
+          <xsl:with-param name="text">
+            <xsl:call-template name="generateSubTitle"/>
+          </xsl:with-param>
+          <xsl:with-param name="level">2</xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="makeHTMLHeading">
+          <xsl:with-param name="class">title</xsl:with-param>
+          <xsl:with-param name="text">
+            <xsl:call-template name="generateTitle"/>
+          </xsl:with-param>
+          <xsl:with-param name="level">1</xsl:with-param>
+        </xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -380,10 +411,10 @@ of &lt;item&gt; elements, each containing an &lt;xref&gt; link.</xd:detail>
     <xsl:param name="level">1</xsl:param>
     <xsl:if test="not($text='')">
       <xsl:element name="h{$level}">
-	<xsl:attribute name="class">
-	  <xsl:value-of select="$class"/>
-	</xsl:attribute>
-	<xsl:value-of select="$text"/>
+        <xsl:attribute name="class">
+          <xsl:value-of select="$class"/>
+        </xsl:attribute>
+        <xsl:value-of select="$text"/>
       </xsl:element>
     </xsl:if>
   </xsl:template>
@@ -472,7 +503,7 @@ An ID passed to the stylesheet to indicate which section to display
 </xd:doc>
   <xsl:param name="ID"/>
   <xd:doc type="string" class="output">
-A path fragment to put before all internal URLs 
+A path fragment to put before all internal URLs
 </xd:doc>
   <xsl:param name="URLPREFIX"/>
   <xd:doc type="string" class="output">
@@ -542,7 +573,7 @@ Suffix for generated output files.
       <xsl:when test="tei:teiCorpus">.html</xsl:when>
       <xsl:when test="$STDOUT='true'"/>
       <xsl:otherwise>
-	<xsl:value-of select="$outputSuffix"/>
+        <xsl:value-of select="$outputSuffix"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:param>
@@ -552,7 +583,7 @@ Display navigation panel at top of pages.
   <xsl:param name="topNavigationPanel">true</xsl:param>
   <xd:doc type="string" class="output">
 How to specify infra-document links. When a document is split,
-links need to be constructed between parts of the document. 
+links need to be constructed between parts of the document.
 The default is to use a query parameter on the URL.
 </xd:doc>
   <xsl:param name="urlChunkPrefix">?ID=</xsl:param>
@@ -560,7 +591,7 @@ The default is to use a query parameter on the URL.
     <xd:short>Construct links using existing ID values.</xd:short>
     <xd:detail>It is often nice if, when making separate files, their names
 correspond to the ID attribute of the &gt;div&lt;. Alternatively, you
-	  can let the system choose names.</xd:detail>
+          can let the system choose names.</xd:detail>
   </xd:doc>
   <xsl:param name="useIDs">true</xsl:param>
   <xd:doc type="string" class="style">
@@ -642,12 +673,12 @@ URL to link back to from foot of ODD reference pages
   <xsl:choose>
     <xsl:when test="$class='titlea'">
       <q class="titlea">
-	<xsl:copy-of select="$content"/>
+        <xsl:copy-of select="$content"/>
       </q>
     </xsl:when>
     <xsl:otherwise>
       <span class="{$class}">
-	<xsl:copy-of select="$content"/>
+        <xsl:copy-of select="$content"/>
       </span>
     </xsl:otherwise>
   </xsl:choose>

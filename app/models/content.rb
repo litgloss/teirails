@@ -23,9 +23,18 @@ class Content < ActiveRecord::Base
     fout.puts self.tei_data
     fout.close
 
-    text = `xsltproc #{xslt_file} #{filename}`
-    File.unlink(filename)
+    err_filename = "/tmp/" + filestring + ".xhtml"
+    text = `xsltproc #{xslt_file} #{filename} 2> #{err_filename}`
 
-    return text
+    errors = File.read(err_filename)
+
+    File.unlink(filename)
+    File.unlink(err_filename)
+
+    if !errors.empty?
+      return "<html><body><h1>Whoops!</h1><pre>#{errors}</pre></body></html>"
+    else
+      return text
+    end
   end
 end

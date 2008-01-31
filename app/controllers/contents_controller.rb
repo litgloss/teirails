@@ -36,8 +36,8 @@ class ContentsController < ApplicationController
     if @content.update_attributes(params[:content])
       flash[:notice] = 'Content was successfully updated.'
       redirect_to content_path(@content)
-    elsexs
-      render wedding_content
+    else
+      render content
     end
 
   end
