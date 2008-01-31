@@ -1,6 +1,6 @@
 class ContentsController < ApplicationController
 
-  layout "layouts/application", :except => [:xhtml_teidata, :annotatable]
+  layout "layouts/application", :except => [:annotatable, :show]
 
   def index
     @contents = Content.find(:all)
@@ -19,7 +19,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml { render :xml => @content.teidata }
+      format.xml { render :xml => @content.tei_data }
     end
   end
 
@@ -27,13 +27,7 @@ class ContentsController < ApplicationController
     headers["Content-Type"] = "application/xhtml+xml"
 
     @content = Content.find(params[:id])
-    render :xml => @content.teidata
-  end
-
-  def xhtml_teidata
-    @content = Content.find(params[:id])
-
-    @text = @content.get_xhtml_teidata
+    render :xml => @content.tei_data
   end
 
   def update
@@ -42,7 +36,7 @@ class ContentsController < ApplicationController
     if @content.update_attributes(params[:content])
       flash[:notice] = 'Content was successfully updated.'
       redirect_to content_path(@content)
-    else
+    elsexs
       render wedding_content
     end
 
@@ -50,7 +44,7 @@ class ContentsController < ApplicationController
 
   def create
     @content = Content.new(params[:content])
-    
+
     if @content.save
       flash[:notice] = 'Content was successfully created.'
       redirect_to content_path(@content)
@@ -61,8 +55,9 @@ class ContentsController < ApplicationController
   end
 
   def destroy
-    @user.delete!
-    redirect_to users_path
+    if Content.find(params[:id]).destroy
+      redirect_to contents_path
+    end
   end
 
 end

@@ -1,0 +1,48 @@
+<h1><%= @photo.title || "Untitled Photo" -%></h1>
+
+<p>
+  <%= @photo.description -%>
+</p>
+
+<p>
+  <%= streamed_image_tag(@photo) -%>
+</p>
+
+<p>
+<%= link_to '[small]', photo_path(@photo, { :size => "small" } ) -%>
+
+<%= link_to '[medium]', photo_path(@photo, { :size => "medium" } ) -%>
+
+<%= link_to '[large]', photo_path(@photo, { :size => "large" } ) -%>
+</p>
+
+<% if @photo.imageable_type == "wedding" -%>
+  <p>
+    Tags: <%= get_tag_list(@photo, @photo.imageable_id) -%>
+  </p>
+
+  <% form_for(:tag, :url => add_tag_photo_path, 
+	      :html => { :method => :post } ) do |f| -%>
+
+    <%= render :partial => 'tag_form', :locals => { :f => f } -%>
+
+    <%= submit_tag 'Add Tag' %>
+
+  <% end -%>
+
+  <p>
+    <%= link_to 'See other photos in this wedding', photos_path({:imageable_type => "wedding", :imageable_id => @photo.imageable_id}) -%>
+  </p>
+
+<% end -%>
+
+<% if logged_in? && @photo.creator == current_user -%>
+  <p>
+    <%= link_to 'Delete', { :action => "destroy",
+	  :id => @photo },
+	:confirm => "Are you sure?",
+	:method => :delete -%> | 
+    
+    <%= link_to 'Edit', edit_photo_path -%>
+  </p>
+<% end -%>

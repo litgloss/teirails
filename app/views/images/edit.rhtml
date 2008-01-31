@@ -1,0 +1,18 @@
+<h1>Edit Image Properties</h1>
+
+<%= error_messages_for :group %>
+
+<% form_for(:image, :url => image_path, :html => { :method => :put } ) do |f| -%>
+
+<%= render :partial => 'form', :locals => { :f => f } -%>
+
+<p>
+  <%= submit_tag 'Modify Image' %>
+</p>
+
+<% end -%>
+
+<p>
+  <%= link_to 'Go back to image view without saving',
+      image_path -%>
+</p>

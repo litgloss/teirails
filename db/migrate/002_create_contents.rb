@@ -1,7 +1,7 @@
 class CreateContents < ActiveRecord::Migration
   def self.up
     create_table :contents, :force => true do |t|
-      t.text :teidata
+      t.text :tei_data
 
       t.integer :creator_id
 

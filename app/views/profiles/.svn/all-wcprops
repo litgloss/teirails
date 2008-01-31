@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/wedding_party/!svn/ver/43/trunk/app/views/profiles
+END
+edit.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/wedding_party/!svn/ver/43/trunk/app/views/profiles/edit.html.erb
+END
+index.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/wedding_party/!svn/ver/43/trunk/app/views/profiles/index.html.erb
+END
+new.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/wedding_party/!svn/ver/43/trunk/app/views/profiles/new.html.erb
+END
+show.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/wedding_party/!svn/ver/44/trunk/app/views/profiles/show.html.erb
+END
+_form.html.erb
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/wedding_party/!svn/ver/43/trunk/app/views/profiles/_form.html.erb
+END

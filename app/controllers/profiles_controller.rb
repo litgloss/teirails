@@ -1,0 +1,30 @@
+class ProfilesController < ApplicationController
+  before_filter :get_user
+  
+  def get_user
+    @user = User.find(params[:user_id])
+  end
+
+  def show
+    @profile = @user.profile
+    
+    if !@profile.photo.nil?
+      @photo = @user.profile.photo.thumbnails.find_by_thumbnail("small")
+    end
+  end
+
+  def edit
+    @profile = @user.profile
+  end
+
+  def update
+    @profile = @user.profile
+    
+    if @profile.update_attributes(params[:profile])
+      flash[:notice] = 'Profile details were successfully updated.'
+      redirect_to user_profile_path(@user)
+    else
+      render user_edit_profile
+    end
+  end
+end

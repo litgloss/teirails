@@ -1,13 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :users, :member => { 
+  map.resources :users, :member => {
     :suspend   => :put,
     :unsuspend => :put,
-    :purge     => :delete 
+    :purge     => :delete
   }
 
   map.resources :contents, :member => {
-    :xhtml_teidata => :get,
     :annotatable => :get
   }
 
@@ -17,6 +16,8 @@ ActionController::Routing::Routes.draw do |map|
   }
 
   map.resource :session
+
+  map.resource :profile
 
   ###
   # Map certain URLs to more intuitive paths.

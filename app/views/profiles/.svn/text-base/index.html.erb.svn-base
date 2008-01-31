@@ -1,0 +1,24 @@
+<h1>Weddings</h1>
+
+
+<h2>Weddings to Attend as Guest</h2>
+<% if !current_user.weddings_to_attend.empty? -%>
+  <p>Following are the weddings in which you're involved:</p>
+
+  <ul>
+    <% current_user.weddings_to_attend.each do |w| %>
+      <li><%= link_to w.name, wedding_path(w) -%></li>
+    <% end -%>
+  </ul>
+  
+<% else -%>
+  <p>No weddings listed to attend.</p>
+<% end -%>
+
+<h2>Weddings to Host</h2>
+
+<% if !current_user.wedding_to_host.nil? -%>
+  <p>Hey, get to work!  You're <%= link_to 'hosting a wedding', wedding_path(current_user.wedding_to_host) -%>.</p>
+<% else -%>
+  <p>No weddings listed to host.</p>
+<% end -%>
