@@ -16,8 +16,7 @@
 <% @annotations.each do |a| %>
 
  <r:Description r:about="http://<%= HOSTNAME %>/annotations.xml/<%= a.id %>">
-  <r:type r:resource="http://www.w3.org/2000/10/annotation-ns#Annotation"/>
-  <r:type r:resource="http://www.w3.org/2000/10/annotationType#Comment"/>
+  <r:type r:resource="<%= a.get_type %>"/>
   <a:annotates r:resource="<%= a.annotates %>"/>
   <d:title><%= a.get_tag_value('title') %></d:title>
   <a:context>

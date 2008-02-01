@@ -25,7 +25,7 @@ class Annotation < ActiveRecord::Base
 
   # Possible tag names that we will return.  Values
   # in hash are possible Namespaces.
-  TAGNAMES = { 
+  TAGNAMES = {
     :type =>         [NAMESPACES[0]],
     :annotates =>    [NAMESPACES[1]],
     :context =>      [NAMESPACES[1]],
@@ -40,8 +40,8 @@ class Annotation < ActiveRecord::Base
     :ContentType =>  [NAMESPACES[3]]
   }
 
-  # Returns the document body.  This might either 
-  # be a resource, if it is an "external body", or 
+  # Returns the document body.  This might either
+  # be a resource, if it is an "external body", or
   # a full XML document.
   def body
     elt = get_doc_root.find_first_recursive do |node|
@@ -81,7 +81,27 @@ class Annotation < ActiveRecord::Base
       return nil
     end
   end
-  
+
+  # Annotation RDF records generally have two type fields,
+  # where the first is always "Annotation".  Return the
+  # second type, since this is the interesting one.
+  def get_type
+    elt = nil
+
+    get_doc_root.each_recursive do |node|
+      if node.local_name.eql?('type') &&
+        TAGNAMES[:type].include?(node.namespace)
+        elt = node
+      end
+    end
+
+    if elt.nil?
+      return nil
+    else !elt.attributes['resource'].nil?
+      return elt.attributes['resource']
+    end
+  end
+
   # Set meta fields "annotates", "in_reply_to" and "root"
   # for querying efficiency.
   def set_meta_fields
@@ -118,7 +138,7 @@ class Annotation < ActiveRecord::Base
         return { ns[0] => ns[1] }
       end
     end
-    
+
     nil
   end
 end
