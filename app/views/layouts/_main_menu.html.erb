@@ -1,0 +1,10 @@
+<ul id="headernav">
+  <li><%= make_menu_link(:about, :about_path, 'About Litgloss') %></li>
+  <li><%= make_menu_link(:help, :help_path, 'Help') %></li>
+  <li><%= make_menu_link(:contents, :contents_path, 'Catalog') %></li>
+  <li><%= make_menu_link(:annotations, :annotations_path, 'Annotations') %></li>
+  <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
+  <% if logged_in? %>
+     <li><%= make_menu_link(:my_litgloss, :my_litgloss_path, 'My Litgloss') %></li>
+  <% end %>
+</ul>
