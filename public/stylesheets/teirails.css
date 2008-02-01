@@ -128,8 +128,8 @@ ul.thumbnailImages li {
 #errorBox {
     width: 400px;
     border: 2px solid #760404;
-    padding: 10px;
-    padding-bottom: 12px;
+    padding: 10px 10px 10px 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
     background-color: #f0f0f0;
 }
@@ -138,9 +138,9 @@ ul.thumbnailImages li {
     width: 400px;
     border: 2px solid #003f0d;
     color: #003f0d;
-    padding: 10px;
-    padding-bottom: 12px;
+    padding: 10px 10px 10px 10px;
     margin-bottom: 20px;
+    margin-top: 20px;
     background-color: #f0f0f0;
 }
 

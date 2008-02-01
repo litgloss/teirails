@@ -35,8 +35,10 @@
           <li><%= link_to 'Help', help_path %></li>
           <li><%= link_to 'Catalog', contents_path %></li>
           <li><%= link_to 'Annotations', annotations_path %></li>
-          <li><%= link_to 'My Litgloss', my_litgloss_path %></li>
           <li><%= link_to 'Search', search_path %></li>
+          <% if logged_in? %>
+          <li><%= link_to 'My Litgloss', my_litgloss_path %></li>
+          <% end %>
       </ul>
 </div>
 
