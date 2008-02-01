@@ -1,9 +1,11 @@
 <h1>Annotations</h1>
 
+<p>For now this is just a laundry list of annotations in the system... we'll have to query for new annotations or something to that effect later.</p>
+
 <% if !@annotations.empty? -%>
 <ul>
 <% @annotations.each do |a| -%>
-<li><%= link_to "Content id #{a.id}", formatted_annotation_path(a, 'xml' ) -%></li>
+<li>Annotation id <%= a.id %> (<%= link_to "RDF", formatted_annotation_path(a, 'xml' ) -%>, <%= link_to "HTML Body", body_annotation_path(a) %>)</li>
 <% end -%>
 </ul>
 <% end -%>

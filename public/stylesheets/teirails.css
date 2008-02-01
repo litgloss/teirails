@@ -7,18 +7,19 @@ body {
     background-color: #f5f5f5;
 }
 
-.mainlogo img {
+
+#mainlogo img {
     border: 0;
     padding: 0px 0px 5px 30px;
     background-color: #f5f5f5;
 }
 
-.mainlogo a:link {
+#mainlogo a:link {
     color: #000000;
     text-decoration: none
 }
 
-.mainlogo a:visited {
+#mainlogo a:visited {
     text-decoration: none;
     color: #000000;
 }
@@ -42,6 +43,22 @@ body {
 
 .header-options a:hover {
     background:#bbb;
+}
+
+#submenu {
+    border-width: 1px;
+    border-color: solid;
+    padding: 10px 5px 15px 0px;
+}
+
+ul.submenu{
+    position: absolute;
+    margin: 0px;
+}
+ul.submenu li {
+    display: inline;
+    line-height: 5px;
+    padding: 5px;
 }
 
 /*
@@ -89,7 +106,7 @@ http://clagnut.com/sandbox/csstabs/?writingtext=csstabs
 
 #mainContent {
     border: 2px solid #CCC;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     background-color: #ffffff;
 }
 

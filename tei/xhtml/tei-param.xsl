@@ -90,16 +90,15 @@ Display figures.
   <xsl:param name="showFigures">true</xsl:param>
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted just after &lt;body&gt;</xd:short>
-    <xd:detail>  </xd:detail>
+    <xd:detail />
   </xd:doc>
 
   <xsl:template name="bodyHook">
-    <span class="mainlogo">
+    <div class="mainlogo">
       <a href="/">
         <img src="/images/Litgloss_banner.png" height="73" width="160" />
         </a>
-      </span>
-
+      </div>
   </xsl:template>
 
   <xd:doc class="hook">

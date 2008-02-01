@@ -27,7 +27,6 @@ class AnnotationsController < ApplicationController
     end
   end
 
-
   # Show an existing annotation (not yet sure how this would
   # work, as queries will use the index method.)
   def show

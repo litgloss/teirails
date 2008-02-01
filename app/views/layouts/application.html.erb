@@ -2,7 +2,7 @@
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
   <title>TeiRails</title>
@@ -21,21 +21,22 @@
 
 <body>
 
-  <span class="mainlogo">
+  <div id="mainlogo">
    <a href="/">
-  <img src="/images/Litgloss_banner.png" height="73" width="160" />
+  <img src="/images/Litgloss_banner.png" height="73" width="160"
+   alt="Litgloss banner image" />
   </a>
-  </span>
+  </div>
 
   <div id="main-navigation">
 
       <ul id="headernav">
-          <li><a href="#">About Litgloss</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Catalog</a></li>
-          <li><a href="#">Reading</a></li>
-          <li><a href="#">My Litgloss</a></li>
-          <li><a href="#">Search</a></li>
+          <li><%= link_to 'About Litgloss', about_path %></li>
+          <li><%= link_to 'Help', help_path %></li>
+          <li><%= link_to 'Catalog', contents_path %></li>
+          <li><%= link_to 'Annotations', annotations_path %></li>
+          <li><%= link_to 'My Litgloss', my_litgloss_path %></li>
+          <li><%= link_to 'Search', search_path %></li>
       </ul>
 </div>
 
@@ -62,10 +63,6 @@
     <hr />
 
     <div id="footerText">
-      Go <%= link_to 'home', '/' -%>.<br />
-
-
-
       <p>
         <% if logged_in? -%>
           You are logged in as user "<%= current_user.login -%>."
@@ -75,11 +72,14 @@
         <% end -%>
       </p>
 
-      <p><a href='http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary'>Code, git</a></p>
+<p>
+(<a href='http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary'>Source
+    code repository</a>|<a href="http://validator.w3.org">Validate XHTML</a>)
+    </p>
 
     </div>
 
   </div>
-</html>
 
 </body>
+</html>
