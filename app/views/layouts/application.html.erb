@@ -7,7 +7,7 @@
 <head>
   <title>TeiRails</title>
 
-  <%= stylesheet_link_tag :teirails %>
+  <%= stylesheet_link_tag 'teirails' %>
   <%= stylesheet_link_tag 'niftyCorners' %>
 
   <%= javascript_include_tag 'niftycube' %>
@@ -29,18 +29,8 @@
   </div>
 
   <div id="main-navigation">
-
-      <ul id="headernav">
-          <li><%= link_to 'About Litgloss', about_path %></li>
-          <li><%= link_to 'Help', help_path %></li>
-          <li><%= link_to 'Catalog', contents_path %></li>
-          <li><%= link_to 'Annotations', annotations_path %></li>
-          <li><%= link_to 'Search', search_path %></li>
-          <% if logged_in? %>
-          <li><%= link_to 'My Litgloss', my_litgloss_path %></li>
-          <% end %>
-      </ul>
-</div>
+       <%= render_partial "layouts/main_menu" %>
+  </div>
 
 <div id="mainContent">
 

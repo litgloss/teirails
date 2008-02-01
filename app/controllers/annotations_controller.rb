@@ -15,8 +15,6 @@ class AnnotationsController < ApplicationController
       @annotations = Annotation.find(:all)
     end
 
-    logger.info("\n\nWe got #{@annotations.size} annotations to show!!!\n\n")
-
     respond_to do |format|
       format.html
 

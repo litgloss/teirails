@@ -91,17 +91,15 @@ http://clagnut.com/sandbox/csstabs/?writingtext=csstabs
     padding: 0.5em 1em;
 }
 
+#headernav a.curpage {
+    background:#bbb;
+}
+
 #headernav A:hover,
 #headernav A:active,
 #headernav A.here:link,
 #headernav A.here:visited {
         background:#bbb;
-}
-
-#headernav a.here:link,
-#headernav a.here:visited {
-        position:relative;
-        z-index:102;
 }
 
 #mainContent {
