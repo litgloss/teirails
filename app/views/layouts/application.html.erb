@@ -36,26 +36,5 @@
 
     <%= yield -%>
 
-    <hr />
 
-    <div id="footerText">
-      <p>
-        <% if logged_in? -%>
-          You are logged in as user "<%= current_user.login -%>."
-          <%= link_to 'Log out?', logout_path -%><br />
-        <% else -%>
-          You aren't logged in.  <%= link_to 'Create an account', new_user_path -%>, or <%= link_to 'log in', login_path -%>?
-        <% end -%>
-      </p>
-
-<p>
-(<a href='http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary'>Source
-    code repository</a>|<a href="http://validator.w3.org">Validate XHTML</a>)
-    </p>
-
-    </div>
-
-  </div>
-
-</body>
-</html>
+<%= render_partial "layouts/footer" %>

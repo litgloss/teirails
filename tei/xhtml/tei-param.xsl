@@ -103,7 +103,9 @@ Display figures.
     <xd:detail>This can be used to add a page-wide footer block.</xd:detail>
   </xd:doc>
 
-  <xsl:template name="bodyEndHook" />
+  <xsl:template name="bodyEndHook">
+    <JXML-renderfooter/>
+  </xsl:template>
 
   <xd:doc class="hook">
     <xd:short>[html] Hook where Javascript calls can be inserted  just after &lt;body&gt;</xd:short>

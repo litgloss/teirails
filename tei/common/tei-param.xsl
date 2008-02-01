@@ -73,21 +73,21 @@
   <xd:doc class="links" type="string"> Name of department within institution</xd:doc>
   <xsl:param name="department"/>
   <xd:doc class="links" type="string"> Name of link to home page of application</xd:doc>
-  <xsl:param name="homeLabel">Home</xsl:param>
+  <xsl:param name="homeLabel" />
   <xd:doc class="links" type="anyURI">Project Home</xd:doc>
-  <xsl:param name="homeURL">/</xsl:param>
+  <xsl:param name="homeURL" />
   <xd:doc class="links" type="string">Project</xd:doc>
-  <xsl:param name="homeWords">Litgloss Home</xsl:param>
+  <xsl:param name="homeWords" />
   <xd:doc class="links" type="string"> Institution</xd:doc>
 
   <xsl:param name="institution" />
 
   <xd:doc class="links" type="anyURI">Institution link</xd:doc>
-  <xsl:param name="parentURL">http://www.buffalo.edu/</xsl:param>
+  <xsl:param name="parentURL" />
   <xd:doc class="links" type="string"> Name of overall institution</xd:doc>
-  <xsl:param name="parentWords">University at Buffalo</xsl:param>
+  <xsl:param name="parentWords" />
   <xd:doc class="links" type="anyURI"> Link to search application</xd:doc>
-  <xsl:param name="searchURL">/search</xsl:param>
+  <xsl:param name="searchURL" />
   <xd:doc class="misc" type="anyURI"> The home page for these stylesheets</xd:doc>
   <xsl:param name="teixslHome">http://www.tei-c.org/Stylesheets/teic/</xsl:param>
   <xd:doc class="misc" type="boolean"> Process elements according to assumptions

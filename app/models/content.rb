@@ -15,19 +15,24 @@ class Content < ActiveRecord::Base
   # finally results in a string that can be passed back to the user.
   def tei_data_to_xhtml
     jxml_string = tei_to_jxml_string
-    erb_string = jxml_to_erb_string(jxml_string)
-    render_erb_string(erb_string)
+    jxml_to_erb_string(jxml_string)
   end
 
   private
 
   def jxml_to_erb_string(jxml_string)
-    header_string = '<%= render_partial "application/main_logo" %>'
-      '<%= render_partial "application/main_menu" %>\n'
+    header_string = "\n" +
+      '<%= render_partial "layouts/main_logo" %>' +
+      "\n" +
+      '<%= render_partial "layouts/main_menu" %>' + "\n" +
+      '<div id="mainContent">' + "\n"
 
+    footer_string = "\n</div>" +
+      '<%= render_partial "layouts/footer" %>' + "\n"
 
     textsubs = {
-      '<JXML-renderheader\/>' => header_string
+      '<JXML-renderheader\/>' => header_string,
+      '<JXML-renderfooter\/>' => footer_string
     }
 
     textsubs.keys.each do |s|
@@ -36,10 +41,6 @@ class Content < ActiveRecord::Base
     end
 
     return jxml_string
-  end
-
-  def render_erb_string(erb_string)
-    return erb_string
   end
 
   # Returns the contentof this object wih TEI replaced with XHTML.

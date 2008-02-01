@@ -78,7 +78,7 @@
         <xsl:call-template name="header">
           <xsl:with-param name="toc" select="$pointer"/>
           <xsl:with-param name="minimal">false</xsl:with-param>
-	  <xsl:with-param name="display">plain</xsl:with-param>
+          <xsl:with-param name="display">plain</xsl:with-param>
         </xsl:call-template>
         <xsl:if test="$thislevel &lt; $Depth">
           <xsl:call-template name="continuedToc"/>
@@ -93,7 +93,7 @@
   <xsl:template match="tei:ab">
     <div>
       <xsl:call-template name="rendToClass">
-	<xsl:with-param name="default">ab</xsl:with-param>
+        <xsl:with-param name="default">ab</xsl:with-param>
       </xsl:call-template>
       <xsl:apply-templates/>
     </div>
@@ -165,13 +165,13 @@
   <xsl:template match="tei:choice">
     <xsl:choose>
       <xsl:when test="tei:abbr and tei:expan">
-	<xsl:apply-templates select="tei:expan"/>
-	<xsl:text> (</xsl:text>
-	<xsl:apply-templates select="tei:abbr"/>
-	<xsl:text>)</xsl:text>
+        <xsl:apply-templates select="tei:expan"/>
+        <xsl:text> (</xsl:text>
+        <xsl:apply-templates select="tei:abbr"/>
+        <xsl:text>)</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:apply-templates/>
+        <xsl:apply-templates/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -185,21 +185,21 @@
     <xsl:choose>
       <xsl:when test="@rend='display'">
         <blockquote>
-	  <xsl:choose>
-	    <xsl:when test="@rendition">
-	      <xsl:call-template name="applyRendition"/>
-	    </xsl:when>
-	    <xsl:when test="@rend">
-	      <xsl:attribute name="class">
-		<xsl:value-of select="@rend"/>
-	      </xsl:attribute>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:attribute name="class">
-		<xsl:text>cit</xsl:text>
-	      </xsl:attribute>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="@rendition">
+              <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+            <xsl:when test="@rend">
+              <xsl:attribute name="class">
+                <xsl:value-of select="@rend"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+                <xsl:text>cit</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
           <p>
             <xsl:apply-templates select="tei:q|tei:quote"/>
             <xsl:apply-templates select="tei:bibl"/>
@@ -250,11 +250,11 @@
     <div>
       <xsl:if test="$cssFile">
         <xsl:attribute name="class">
-	  <xsl:text>pre_eg</xsl:text>
-	  <xsl:if test="not(*)">
-	  <xsl:text> cdata</xsl:text>
-	  </xsl:if>
-	</xsl:attribute>
+          <xsl:text>pre_eg</xsl:text>
+          <xsl:if test="not(*)">
+          <xsl:text> cdata</xsl:text>
+          </xsl:if>
+        </xsl:attribute>
       </xsl:if>
       <xsl:apply-templates/>
     </div>
@@ -267,9 +267,9 @@
   <xsl:template match="tei:emph">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
-	</span>
+        <span>
+        <xsl:call-template name="applyRendition"/>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
@@ -306,18 +306,18 @@
   <xsl:template match="tei:foreign">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
-	<xsl:apply-templates/>
-	</span>
+        <span>
+        <xsl:call-template name="applyRendition"/>
+        <xsl:apply-templates/>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
       </xsl:when>
       <xsl:otherwise>
-	<span class="foreign">
-	      <xsl:apply-templates/>
-	</span>
+        <span class="foreign">
+              <xsl:apply-templates/>
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -386,8 +386,8 @@
     <xsl:choose>
       <xsl:when test="@rendition">
       <span>
-	<xsl:call-template name="applyRendition"/>
-	<xsl:apply-templates/>
+        <xsl:call-template name="applyRendition"/>
+        <xsl:apply-templates/>
       </span>
       </xsl:when>
       <xsl:when test="@rend">
@@ -473,20 +473,20 @@
         </xsl:attribute>
       </xsl:if>
       <xsl:choose>
-	<xsl:when test="@xml:id">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name">
-	      <xsl:value-of select="@xml:id"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
-	<xsl:when test="$generateParagraphIDs='true'">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name">
-	      <xsl:value-of select="generate-id()"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
+        <xsl:when test="@xml:id">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name">
+              <xsl:value-of select="@xml:id"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:when test="$generateParagraphIDs='true'">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name">
+              <xsl:value-of select="generate-id()"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:when>
       </xsl:choose>
       <xsl:apply-templates/>
     </li>
@@ -510,10 +510,10 @@
   <xsl:template match="tei:item/label">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
-	<xsl:apply-templates/>
-	</span>
+        <span>
+        <xsl:call-template name="applyRendition"/>
+        <xsl:apply-templates/>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
@@ -576,10 +576,10 @@
     <xsl:call-template name="makeAnchor"/>
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
+        <span>
+        <xsl:call-template name="applyRendition"/>
         <xsl:apply-templates/>
-	</span>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
@@ -685,7 +685,7 @@
   <xsl:template match="tei:list">
     <xsl:if test="tei:head">
       <p class="listhead">
-	<xsl:apply-templates select="tei:head"/>
+        <xsl:apply-templates select="tei:head"/>
       </p>
     </xsl:if>
     <xsl:choose>
@@ -737,7 +737,7 @@
         </table>
       </xsl:when>
       <xsl:when test="@type='inline'">
-	<!--<xsl:if test="not(tei:item)">None</xsl:if>-->
+        <!--<xsl:if test="not(tei:item)">None</xsl:if>-->
         <xsl:apply-templates mode="inline" select="tei:item"/>
       </xsl:when>
       <xsl:when test="@type='runin'">
@@ -787,33 +787,33 @@
   <xsl:template match="tei:listBibl">
     <xsl:choose>
       <xsl:when test="tei:biblStruct">
-	<dl>
-	  <xsl:for-each select="tei:biblStruct">
-	    <xsl:sort select="translate(tei:*/tei:author/tei:surname|tei:*[1]/tei:author/tei:orgName|tei:*[1]/tei:author/tei:name|tei:*[1]/tei:editor/tei:surname|tei:*[1]/tei:editor/tei:name|tei:*[1]/tei:title,$uc,$lc)"/>
-	    <xsl:sort select="tei:monogr/tei:imprint/tei:date"/>
-	    <dt>
-	      <xsl:call-template name="makeAnchor"/>
-	      <xsl:apply-templates select="." mode="xref"/>
-	    </dt>
-	    <dd>
-	      <xsl:apply-templates select="."/>
-	    </dd>
-	  </xsl:for-each>
-	</dl>
+        <dl>
+          <xsl:for-each select="tei:biblStruct">
+            <xsl:sort select="translate(tei:*/tei:author/tei:surname|tei:*[1]/tei:author/tei:orgName|tei:*[1]/tei:author/tei:name|tei:*[1]/tei:editor/tei:surname|tei:*[1]/tei:editor/tei:name|tei:*[1]/tei:title,$uc,$lc)"/>
+            <xsl:sort select="tei:monogr/tei:imprint/tei:date"/>
+            <dt>
+              <xsl:call-template name="makeAnchor"/>
+              <xsl:apply-templates select="." mode="xref"/>
+            </dt>
+            <dd>
+              <xsl:apply-templates select="."/>
+            </dd>
+          </xsl:for-each>
+        </dl>
       </xsl:when>
       <xsl:otherwise>
-	<ol>
-	  <xsl:for-each select="tei:bibl|tei:biblItem">
-	    <li>
-	      <xsl:call-template name="makeAnchor">
-		<xsl:with-param name="name">
-		  <xsl:apply-templates mode="ident" select="."/>
-		</xsl:with-param>
-	      </xsl:call-template>
-	      <xsl:apply-templates select="."/>
-	    </li>
-	  </xsl:for-each>
-	</ol>
+        <ol>
+          <xsl:for-each select="tei:bibl|tei:biblItem">
+            <li>
+              <xsl:call-template name="makeAnchor">
+                <xsl:with-param name="name">
+                  <xsl:apply-templates mode="ident" select="."/>
+                </xsl:with-param>
+              </xsl:call-template>
+              <xsl:apply-templates select="."/>
+            </li>
+          </xsl:for-each>
+        </ol>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -825,18 +825,18 @@
   <xsl:template match="tei:mentioned">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
+        <span>
+        <xsl:call-template name="applyRendition"/>
         <xsl:apply-templates/>
-	</span>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
       </xsl:when>
       <xsl:otherwise>
-	<span class="mentioned">
-	  <xsl:apply-templates/>
-	</span>
+        <span class="mentioned">
+          <xsl:apply-templates/>
+        </span>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -849,9 +849,9 @@
       <xsl:apply-templates mode="ident" select="."/>
     </xsl:variable>
       <xsl:call-template name="makeAnchor">
-	<xsl:with-param name="name">
-	  <xsl:value-of select="$ident"/>
-	</xsl:with-param>
+        <xsl:with-param name="name">
+          <xsl:value-of select="$ident"/>
+        </xsl:with-param>
       </xsl:call-template>
     <xsl:apply-templates/>
   </xsl:template>
@@ -865,10 +865,10 @@
     <xsl:choose>
       <xsl:when test="not(ancestor::tei:person|ancestor::tei:biblStruct)"/>
       <xsl:when test="following-sibling::tei:name|following-sibling::tei:persName">
-	<xsl:text>, </xsl:text>
+        <xsl:text>, </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:text>. </xsl:text>
+        <xsl:text>. </xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -885,56 +885,56 @@
     <xsl:choose>
       <xsl:when test="ancestor::tei:bibl"> (<xsl:apply-templates/>) </xsl:when>
       <xsl:when test="@place='inline'">
-	<xsl:call-template name="makeAnchor">
-	  <xsl:with-param name="name" select="$identifier"/>
-	</xsl:call-template>
+        <xsl:call-template name="makeAnchor">
+          <xsl:with-param name="name" select="$identifier"/>
+        </xsl:call-template>
         <xsl:text> (</xsl:text>
         <xsl:apply-templates/>
         <xsl:text>)</xsl:text>
       </xsl:when>
       <xsl:when test="@place='display'">
-	<xsl:call-template name="makeAnchor">
-	  <xsl:with-param name="name" select="$identifier"/>
-	</xsl:call-template>
+        <xsl:call-template name="makeAnchor">
+          <xsl:with-param name="name" select="$identifier"/>
+        </xsl:call-template>
         <blockquote>
-	  <xsl:choose>
-	    <xsl:when test="@rendition">
-	      <xsl:call-template name="applyRendition"/>
-	    </xsl:when>
-	    <xsl:when test="@rend">
-	      <xsl:attribute name="class">		
-		<xsl:value-of select="@rend"/>
-	      </xsl:attribute>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:attribute name="class">
-	      <xsl:text>note</xsl:text>
-	      </xsl:attribute>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	  <p>
+          <xsl:choose>
+            <xsl:when test="@rendition">
+              <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+            <xsl:when test="@rend">
+              <xsl:attribute name="class">
+                <xsl:value-of select="@rend"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+              <xsl:text>note</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
+          <p>
             <xsl:apply-templates/>
           </p>
         </blockquote>
       </xsl:when>
       <xsl:when test="@place='foot' or @place='end'">
-	<xsl:call-template name="makeAnchor">
-	  <xsl:with-param name="name" select="concat($identifier,'_return')"/>
-	</xsl:call-template>
+        <xsl:call-template name="makeAnchor">
+          <xsl:with-param name="name" select="concat($identifier,'_return')"/>
+        </xsl:call-template>
         <xsl:choose>
           <xsl:when test="$footnoteFile='true'">
-            <a class="notelink" 
-	       title="Go to note"
-	       href="{$masterFile}-notes.html#{$identifier}">
+            <a class="notelink"
+               title="Go to note"
+               href="{$masterFile}-notes.html#{$identifier}">
               <sup>
                 <xsl:call-template name="noteN"/>
               </sup>
             </a>
           </xsl:when>
           <xsl:otherwise>
-            <a class="notelink" 
-	       title="Go to note"
-	       href="#{$identifier}">
+            <a class="notelink"
+               title="Go to note"
+               href="#{$identifier}">
               <sup>
                 <xsl:call-template name="noteN"/>
               </sup>
@@ -943,9 +943,9 @@
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:call-template name="makeAnchor">
-	  <xsl:with-param name="name" select="$identifier"/>
-	</xsl:call-template>
+        <xsl:call-template name="makeAnchor">
+          <xsl:with-param name="name" select="$identifier"/>
+        </xsl:call-template>
         <xsl:text> [</xsl:text>
         <xsl:call-template name="i18n">
           <xsl:with-param name="word">Note</xsl:with-param>
@@ -963,7 +963,7 @@
   <xsl:template match="tei:note" mode="printnotes">
     <xsl:if test="not(ancestor::tei:bibl)">
       <xsl:variable name="identifier">
-	<xsl:text>Note</xsl:text>
+        <xsl:text>Note</xsl:text>
         <xsl:call-template name="noteID"/>
       </xsl:variable>
       <xsl:variable name="parent">
@@ -971,26 +971,26 @@
       </xsl:variable>
       <xsl:if test="$verbose='true'">
         <xsl:message>Note <xsl:value-of select="$identifier"/>
-	<xsl:text> with parent </xsl:text>
-	<xsl:value-of select="$parent"/></xsl:message>
+        <xsl:text> with parent </xsl:text>
+        <xsl:value-of select="$parent"/></xsl:message>
       </xsl:if>
       <div class="note">
-	<xsl:call-template name="makeAnchor">
-	  <xsl:with-param name="name" select="$identifier"/>
-	</xsl:call-template>
-	<span class="noteLabel">
-	  <xsl:call-template name="noteN"/>
-	  <xsl:text>. </xsl:text>
-	</span>
-	<div class="noteBody">
-	  <xsl:apply-templates/>
-	</div>
-	<xsl:if test="$footnoteBackLink= 'true'">
-	  <xsl:text> </xsl:text>
-	  <a class="link_return"
-	     title="Go back to text"
-	     href="#{concat($identifier,'_return')}">&#8629;</a>
-	</xsl:if>
+        <xsl:call-template name="makeAnchor">
+          <xsl:with-param name="name" select="$identifier"/>
+        </xsl:call-template>
+        <span class="noteLabel">
+          <xsl:call-template name="noteN"/>
+          <xsl:text>. </xsl:text>
+        </span>
+        <div class="noteBody">
+          <xsl:apply-templates/>
+        </div>
+        <xsl:if test="$footnoteBackLink= 'true'">
+          <xsl:text> </xsl:text>
+          <a class="link_return"
+             title="Go back to text"
+             href="#{concat($identifier,'_return')}">&#8629;</a>
+        </xsl:if>
       </div>
     </xsl:if>
   </xsl:template>
@@ -1036,26 +1036,26 @@
     </xsl:variable>
     <xsl:element name="{$wrapperElement}">
       <xsl:call-template name="rendToClass">
-	<xsl:with-param name="default">
-	  <xsl:if test="$wrapperElement='div'">p</xsl:if>
-	</xsl:with-param>
+        <xsl:with-param name="default">
+          <xsl:if test="$wrapperElement='div'">p</xsl:if>
+        </xsl:with-param>
       </xsl:call-template>
 
       <xsl:choose>
-	<xsl:when test="@xml:id">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name">
-	      <xsl:value-of select="@xml:id"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
-	<xsl:when test="$generateParagraphIDs='true'">
-	  <xsl:call-template name="makeAnchor">
-	    <xsl:with-param name="name">
-	      <xsl:value-of select="generate-id()"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
+        <xsl:when test="@xml:id">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name">
+              <xsl:value-of select="@xml:id"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:when test="$generateParagraphIDs='true'">
+          <xsl:call-template name="makeAnchor">
+            <xsl:with-param name="name">
+              <xsl:value-of select="generate-id()"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:when>
       </xsl:choose>
       <xsl:if test="$numberParagraphs='true'">
         <xsl:number/>
@@ -1081,21 +1081,21 @@
     <xsl:choose>
       <xsl:when test="tei:p">
         <blockquote>
-	  <xsl:choose>
-	    <xsl:when test="@rendition">
-	      <xsl:call-template name="applyRendition"/>
-	    </xsl:when>
-	    <xsl:when test="@rend">
-	      <xsl:attribute name="class">
-		<xsl:value-of select="@rend"/>
-	      </xsl:attribute>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:attribute name="class">
-		<xsl:text>q</xsl:text>
-	      </xsl:attribute>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="@rendition">
+              <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+            <xsl:when test="@rend">
+              <xsl:attribute name="class">
+                <xsl:value-of select="@rend"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+                <xsl:text>q</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
           <xsl:apply-templates/>
         </blockquote>
       </xsl:when>
@@ -1111,7 +1111,7 @@
         <xsl:apply-templates/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:call-template name="makeQuote"/>
+        <xsl:call-template name="makeQuote"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1121,21 +1121,21 @@
   </xd:doc>
   <xsl:template match="tei:q[@rend='display']">
     <blockquote>
-	  <xsl:choose>
-	    <xsl:when test="@rendition">
-	      <xsl:call-template name="applyRendition"/>
-	    </xsl:when>
-	    <xsl:when test="@rend">
-	      <xsl:attribute name="class">
-		<xsl:value-of select="@rend"/>
-	      </xsl:attribute>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:attribute name="class">
-		<xsl:text>q</xsl:text>
-	      </xsl:attribute>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="@rendition">
+              <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+            <xsl:when test="@rend">
+              <xsl:attribute name="class">
+                <xsl:value-of select="@rend"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+                <xsl:text>q</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
       <xsl:choose>
         <xsl:when test="tei:p">
           <xsl:apply-templates/>
@@ -1184,27 +1184,27 @@
         </xsl:if>
       </xsl:when>
       <xsl:when test="parent::tei:p or parent::tei:note">
-	<div class="blockquote">
-	  <xsl:apply-templates/>
-	</div>
+        <div class="blockquote">
+          <xsl:apply-templates/>
+        </div>
       </xsl:when>
       <xsl:otherwise>
         <blockquote>
-	  <xsl:choose>
-	    <xsl:when test="@rendition">
-	      <xsl:call-template name="applyRendition"/>
-	    </xsl:when>
-	    <xsl:when test="@rend">
-	      <xsl:attribute name="class">
-		<xsl:value-of select="@rend"/>
-	      </xsl:attribute>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <xsl:attribute name="class">
-		<xsl:text>quote</xsl:text>
-	      </xsl:attribute>
-	    </xsl:otherwise>
-	  </xsl:choose>
+          <xsl:choose>
+            <xsl:when test="@rendition">
+              <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+            <xsl:when test="@rend">
+              <xsl:attribute name="class">
+                <xsl:value-of select="@rend"/>
+              </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:attribute name="class">
+                <xsl:text>quote</xsl:text>
+              </xsl:attribute>
+            </xsl:otherwise>
+          </xsl:choose>
 
           <xsl:choose>
             <xsl:when test="tei:p">
@@ -1301,11 +1301,11 @@
   <xsl:template match="tei:term">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
+        <span>
+        <xsl:call-template name="applyRendition"/>
         <xsl:apply-templates/>
-	</span>
-      </xsl:when>      
+        </span>
+      </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
       </xsl:when>
@@ -1370,23 +1370,23 @@
   </xd:doc>
   <xsl:template name="applyRendition">
     <xsl:attribute name="class">
-  
+
       <xsl:choose>
-	<xsl:when test="@rendition=''"/>
-	<xsl:when test="contains(normalize-space(@rendition),' ')">
-	  <xsl:call-template name="splitRendition">
-	    <xsl:with-param name="value">
-	      <xsl:value-of select="normalize-space(@rendition)"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:call-template name="findRendition">
-	    <xsl:with-param name="value">
-	      <xsl:value-of select="@rendition"/>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:otherwise>
+        <xsl:when test="@rendition=''"/>
+        <xsl:when test="contains(normalize-space(@rendition),' ')">
+          <xsl:call-template name="splitRendition">
+            <xsl:with-param name="value">
+              <xsl:value-of select="normalize-space(@rendition)"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="findRendition">
+            <xsl:with-param name="value">
+              <xsl:value-of select="@rendition"/>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:attribute>
    </xsl:template>
@@ -1401,23 +1401,23 @@
     <xsl:choose>
       <xsl:when test="$value=''"/>
       <xsl:when test="contains($value,' ')">
-	<xsl:call-template name="findRendition">
-	  <xsl:with-param name="value">
-	    <xsl:value-of select="substring-before($value,' ')"/>
-	  </xsl:with-param>
-	</xsl:call-template>
-	<xsl:call-template name="splitRendition">
-	  <xsl:with-param name="value">
-	    <xsl:value-of select="substring-after($value,' ')"/>
-	  </xsl:with-param>
-	</xsl:call-template>
+        <xsl:call-template name="findRendition">
+          <xsl:with-param name="value">
+            <xsl:value-of select="substring-before($value,' ')"/>
+          </xsl:with-param>
+        </xsl:call-template>
+        <xsl:call-template name="splitRendition">
+          <xsl:with-param name="value">
+            <xsl:value-of select="substring-after($value,' ')"/>
+          </xsl:with-param>
+        </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:call-template name="findRendition">
-	  <xsl:with-param name="value">
-	    <xsl:value-of select="$value"/>
-	  </xsl:with-param>
-	</xsl:call-template>
+        <xsl:call-template name="findRendition">
+          <xsl:with-param name="value">
+            <xsl:value-of select="$value"/>
+          </xsl:with-param>
+        </xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1426,14 +1426,14 @@
     <xsl:param name="value"/>
     <xsl:choose>
       <xsl:when test="starts-with($value,'#')">
-	<xsl:value-of select="substring-after($value,'#')"/>
-	<xsl:text> </xsl:text>
+        <xsl:value-of select="substring-after($value,'#')"/>
+        <xsl:text> </xsl:text>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:for-each select="document($value)">
-	  <xsl:apply-templates select="@xml:id"/>
-	  <xsl:text> </xsl:text>
-	</xsl:for-each>
+        <xsl:for-each select="document($value)">
+          <xsl:apply-templates select="@xml:id"/>
+          <xsl:text> </xsl:text>
+        </xsl:for-each>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1487,7 +1487,7 @@
         <xsl:value-of select="@n"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:number count="tei:note" level="any"/>
+        <xsl:number count="tei:note" level="any"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -1502,36 +1502,36 @@
         <xsl:value-of select="@n"/>
       </xsl:when>
       <xsl:when test="not(@place) and $consecutiveFootnoteNumbers='true'">
-            <xsl:number 
-		count="tei:note[not(@place)]" 
-		level="any"/>
+            <xsl:number
+                count="tei:note[not(@place)]"
+                level="any"/>
       </xsl:when>
       <xsl:when test="not(@place)">
         <xsl:choose>
           <xsl:when test="ancestor::tei:front">
-            <xsl:number count="tei:note[not(@place)]" 
-			from="tei:front"
-			level="any"/>
+            <xsl:number count="tei:note[not(@place)]"
+                        from="tei:front"
+                        level="any"/>
           </xsl:when>
           <xsl:when test="ancestor::tei:back">
-            <xsl:number count="tei:note[not(@place)]" 
-			from="tei:back"
-			level="any"/>
+            <xsl:number count="tei:note[not(@place)]"
+                        from="tei:back"
+                        level="any"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:number 
-		count="tei:note[not(@place)]" 
-		from="tei:body"
-		level="any"/>
+            <xsl:number
+                count="tei:note[not(@place)]"
+                from="tei:body"
+                level="any"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:when test="@place='end'">
         <xsl:choose>
           <xsl:when test="$consecutiveFootnoteNumbers = 'true'">
-            <xsl:number 
-		count="tei:note[./@place='end']" 
-		level="any"/>
+            <xsl:number
+                count="tei:note[./@place='end']"
+                level="any"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:choose>
@@ -1554,9 +1554,9 @@
       <xsl:otherwise>
         <xsl:choose>
           <xsl:when test="$consecutiveFootnoteNumbers = 'true'">
-            <xsl:number 
-		count="tei:note[./@place='foot']" 
-		level="any"/>
+            <xsl:number
+                count="tei:note[./@place='foot']"
+                level="any"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:choose>
@@ -1624,10 +1624,10 @@
 
   <xsl:template name="printNotes">
       <xsl:choose>
-	<xsl:when test="$footnoteFile='true' and ancestor-or-self::tei:TEI/tei:text/descendant::tei:note[@place='foot' or @place='end']">
+        <xsl:when test="$footnoteFile='true' and ancestor-or-self::tei:TEI/tei:text/descendant::tei:note[@place='foot' or @place='end']">
 ">
-	  <xsl:variable name="BaseFile">
-	    <xsl:value-of select="$masterFile"/>
+          <xsl:variable name="BaseFile">
+            <xsl:value-of select="$masterFile"/>
             <xsl:call-template name="addCorpusID"/>
           </xsl:variable>
           <xsl:call-template name="outputChunk">
@@ -1639,87 +1639,87 @@
             </xsl:with-param>
           </xsl:call-template>
         </xsl:when>
-	<xsl:when test="$splitLevel &gt;-1 and $ID='' and
-			$STDOUT='true'"/>
+        <xsl:when test="$splitLevel &gt;-1 and $ID='' and
+                        $STDOUT='true'"/>
 
-	<xsl:when test="$splitLevel &gt;-1 and self::tei:text"/>
-	<!--
-	    <div class="notes text">
-	    <div class="noteHeading">
-	    <xsl:call-template name="i18n">
-	    <xsl:with-param name="word">noteHeading</xsl:with-param>
-	    </xsl:call-template>
-	    </div>
-	    <xsl:for-each
-	    select="descendant::tei:note[(@place='foot' or @place='end') and
-	    not(ancestor::tei:div)]">
-	    <xsl:apply-templates mode="printnotes" select="."/>
-	    </xsl:for-each>
-	    </div>
-	    </xsl:when>
-	-->
-	
-	<xsl:when test="self::tei:div">
-	  <xsl:variable name="depth">
-	    <xsl:apply-templates mode="depth" select="."/>
-	  </xsl:variable>
-	  <xsl:choose>
-	    <xsl:when test="$depth &lt; $splitLevel ">
-	  <xsl:if test="child::*[not(self::tei:div)]/descendant::tei:note[@place='foot' or @place='end']">
-	    <div class="notes">
-	      <div class="noteHeading">
-		<xsl:call-template name="i18n">
-		  <xsl:with-param name="word">noteHeading</xsl:with-param>
-		</xsl:call-template>
-	      </div>
-	      <xsl:apply-templates 
-		  mode="printnotes"
-		  select="child::*[not(self::tei:div)]/descendant::tei:note[@place='foot' or @place='end']"/>
-	    </div>
-	  </xsl:if>
-	    </xsl:when>
-	    <xsl:otherwise>
-	  <xsl:if test="descendant::tei:note[@place='foot' or @place='end']">
-	    <div class="notes">
-	      <div class="noteHeading">
-		<xsl:call-template name="i18n">
-		  <xsl:with-param name="word">noteHeading</xsl:with-param>
-		</xsl:call-template>
-	      </div>
-	      <xsl:apply-templates 
-		  mode="printnotes"
-		  select="descendant::tei:note[@place='foot' or @place='end']"/>
-	    </div>
-	  </xsl:if>
-	    </xsl:otherwise>
-	  </xsl:choose>
-	</xsl:when>
+        <xsl:when test="$splitLevel &gt;-1 and self::tei:text"/>
+        <!--
+            <div class="notes text">
+            <div class="noteHeading">
+            <xsl:call-template name="i18n">
+            <xsl:with-param name="word">noteHeading</xsl:with-param>
+            </xsl:call-template>
+            </div>
+            <xsl:for-each
+            select="descendant::tei:note[(@place='foot' or @place='end') and
+            not(ancestor::tei:div)]">
+            <xsl:apply-templates mode="printnotes" select="."/>
+            </xsl:for-each>
+            </div>
+            </xsl:when>
+        -->
+
+        <xsl:when test="self::tei:div">
+          <xsl:variable name="depth">
+            <xsl:apply-templates mode="depth" select="."/>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="$depth &lt; $splitLevel ">
+          <xsl:if test="child::*[not(self::tei:div)]/descendant::tei:note[@place='foot' or @place='end']">
+            <div class="notes">
+              <div class="noteHeading">
+                <xsl:call-template name="i18n">
+                  <xsl:with-param name="word">noteHeading</xsl:with-param>
+                </xsl:call-template>
+              </div>
+              <xsl:apply-templates
+                  mode="printnotes"
+                  select="child::*[not(self::tei:div)]/descendant::tei:note[@place='foot' or @place='end']"/>
+            </div>
+          </xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+          <xsl:if test="descendant::tei:note[@place='foot' or @place='end']">
+            <div class="notes">
+              <div class="noteHeading">
+                <xsl:call-template name="i18n">
+                  <xsl:with-param name="word">noteHeading</xsl:with-param>
+                </xsl:call-template>
+              </div>
+              <xsl:apply-templates
+                  mode="printnotes"
+                  select="descendant::tei:note[@place='foot' or @place='end']"/>
+            </div>
+          </xsl:if>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
         <xsl:otherwise>
-	  <xsl:if test="descendant::tei:note[@place='foot' or @place='end']">
-	    <div class="notes">
-	      <div class="noteHeading">
-		<xsl:call-template name="i18n">
-		  <xsl:with-param name="word">noteHeading</xsl:with-param>
-		</xsl:call-template>
-	      </div>
-	      <xsl:apply-templates 
-		  mode="printnotes"
-		  select="descendant::tei:note[@place='foot' or @place='end']"/>
-	    </div>
-	  </xsl:if>
-	</xsl:otherwise>
+          <xsl:if test="descendant::tei:note[@place='foot' or @place='end']">
+            <div class="notes">
+              <div class="noteHeading">
+                <xsl:call-template name="i18n">
+                  <xsl:with-param name="word">noteHeading</xsl:with-param>
+                </xsl:call-template>
+              </div>
+              <xsl:apply-templates
+                  mode="printnotes"
+                  select="descendant::tei:note[@place='foot' or @place='end']"/>
+            </div>
+          </xsl:if>
+        </xsl:otherwise>
       </xsl:choose>
     <xsl:if
-	test="ancestor-or-self::tei:TEI/tei:text/descendant::tei:app">
+        test="ancestor-or-self::tei:TEI/tei:text/descendant::tei:app">
 
       <div class="notes">
-	<div class="noteHeading">
-	  <xsl:call-template name="i18n">
-	    <xsl:with-param name="word">noteHeading</xsl:with-param>
-	  </xsl:call-template>
-	</div>
-	<xsl:apply-templates mode="printnotes"
-		 select="descendant::tei:app"/>
+        <div class="noteHeading">
+          <xsl:call-template name="i18n">
+            <xsl:with-param name="word">noteHeading</xsl:with-param>
+          </xsl:call-template>
+        </div>
+        <xsl:apply-templates mode="printnotes"
+                 select="descendant::tei:app"/>
       </div>
     </xsl:if>
 
@@ -1807,9 +1807,9 @@
       </xsl:when>
       <xsl:when test="$value='sc'">
         <!--   <small>
-	   <xsl:value-of
-	   select="translate(.,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
-	   </small>
+           <xsl:value-of
+           select="translate(.,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
+           </small>
       -->
         <span style="font-variant: small-caps">
           <xsl:call-template name="applyRend">
@@ -1985,14 +1985,14 @@
     <xsl:param name="rest"/>
     <xsl:if test="not($value='')">
       <xsl:attribute name="class">
-	<xsl:value-of select="$value"/>
+        <xsl:value-of select="$value"/>
       </xsl:attribute>
       <xsl:call-template name="applyRend">
-	<xsl:with-param name="value" select="$rest"/>
+        <xsl:with-param name="value" select="$rest"/>
     </xsl:call-template>
     </xsl:if>
   </xsl:template>
-  
+
   <xd:doc>
     <xd:short>[html]  Process unknown rend attribute by turning it into
     an HTML class</xd:short>
@@ -2006,9 +2006,9 @@
     <xsl:param name="rest"/>
     <xsl:if test="not($value='')">
       <span class="{$value}">
-	<xsl:call-template name="applyRend">
-	  <xsl:with-param name="value" select="$rest"/>
-	</xsl:call-template>
+        <xsl:call-template name="applyRend">
+          <xsl:with-param name="value" select="$rest"/>
+        </xsl:call-template>
       </span>
     </xsl:if>
   </xsl:template>
@@ -2037,7 +2037,7 @@
         </xsl:attribute>
         <xsl:call-template name="bodyHook"/>
         <xsl:call-template name="bodyJavascriptHook"/>
-	<div class="stdheader">
+        <div class="stdheader">
         <xsl:call-template name="stdheader">
           <xsl:with-param name="title">
             <xsl:apply-templates
@@ -2048,7 +2048,7 @@
             </xsl:call-template>
           </xsl:with-param>
         </xsl:call-template>
-	</div>
+        </div>
         <div class="notes">
           <div class="noteHeading">
             <xsl:call-template name="i18n">
@@ -2078,7 +2078,7 @@
       </xsl:when>
 
       <xsl:when test="@rendition">
-	<xsl:call-template name="applyRendition"/>
+        <xsl:call-template name="applyRendition"/>
       </xsl:when>
 
       <xsl:when test="@rend">
@@ -2088,20 +2088,20 @@
       </xsl:when>
       <xsl:when test="not($default='')">
         <xsl:attribute name="class">
-	  <xsl:value-of select="$default"/>
+          <xsl:value-of select="$default"/>
         </xsl:attribute>
       </xsl:when>
     </xsl:choose>
     <xsl:if test="$id='true'">
       <xsl:choose>
-	<xsl:when test="@id">
-	  <xsl:copy-of select="@id"/>
-	</xsl:when>
-	<xsl:when test="@xml:id">
-	  <xsl:attribute name="id">
-	    <xsl:value-of select="@xml:id"/>
-	  </xsl:attribute>
-	</xsl:when>
+        <xsl:when test="@id">
+          <xsl:copy-of select="@id"/>
+        </xsl:when>
+        <xsl:when test="@xml:id">
+          <xsl:attribute name="id">
+            <xsl:value-of select="@xml:id"/>
+          </xsl:attribute>
+        </xsl:when>
       </xsl:choose>
     </xsl:if>
   </xsl:template>
@@ -2115,23 +2115,23 @@
     <xsl:param name="name"/>
     <xsl:choose>
       <xsl:when test="$name and $xhtml='true'">
-	<span>
-	  <xsl:attribute name="id">
-	    <xsl:value-of select="$name"/>
-	  </xsl:attribute>
-	</span>	
+        <span>
+          <xsl:attribute name="id">
+            <xsl:value-of select="$name"/>
+          </xsl:attribute>
+        </span>
       </xsl:when>
       <xsl:when test="$name">
-	<a name="{$name}">
-	  <xsl:comment>anchor</xsl:comment>
-	</a>
+        <a name="{$name}">
+          <xsl:comment>anchor</xsl:comment>
+        </a>
       </xsl:when>
       <xsl:when test="@xml:id and $xhtml='true'">
-	<span>
-	  <xsl:attribute name="id">
-	    <xsl:value-of select="@xml:id"/>
-	  </xsl:attribute>
-	</span>	
+        <span>
+          <xsl:attribute name="id">
+            <xsl:value-of select="@xml:id"/>
+          </xsl:attribute>
+        </span>
       </xsl:when>
       <xsl:when test="@xml:id">
         <a name="{@xml:id}">
@@ -2139,25 +2139,25 @@
         </a>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:variable name="me">
-	<xsl:value-of select="$masterFile"/>-<xsl:value-of
+        <xsl:variable name="me">
+        <xsl:value-of select="$masterFile"/>-<xsl:value-of
           select="local-name(.)"/>-<xsl:value-of
-	  select="generate-id()"/>
-	</xsl:variable>
-	<xsl:choose>
-	  <xsl:when test="$xhtml='true'">
-	    <span>
-	      <xsl:attribute name="id">
-		<xsl:value-of select="$me"/>
-	      </xsl:attribute>
-	    </span>	
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <a name="{$me}">
-	      <xsl:comment>anchor</xsl:comment>
-	    </a>
-	  </xsl:otherwise>
-	</xsl:choose>
+          select="generate-id()"/>
+        </xsl:variable>
+        <xsl:choose>
+          <xsl:when test="$xhtml='true'">
+            <span>
+              <xsl:attribute name="id">
+                <xsl:value-of select="$me"/>
+              </xsl:attribute>
+            </span>
+          </xsl:when>
+          <xsl:otherwise>
+            <a name="{$me}">
+              <xsl:comment>anchor</xsl:comment>
+            </a>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:otherwise>
 
     </xsl:choose>
@@ -2170,18 +2170,18 @@
   <xsl:template match="tei:soCalled">
     <xsl:choose>
       <xsl:when test="@rendition">
-	<span>
-	<xsl:call-template name="applyRendition"/>
-	<xsl:apply-templates/>
-	</span>
+        <span>
+        <xsl:call-template name="applyRendition"/>
+        <xsl:apply-templates/>
+        </span>
       </xsl:when>
       <xsl:when test="@rend">
         <xsl:call-template name="rendering"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:value-of select="$preQuote"/>
-	<xsl:apply-templates/>
-	<xsl:value-of select="$postQuote"/>
+        <xsl:value-of select="$preQuote"/>
+        <xsl:apply-templates/>
+        <xsl:value-of select="$postQuote"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -2195,7 +2195,7 @@
     <xsl:for-each select="@*">
       <xsl:if test="namespace-uri(.)='http://www.w3.org/1999/xhtml'">
       <xsl:attribute name="{local-name(.)}">
-	<xsl:value-of select="."/>
+        <xsl:value-of select="."/>
       </xsl:attribute>
       </xsl:if>
     </xsl:for-each>

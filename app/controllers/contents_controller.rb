@@ -18,7 +18,9 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
 
     respond_to do |format|
-      format.html
+      format.html {
+        render :inline => @content.tei_data_to_xhtml
+      }
       format.xml { render :xml => @content.tei_data }
     end
   end

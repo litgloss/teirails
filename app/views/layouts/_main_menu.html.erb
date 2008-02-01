@@ -1,6 +1,13 @@
-  <div id="mainlogo">
-   <a href="/">
-  <img src="/images/Litgloss_banner.png" height="73" width="160"
-   alt="Litgloss banner image" />
-  </a>
-  </div>
+<div id="main-navigation">
+
+<ul id="headernav">
+  <li><%= make_menu_link(:about, :about_path, 'About Litgloss') %></li>
+  <li><%= make_menu_link(:help, :help_path, 'Help') %></li>
+  <li><%= make_menu_link(:contents, :contents_path, 'Contents') %></li>
+  <li><%= make_menu_link(:annotations, :annotations_path, 'Annotations') %></li>
+  <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
+  <% if logged_in? %>
+     <li><%= make_menu_link(:my_litgloss, :my_litgloss_path, 'My Litgloss') %></li>
+  <% end %>
+</ul>
+</div>

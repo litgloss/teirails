@@ -4,7 +4,7 @@
 <ul>
 <% @contents.each do |c| -%>
 <li>
-<%= link_to "Content id #{c.id}", content_path(c) -%>
+<%= link_to "Content id #{c.id}", content_path(c) -%> (<%= link_to "Edit", edit_content_path(c) %>)
 </li>
 <% end -%>
 </ul>
