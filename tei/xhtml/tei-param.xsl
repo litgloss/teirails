@@ -94,11 +94,7 @@ Display figures.
   </xd:doc>
 
   <xsl:template name="bodyHook">
-    <div class="mainlogo">
-      <a href="/">
-        <img src="/images/Litgloss_banner.png" height="73" width="160" />
-        </a>
-      </div>
+    <JXML-renderheader />
   </xsl:template>
 
   <xd:doc class="hook">

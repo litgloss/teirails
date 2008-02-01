@@ -83,6 +83,7 @@ ul.submenu li {
 
 #headernav a.curpage {
     background: #444444 url("/images/menu_tab_left_active.gif") left top no-repeat;
+    color: #ffffff;
 }
 
 #headernav a.curpage span {
@@ -91,6 +92,7 @@ ul.submenu li {
 
 #headernav a:hover {
     background: #444444 url("/images/menu_tab_left_active.gif") left top no-repeat;
+    color: #ffffff;
 }
 
 #headernav a:hover span {
