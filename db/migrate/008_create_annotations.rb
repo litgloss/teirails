@@ -8,7 +8,8 @@ class CreateAnnotations < ActiveRecord::Migration
       # querying efficiency.
       t.string :annotates
 
-      # The specification uses name "inReplyTo" for this field.
+      # The Annotea protocol specification uses name "inReplyTo" for
+      # this field.
       t.string :in_reply_to
 
       t.string :root
