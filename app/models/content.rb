@@ -27,7 +27,7 @@ class Content < ActiveRecord::Base
       '<%= render_partial "layouts/main_menu" %>' + "\n" +
       '<div id="mainContent">' + "\n"
 
-    footer_string = "\n</div>" +
+    footer_string = "\n" +
       '<%= render_partial "layouts/footer" %>' + "\n"
 
     textsubs = {
