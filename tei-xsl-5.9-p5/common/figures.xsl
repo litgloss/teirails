@@ -18,7 +18,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </xd:detail>
     <xd:author>See AUTHORS</xd:author>
-    <xd:cvsId>$Id: figures.xsl 4083 2007-12-05 11:24:15Z rahtz $</xd:cvsId>
+    <xd:cvsId>$Id: figures.xsl 3789 2007-10-26 08:31:08Z rahtz $</xd:cvsId>
     <xd:copyright>2007, TEI Consortium</xd:copyright>
   </xd:doc>
   <xd:doc>
@@ -120,9 +120,6 @@
               <xsl:when test="contains(@width,'in')">
                 <xsl:value-of select="@width"/>
               </xsl:when>
-              <xsl:when test="contains(@width,'px')">
-                <xsl:value-of select="@width"/>
-              </xsl:when>
               <xsl:when test="contains(@width,'cm')">
                 <xsl:value-of select="@width"/>
               </xsl:when>
@@ -179,9 +176,6 @@
                 <xsl:text>pt</xsl:text>
               </xsl:when>
               <xsl:when test="contains(@height,'in')">
-                <xsl:value-of select="@height"/>
-              </xsl:when>
-              <xsl:when test="contains(@height,'px')">
                 <xsl:value-of select="@height"/>
               </xsl:when>
               <xsl:when test="contains(@height,'cm')">

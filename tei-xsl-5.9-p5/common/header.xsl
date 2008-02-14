@@ -12,7 +12,7 @@
       received a copy of the GNU Lesser General Public License along with this library; if not, write to the
       Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </xd:detail>
     <xd:author>See AUTHORS</xd:author>
-    <xd:cvsId>$Id: header.xsl 4109 2007-12-12 10:01:53Z rahtz $</xd:cvsId>
+    <xd:cvsId>$Id: header.xsl 3807 2007-10-27 10:20:11Z rahtz $</xd:cvsId>
     <xd:copyright>2007, TEI Consortium</xd:copyright>
   </xd:doc>
 
@@ -237,46 +237,4 @@
       <xsl:otherwise> (unknown date) </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
-  <xd:doc>
-    <xd:short>Process elements  tei:div/tei:docAuthor</xd:short>
-    <xd:detail> </xd:detail>
-  </xd:doc>
-  <xsl:template match="tei:div/tei:docAuthor"/>
-  <xd:doc>
-    <xd:short>Process elements  tei:div/tei:docDate</xd:short>
-    <xd:detail>
-      <p> omit if found outside front matter </p>
-    </xd:detail>
-  </xd:doc>
-  <xsl:template match="tei:div/tei:docDate"/>
-  <xd:doc>
-    <xd:short>Process elements  tei:div/tei:docTitle</xd:short>
-    <xd:detail> </xd:detail>
-  </xd:doc>
-  <xsl:template match="tei:div/tei:docTitle"/>
-  <xd:doc>
-    <xd:short>Process elements  tei:docAuthor</xd:short>
-    <xd:detail> </xd:detail>
-  </xd:doc>
-  <xsl:template match="tei:docAuthor" mode="heading">
-    <xsl:if test="preceding-sibling::tei:docAuthor">
-      <xsl:choose>
-        <xsl:when test="not(following-sibling::tei:docAuthor)">
-          <xsl:text> and </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>, </xsl:text>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:if>
-    <xsl:apply-templates/>
-  </xsl:template>
-
-  <xd:doc>
-    <xd:short>Process elements  tei:docImprint</xd:short>
-    <xd:detail> </xd:detail>
-  </xd:doc>
-  <xsl:template match="tei:docImprint"/>
-
 </xsl:stylesheet>

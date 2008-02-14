@@ -18,7 +18,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </xd:detail>
     <xd:author>See AUTHORS</xd:author>
-    <xd:cvsId>$Id: i18n.xsl 4316 2008-01-29 09:28:44Z rahtz $</xd:cvsId>
+    <xd:cvsId>$Id: i18n.xsl 2975 2007-08-27 16:07:29Z rahtz $</xd:cvsId>
     <xd:copyright>2007, TEI Consortium</xd:copyright>
   </xd:doc>
   <xsl:key match="entry" name="KEYS" use="key"/>
@@ -30,9 +30,6 @@
   </xd:doc>
   <xsl:template name="i18n">
     <xsl:param name="word"/>
-    <xsl:variable name="Word">
-      <xsl:value-of select="normalize-space($word)"/>
-    </xsl:variable>
     <xsl:variable name="local">
       <xsl:call-template name="myi18n">
 	<xsl:with-param name="word">
@@ -48,18 +45,12 @@
        <xsl:for-each select="document('../i18n.xml',document(''))">
 	 <xsl:choose>
 	   <xsl:when
-	       test="key('KEYS',$Word)/text[@xml:lang=$documentationLanguage]">
+	       test="key('KEYS',normalize-space($word))/text[@xml:lang=$documentationLanguage]">
 	     <xsl:value-of
-		 select="key('KEYS',$Word)/text[@xml:lang=$documentationLanguage]"/>
+		 select="key('KEYS',normalize-space($word))/text[@xml:lang=$documentationLanguage]"/>
 	   </xsl:when>
 	   <xsl:otherwise>
-<!--
-<xsl:if test="$verbose='true'">
-<xsl:message>NO TRANSLATION for <xsl:value-of 
-select="$word"/> in <xsl:value-of select="$documentationLanguage"/></xsl:message>
-</xsl:if>
--->
-	     <xsl:value-of select="key('KEYS',$Word)/text[@xml:lang='en']"/>
+	     <xsl:value-of select="$word"/>
 	   </xsl:otherwise>
 	 </xsl:choose>
        </xsl:for-each>

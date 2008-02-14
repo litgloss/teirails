@@ -34,7 +34,6 @@
 
   <xsl:param name="wrapLength">65</xsl:param>
 
-  <xsl:param name="attsOnSameLine">3</xsl:param>
   <xsl:key name="Namespaces" match="*[ancestor::teix:egXML]" use="namespace-uri()"/>
 
   <xsl:key name="Namespaces" match="*[not(ancestor::*)]" use="namespace-uri()"/>
@@ -104,10 +103,19 @@
 	    <xsl:choose>
 	      <xsl:when test="starts-with(.,'&#10;') and not
 			      (preceding-sibling::node())">
+		<xsl:call-template name="Text">
+		  <xsl:with-param name="words">
 		    <xsl:value-of select="substring(.,2)"/>
+		  </xsl:with-param>
+		</xsl:call-template>
+		
 	      </xsl:when>
 	      <xsl:otherwise>
+		<xsl:call-template name="Text">
+		  <xsl:with-param name="words">
 		    <xsl:value-of select="."/>
+		  </xsl:with-param>
+		</xsl:call-template>
 	      </xsl:otherwise>
 	    </xsl:choose>
           </xsl:with-param>
@@ -138,22 +146,23 @@
 		select="substring-before($text,'&#10;')"/>
 	  </xsl:with-param>
 	</xsl:call-template>
-	<!--	<xsl:if test="not(substring-after($text,'&#10;')='')">-->
-	<xsl:call-template name="lineBreak">
-	  <xsl:with-param name="id">6</xsl:with-param>
-	</xsl:call-template>
-	<xsl:value-of select="$indent"/>
-	<xsl:call-template name="wraptext">
-	  <xsl:with-param name="indent">
-	    <xsl:value-of select="$indent"/>
-	  </xsl:with-param>
-	  <xsl:with-param name="text">
-	    <xsl:value-of select="substring-after($text,'&#10;')"/>
-	  </xsl:with-param>
-	  <xsl:with-param name="count">
-	    <xsl:value-of select="$count + 1"/>
-	  </xsl:with-param>
-	</xsl:call-template>
+<!--	<xsl:if test="not(substring-after($text,'&#10;')='')">-->
+	  <xsl:call-template name="lineBreak">
+	    <xsl:with-param name="id">6</xsl:with-param>
+	  </xsl:call-template>
+	  <xsl:value-of select="$indent"/>
+	  <xsl:call-template name="wraptext">
+	    <xsl:with-param name="indent">
+	      <xsl:value-of select="$indent"/>
+	    </xsl:with-param>
+	    <xsl:with-param name="text">
+	      <xsl:value-of select="substring-after($text,'&#10;')"/>
+	    </xsl:with-param>
+	    <xsl:with-param name="count">
+	      <xsl:value-of select="$count + 1"/>
+	    </xsl:with-param>
+	  </xsl:call-template>
+
       </xsl:when>
       <xsl:otherwise>
 	<xsl:if test="$count &gt; 0 and parent::*">
@@ -411,18 +420,6 @@
       </xsl:when>
 
       <xsl:when
-	  test="namespace-uri()='http://earth.google.com/kml/2.1'">
-	<xsl:value-of disable-output-escaping="yes" select="$startNamespace"/>
-	<xsl:text>kml:</xsl:text>
-	<xsl:value-of disable-output-escaping="yes"
-		      select="$endNamespace"/>
-	<xsl:value-of disable-output-escaping="yes" select="$startElementName"/>
-	<xsl:value-of select="local-name(.)"/>
-	<xsl:value-of disable-output-escaping="yes" select="$endElementName"/>
-	
-      </xsl:when>
-
-      <xsl:when
 	  test="namespace-uri()='http://www.w3.org/2005/11/its'">
 	<xsl:value-of disable-output-escaping="yes" select="$startNamespace"/>
 	<xsl:text>its:</xsl:text>
@@ -518,7 +515,7 @@
       <xsl:value-of select="."/>
     </xsl:for-each>
   </xsl:variable>
-    <xsl:if test="count(../@*)&gt;$attsOnSameLine or string-length($L)&gt;40 or
+    <xsl:if test="count(../@*)&gt;3 or string-length($L)&gt;40 or
 		  namespace-uri()='http://www.w3.org/2005/11/its' or
 		  string-length(.)+string-length(name(.)) &gt; 40">
     <xsl:call-template name="lineBreak">
@@ -543,10 +540,6 @@
 	test="namespace-uri()='http://www.example.org/ns/nonTEI'">
       <xsl:text>my:</xsl:text>
     </xsl:when>
-    <xsl:when
-	test="namespace-uri()='http://relaxng.org/ns/compatibility/annotations/1.0'">
-      <xsl:text>a:</xsl:text>
-    </xsl:when>
 <!--    <xsl:otherwise>
     <xsl:for-each select="namespace::*">
       <xsl:if test="not(name(.)='')">
@@ -567,58 +560,7 @@
 </xsl:template>
 
 <xsl:template match="@*" mode="attributetext">
-  <xsl:choose>
-    <xsl:when test="string-length(.)&gt;50">
-      <xsl:choose>
-	<xsl:when test="contains(.,'|')">
-	  <xsl:call-template name="breakMe">
-	    <xsl:with-param name="text">
-	      <xsl:value-of select="."/>
-	    </xsl:with-param>
-	    <xsl:with-param name="sep">
-	      <xsl:text>|</xsl:text>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:call-template name="breakMe">
-	    <xsl:with-param name="text">
-	      <xsl:value-of select="."/>
-	    </xsl:with-param>
-	    <xsl:with-param name="sep">
-	      <xsl:text> </xsl:text>
-	    </xsl:with-param>
-	  </xsl:call-template>
-	</xsl:otherwise>
-      </xsl:choose>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="."/>
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-
-<xsl:template name="breakMe">
-  <xsl:param name="text"/>
-  <xsl:param name="sep"/>
-  <xsl:choose>
-    <xsl:when test="string-length($text)&lt;50">
-      <xsl:value-of select="$text"/>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="substring-before($text,$sep)"/>
-      <xsl:text>&#10;</xsl:text>
-      <xsl:value-of select="$sep"/>
-      <xsl:call-template name="breakMe">
-	<xsl:with-param name="text">
-	  <xsl:value-of select="substring-after($text,$sep)"/>
-	</xsl:with-param>
-	<xsl:with-param name="sep">
-	  <xsl:value-of select="$sep"/>
-	</xsl:with-param>
-      </xsl:call-template>
-    </xsl:otherwise>
-  </xsl:choose>
+  <xsl:value-of select="."/>
 </xsl:template>
 
 
@@ -632,7 +574,6 @@
       <xsl:choose>
 	<xsl:when test="contains($list,$ns)"/>
 	<xsl:when test=".='http://relaxng.org/ns/structure/1.0'"/>
-	<xsl:when test=".='http://www.w3.org/2001/XInclude'"/>
 	<xsl:when test=".='http://www.tei-c.org/ns/Examples'"/>
 	<xsl:when test=".='http://relaxng.org/ns/compatibility/annotations/1.0'"/>
 	<xsl:when test="name(.)=''"/>
@@ -650,7 +591,7 @@
 	</xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
-    </xsl:variable>
+  </xsl:variable>
   <xsl:copy-of select="$used"/>
   <xsl:apply-templates mode="ns">
     <xsl:with-param name="list">

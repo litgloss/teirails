@@ -20,7 +20,7 @@
       License along with this library; if not, write to the Free Software
       Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA </xd:detail>
     <xd:author>See AUTHORS</xd:author>
-    <xd:cvsId>$Id: tei-param.xsl 4294 2008-01-27 15:00:58Z rahtz $</xd:cvsId>
+    <xd:cvsId>$Id: tei-param.xsl 3695 2007-10-19 20:16:59Z jic7r $</xd:cvsId>
     <xd:copyright>2007, TEI Consortium</xd:copyright>
   </xd:doc>
   <xsl:key match="tei:*[@xml:id]" name="IDS" use="@xml:id"/>
@@ -38,7 +38,7 @@
   <xsl:param name="graphicsSuffix">.png</xsl:param>
   <xd:doc class="figures" type="decimal"> Scaling of imported graphics</xd:doc>
   <xsl:param name="standardScale">1</xsl:param>
-  <xd:doc class="headings" type="boolean"> Construct a heading 
+  <xd:doc class="headings" type="boolean"> Construct a heading
     for &lt;div&gt; elements with no &lt;head&gt;</xd:doc>
   <xsl:param name="autoHead"/>
   <xd:doc class="headings">
@@ -55,7 +55,7 @@
         <xsl:value-of select="@type"/>
       </xsl:when>
       <xsl:otherwise>
-	<xsl:text>&#160;</xsl:text>
+        <xsl:text>&#160;</xsl:text>
      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -73,19 +73,21 @@
   <xd:doc class="links" type="string"> Name of department within institution</xd:doc>
   <xsl:param name="department"/>
   <xd:doc class="links" type="string"> Name of link to home page of application</xd:doc>
-  <xsl:param name="homeLabel">Home</xsl:param>
+  <xsl:param name="homeLabel" />
   <xd:doc class="links" type="anyURI">Project Home</xd:doc>
-  <xsl:param name="homeURL">http://www.tei-c.org/</xsl:param>
+  <xsl:param name="homeURL" />
   <xd:doc class="links" type="string">Project</xd:doc>
-  <xsl:param name="homeWords">TEI</xsl:param>
+  <xsl:param name="homeWords" />
   <xd:doc class="links" type="string"> Institution</xd:doc>
-  <xsl:param name="institution">A TEI Project</xsl:param>
-  <xd:doc class="links" type="anyURI"> Institution link</xd:doc>
-  <xsl:param name="parentURL">http://www.tei-c.org/</xsl:param>
+
+  <xsl:param name="institution" />
+
+  <xd:doc class="links" type="anyURI">Institution link</xd:doc>
+  <xsl:param name="parentURL" />
   <xd:doc class="links" type="string"> Name of overall institution</xd:doc>
-  <xsl:param name="parentWords">Parent Institution</xsl:param>
+  <xsl:param name="parentWords" />
   <xd:doc class="links" type="anyURI"> Link to search application</xd:doc>
-  <xsl:param name="searchURL">http://www.google.com</xsl:param>
+  <xsl:param name="searchURL" />
   <xd:doc class="misc" type="anyURI"> The home page for these stylesheets</xd:doc>
   <xsl:param name="teixslHome">http://www.tei-c.org/Stylesheets/teic/</xsl:param>
   <xd:doc class="misc" type="boolean"> Process elements according to assumptions
@@ -140,7 +142,7 @@
         count="tei:div|tei:div0|tei:div1|tei:div2|tei:div3|tei:div4|tei:div5|tei:div6"
         level="multiple"/>
       <xsl:if test="$minimal='false'">
-	<xsl:value-of select="$numberSpacer"/>
+        <xsl:value-of select="$numberSpacer"/>
       </xsl:if>
   </xsl:template>
   <xd:doc class="numbering" type="boolean"> Automatically number figures in
@@ -182,7 +184,7 @@
   <xd:doc class="tables" type="string"> Default alignment of table cells</xd:doc>
   <xsl:param name="cellAlign">left</xsl:param>
   <xd:doc class="tables" type="string"> Default alignment of tables</xd:doc>
-  <xsl:param name="tableAlign">table</xsl:param>
+  <xsl:param name="tableAlign">leftTable</xsl:param>
 
   <xd:doc class="hook">
     <xd:short>[common] Hook where actions can be inserted when making
