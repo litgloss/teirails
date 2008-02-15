@@ -1,0 +1,7 @@
+<h1>List of Users</h1>
+
+<ul>
+<% @users.each do |u| -%>
+  <li><%= u.login -%> (<%= link_to "Edit", edit_user_path(u) -%>)</li>
+<% end -%>
+</ul>

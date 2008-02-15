@@ -1,0 +1,2 @@
+class AdministrativeOptionsController < ApplicationController
+end

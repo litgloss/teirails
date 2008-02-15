@@ -61,5 +61,4 @@ class ContentsController < ApplicationController
       redirect_to contents_path
     end
   end
-
 end

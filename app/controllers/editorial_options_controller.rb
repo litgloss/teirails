@@ -1,0 +1,2 @@
+class EditorialOptionsController < ApplicationController
+end

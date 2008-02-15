@@ -5,7 +5,28 @@
   <li><%= make_menu_link(:annotations, :annotations_path, 'Annotations') %></li>
   <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
   <% if logged_in? %>
-     <li><%= make_menu_link(:my_litgloss, :my_litgloss_path, 'My Litgloss') %></li>
+     <li>
+       <%= make_menu_link(:my_litgloss, :my_litgloss_path, 'My Litgloss') %>
+     </li>
+
+     <% if current_user.can_act_as?("editor") -%>
+       <li>
+	 <%= make_menu_link(:editorial_options, 
+			    :editorial_options_path, 
+			    'Editorial Options') -%>
+       </li>
+     <% end -%>
+
+
+     <% if current_user.can_act_as?("administrator") -%>
+       <li>
+	 <%= make_menu_link(:administrative_options, 
+			    :administrative_options_path, 
+			    'Administrative Options') -%>
+       </li>
+     <% end -%>
+     
   <% end %>
+
 </ul>
 </div>

@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :annotations
   has_one :profile, :dependent => :destroy
 
-  belongs_to :user_role, :foreign_key => :role_id
+  belongs_to :role, :class_name => "UserRole", :foreign_key => :role_id
 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
@@ -25,6 +25,23 @@ class User < ActiveRecord::Base
   def create_profile
     self.profile = Profile.new
     self.save
+  end
+
+  # Returns a boolean value indicating whether or not this user
+  # can act as the role specified.  The user is considered to be
+  # able to do this if they have an access level <= the level of
+  # the role specified.  This is used for many system permission
+  # functions instead of reading the integer representing the integer
+  # directly, so that UserRoles can be added later without changing
+  # code in all areas.
+  def can_act_as?(role_string)
+    role = UserRole.find_by_name(role_string)
+
+    if role.nil?
+      return false
+    end
+
+    return self.role.level <= role.level
   end
 
   def full_name

@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
 
   def create
     self.current_user = User.authenticate(params[:login], params[:password])
+
     if logged_in?
       if params[:remember_me] == "1"
         self.current_user.remember_me
@@ -17,7 +18,8 @@ class SessionsController < ApplicationController
       redirect_back_or_default('/')
       flash[:notice] = "Logged in successfully"
     else
-      render :action => 'new'
+      flash[:error] = "Authentication failed."
+      redirect_to new_session_path
     end
   end
 

@@ -16,6 +16,14 @@ ActionController::Routing::Routes.draw do |map|
     :stream => :get
   }
 
+  map.resources :editorial_options
+
+  map.resources :administrative_options
+
+  map.resources :system_settings
+
+  map.resources :menu_items
+
   # The annotea server.  XXX - code generating this
   # route needs to be moved to the acts_as_annotea_server
   # plugin.

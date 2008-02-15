@@ -1,0 +1,14 @@
+<h1>Edit System Setting Details</h1>
+
+<p>Edit the details of your system setting below.</p>
+
+<%= error_messages_for :system_setting %>
+
+<% form_for :system_setting, :url => user_system_setting_path, :html => { :method => :post } do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+  <p><%= submit_tag 'Update System Setting' %></p>
+<% end -%>
+
+<p><%= link_to 'Skip save changes and go to show system setting', system_settings_path %></p>
