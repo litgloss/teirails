@@ -2,54 +2,52 @@ class ContentItemsController < ApplicationController
 
   layout "layouts/application", :except => [:annotatable, :show]
 
+  before_filter :find_content_item, :only => [:edit, :show, :annotatable, 
+                                              :update]
+
+
   def index
-    @contents = Content.find(:all)
+    @content_items = ContentItem.find(:all)
   end
 
   def new
-    @content = Content.new
+    @content_item = ContentItem.new
   end
 
   def edit
-    @content = Content.find(params[:id])
   end
 
   def show
-    @content = Content.find(params[:id])
 
     respond_to do |format|
       format.html {
-        render :inline => @content.tei_data_to_xhtml
+        render :inline => @content_item.tei_data_to_xhtml
       }
-      format.xml { render :xml => @content.tei_data }
+      format.xml { render :xml => @content_item.tei_data }
     end
   end
 
   def annotatable
     headers["Content-Type"] = "application/xhtml+xml"
 
-    @content = Content.find(params[:id])
-    render :xml => @content.tei_data
+    render :xml => @content_item.tei_data
   end
 
   def update
-    @content = Content.find(params[:id])
-
-    if @content.update_attributes(params[:content])
-      flash[:notice] = 'Content was successfully updated.'
-      redirect_to content_path(@content)
+    if @content_item.update_attributes(params[:content_item])
+      flash[:notice] = 'Content item was successfully updated.'
+      redirect_to content_path(@content_item)
     else
-      render content
+      render content_item
     end
-
   end
 
   def create
-    @content = Content.new(params[:content])
+    @content_item = ContentItem.new(params[:content_item])
 
-    if @content.save
+    if @content_item.save
       flash[:notice] = 'Content was successfully created.'
-      redirect_to content_path(@content)
+      redirect_to content_path(@content_item)
     else
       render :action => :new
     end
@@ -57,8 +55,15 @@ class ContentItemsController < ApplicationController
   end
 
   def destroy
-    if Content.find(params[:id]).destroy
-      redirect_to contents_path
+    if ContentItem.find(params[:id]).destroy
+      redirect_to content_items_path
     end
   end
+
+
+  protected
+  def find_content_item
+    @content_item = ContentItem.find(params[:id])    
+  end
+
 end

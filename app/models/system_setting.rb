@@ -7,7 +7,7 @@ class SystemSetting < ActiveRecord::Base
 
   # Gets the key with the value passed to us in the first parameter.
   def SystemSetting.get(key)
-    record = Setting.find_by_key(name)
+    record = SystemSetting.find_by_key(name)
 
     if record.nil?
       return nil
@@ -18,10 +18,10 @@ class SystemSetting < ActiveRecord::Base
 
   # Sets the key (parameter 1) to value (parameter 2).
   def SystemSetting.set(key, value, label = nil)
-    record = Setting.find_by_key(key)
+    record = SystemSetting.find_by_key(key)
     
     if record.nil?
-      record = Setting.new(:key => key)
+      record = SystemSetting.new(:key => key)
     end
     
     record.value = Marshal.dump(value)

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  has_many :contents, :foreign_key => :creator_id
+  has_many :content_items, :foreign_key => :creator_id
   has_many :annotations
   has_one :profile, :dependent => :destroy
 

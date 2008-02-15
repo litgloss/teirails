@@ -1,15 +1,15 @@
 <h2>Content Item Index</h2>
 
-<% if !@contents.empty? -%>
+<% if !@content_items.empty? -%>
 <ul>
-<% @contents.each do |c| -%>
+<% @content_items.each do |c| -%>
 <li>
-<%= link_to "Content id #{c.id}", content_path(c) -%> (<%= link_to "Edit", edit_content_path(c) %>)
+<%= link_to "Content item id #{c.id}", content_item_path(c) -%> (<%= link_to "Edit", edit_content_item_path(c) %>)
 </li>
 <% end -%>
 </ul>
 <% else %>
 
-<p>Sorry, there are no contents currently in the system.</p>
+<p>Sorry, there are no content items currently in the system.</p>
 
 <% end -%>

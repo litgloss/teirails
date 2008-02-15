@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     user.resource :profile
   end
 
-  map.resources :contents, :member => {
+  map.resources :content_items, :member => {
     :annotatable => :get
   }
 
@@ -51,5 +51,5 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :search, :controller => :search
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "contents"
+  map.root :controller => "content_items"
 end

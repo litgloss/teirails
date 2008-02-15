@@ -1,6 +1,6 @@
-class CreateContents < ActiveRecord::Migration
+class CreateContentItems < ActiveRecord::Migration
   def self.up
-    create_table :contents, :force => true do |t|
+    create_table :content_items, :force => true do |t|
       t.text :tei_data
 
       t.integer :creator_id
@@ -10,6 +10,6 @@ class CreateContents < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :contents
+    drop_table :content_items
   end
 end

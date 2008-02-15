@@ -6,7 +6,7 @@ class CreateSystemSettings < ActiveRecord::Migration
       t.string  :label
     end
 
-    SystemSetting.Set("default_start_page", 1, 
+    SystemSetting.set("default_start_page", 1, 
                       "ID of sytem page to show to users " + 
                       "first on site visit")
   end
