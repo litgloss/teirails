@@ -16,13 +16,14 @@ ActionController::Routing::Routes.draw do |map|
     :stream => :get
   }
 
-  # The annotea server!
+  # The annotea server.  XXX - code generating this
+  # route needs to be moved to the acts_as_annotea_server
+  # plugin.
   map.resources :annotations, :member => {
     :body => :get
   }
 
   map.resource :session
-
 
   ###
   # Map certain URLs to more intuitive paths.
@@ -39,24 +40,8 @@ ActionController::Routing::Routes.draw do |map|
   # Might be a placeholder for a while.
   map.resource :my_litgloss, :controller => :my_litgloss
 
-  map.resource :about, :controller => :about, :member => {
-    :welcome => :get,
-    :mission => :get,
-    :supporters => :get,
-    :contributors => :get,
-    :statistics => :get,
-    :awards => :get
-  }
-
   map.resource :search, :controller => :search
 
-  map.resource :help, :controller => :help, :member => {
-    :selecting => :get,
-    :reading => :get,
-    :uploading => :get,
-    :editing => :get
-  }
-
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "about"
+  map.root :controller => "contents"
 end
