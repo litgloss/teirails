@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :annotations
   has_one :profile, :dependent => :destroy
 
+  belongs_to :user_role, :foreign_key => :role_id
+
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
