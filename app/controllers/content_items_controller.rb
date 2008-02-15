@@ -1,4 +1,4 @@
-class ContentsController < ApplicationController
+class ContentItemsController < ApplicationController
 
   layout "layouts/application", :except => [:annotatable, :show]
 

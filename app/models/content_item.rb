@@ -1,4 +1,4 @@
-class Content < ActiveRecord::Base
+class ContentItem < ActiveRecord::Base
   acts_as_versioned
 
   belongs_to :creator, :class_name => "User"
