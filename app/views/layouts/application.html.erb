@@ -12,11 +12,16 @@
 
 <body>
 
-<%= render_partial "layouts/main_logo" %>
+<div id="header">
+  <%= render_partial "layouts/main_logo" %>
+  
+  <%= render_partial "layouts/header_options" -%>
+</div>
 
-<%= render_partial "layouts/main_menu" %>
+  <%= render_partial "layouts/main_menu" %>
 
-<div id="mainContent">
+
+  <div id="mainContent">
 
     <% if flash[:error] -%>
       <div id="errorBox">
@@ -37,6 +42,6 @@
     <%= yield -%>
 
 
-<%= render_partial "layouts/footer" %>
+    <%= render_partial "layouts/footer" %>
 
-<%= render_partial "layouts/body_end" %>
+    <%= render_partial "layouts/body_end" %>
