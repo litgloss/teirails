@@ -438,7 +438,7 @@ Display navigation panel at bottom of pages
   <xd:doc type="anyURI" class="links">
 Link for feedback
 </xd:doc>
-  <xsl:param name="feedbackURL">mailto:feedback</xsl:param>
+  <xsl:param name="feedbackURL" />
   <xd:doc type="string" class="links">
 Fixed string to insert before normal page title in HTML meta
 &lt;title&gt; element

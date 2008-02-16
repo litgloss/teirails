@@ -423,7 +423,6 @@ $requestedID: requests a particular page
         </xsl:if>
         <xsl:call-template name="startHook"/>
         <xsl:call-template name="simpleBody"/>
-        <xsl:call-template name="stdfooter"/>
         <xsl:call-template name="bodyEndHook"/>
       </body>
     </html>
@@ -1222,7 +1221,6 @@ $requestedID: requests a particular page
   </xd:doc>
   <xsl:template name="htmlFileBottom">
     <xsl:call-template name="topNavigation"/>
-    <xsl:call-template name="stdfooter"/>
   </xsl:template>
   <xd:doc>
     <xd:short>[html] </xd:short>
@@ -1596,9 +1594,6 @@ $requestedID: requests a particular page
     <xsl:call-template name="partialFootNotes">
       <xsl:with-param name="currentID" select="$currentID"/>
     </xsl:call-template>
-    <xsl:if test="$minimal='false'">
-      <xsl:call-template name="stdfooter"/>
-    </xsl:if>
   </xsl:template>
   <xd:doc>
     <xd:short>[html] </xd:short>
@@ -2251,6 +2246,7 @@ $requestedID: requests a particular page
     <xd:short>[html] </xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
+
   <xsl:template name="stdfooter">
     <xsl:param name="style" select="'plain'"/>
     <xsl:variable name="date">
@@ -2872,7 +2868,6 @@ $requestedID: requests a particular page
               <xsl:with-param name="mode" select="local-name(.)"/>
             </xsl:call-template>
           </xsl:if>
-          <xsl:call-template name="stdfooter"/>
 	  <xsl:call-template name="bodyEndHook"/>
         </div>
       </body>
