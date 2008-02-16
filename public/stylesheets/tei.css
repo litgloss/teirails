@@ -29,8 +29,6 @@ body.simple {
     *  background-color: #FFFFFF; 
     *  margin: 10pt;
     */
-
-
 }
 
 body{
@@ -38,8 +36,7 @@ body{
    background-color: #FFFFFF;
    margin: 0;
    padding:0;
-    font-size: 0.8em;
-    font-family: Verdana, Tahoma, Geneva, Arial, Helvetica, sans-serif;
+   /* font-size: 0.8em; */
 }
 
 body.pagetable {
@@ -491,8 +488,10 @@ div.letter {
 }
 /* title page */
 div.titlePage {
-   border-top: 2pt solid #000000;
-   border-bottom: 2pt solid #000000;
+   /* border-top: 2pt solid #000000;
+    * border-bottom: 2pt solid #000000;
+    */
+
    padding-top: 6pt;
    padding-bottom: 6pt;
    font-size: larger;
