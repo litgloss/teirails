@@ -36,7 +36,7 @@ class ContentItemsController < ApplicationController
   def update
     if @content_item.update_attributes(params[:content_item])
       flash[:notice] = 'Content item was successfully updated.'
-      redirect_to content_path(@content_item)
+      redirect_to content_item_path(@content_item)
     else
       render content_item
     end
@@ -47,7 +47,7 @@ class ContentItemsController < ApplicationController
 
     if @content_item.save
       flash[:notice] = 'Content was successfully created.'
-      redirect_to content_path(@content_item)
+      redirect_to content_item_path(@content_item)
     else
       render :action => :new
     end
