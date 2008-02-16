@@ -4,22 +4,23 @@
 
 <p>
   <h2>Description:</h2>
-<% if  @description.nil? || @description.empty?%>
-<p>User hasn't provided any additional information to share.</p>
-<% else %>
-<p><%= @profile.description -%></p>
-<% end %>
+  <% if  @profile.description.nil? || @profile.description.empty?%>
+    <p>User hasn't provided any additional information to share.</p>
+  <% else %>
+    <p><%= @profile.description -%></p>
+  <% end %>
 </p>
 
-<% if @profile.user == current_user -%>
 <h2>User-Provided Image</h2>
 
+<% if !@profile.image.nil? %>
+  <%= streamed_image_tag(@image) -%>
+<% end %>
+
+<% if @profile.user == current_user -%>
   <% if @profile.image.nil? -%>
     <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %></p>
-
-  <% else -%>
-    <% if !@profile.image.nil? %>
-     <%= streamed_image_tag(@image) -%>
-    <% end %>
   <% end -%>
+
+  <p><%= link_to 'Edit your profile?', edit_user_profile_path -%></p>
 <% end -%>
