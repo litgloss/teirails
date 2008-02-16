@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
   exclude-result-prefixes="exsl estr edate a fo local dbk xlink xhtml rng tei teix xd"
   extension-element-prefixes="exsl estr edate saxon7 saxon6" version="1.0"
@@ -17,6 +18,12 @@
   xmlns:saxon6="http://icl.com/saxon" xmlns:saxon7="http://saxon.sf.net/"
   xmlns:xd="http://www.pnp-software.com/XSLTdoc"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <xsl:output method="xml" 
+	      doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+	      doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" 
+	      indent="yes"/>
+
   <xd:doc type="stylesheet">
     <xd:short> TEI stylesheet dealing with elements from the textstructure
       module, making HTML output. </xd:short>

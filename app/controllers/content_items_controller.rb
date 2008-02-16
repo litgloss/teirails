@@ -19,7 +19,6 @@ class ContentItemsController < ApplicationController
   end
 
   def show
-
     respond_to do |format|
       format.html {
         render :inline => @content_item.tei_data_to_xhtml

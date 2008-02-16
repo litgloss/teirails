@@ -31,8 +31,8 @@ class ContentItem < ActiveRecord::Base
       '<%= render_partial "layouts/footer" %>' + "\n"
 
     textsubs = {
-      '<JXML-renderheader\/>' => header_string,
-      '<JXML-renderfooter\/>' => footer_string
+      '<JXML-renderheader><\/JXML-renderheader>' => header_string,
+      '<JXML-renderfooter><\/JXML-renderfooter>' => footer_string
     }
 
     textsubs.keys.each do |s|
