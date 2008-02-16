@@ -25,12 +25,8 @@ Free Software Foundation, Inc.,
 
 body.simple {
    color: #000000;
-   /* Allow local TeiRails background color to override these defaults.
-    *  background-color: #FFFFFF; 
-    *  margin: 10pt;
-    */
-
-
+   background-color: #FFFFFF;
+   margin: 10pt;
 }
 
 body{
