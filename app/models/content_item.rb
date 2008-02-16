@@ -22,7 +22,7 @@ class ContentItem < ActiveRecord::Base
 
   def jxml_to_erb_string(jxml_string)
     header_string = "\n" +
-      '<%= render_partial "layouts/main_logo" %>' +
+      '<%= render_partial "layouts/header_components" %>' +
       "\n" +
       '<%= render_partial "layouts/main_menu" %>' + "\n" +
       '<div id="mainContent">' + "\n"
