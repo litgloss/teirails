@@ -1,8 +1,10 @@
 <h1>Edit Content</h1>
 
+<p>You have chosen to edit the TEI Lite contents of a document.  You may <%= link_to 'download the current contents of this file in xml', formatted_content_item_path(@content_item, :xml) -%>, change them in your favorite editor, and then save the revised file to the system using the form below.</p>
+
 <%= error_messages_for :content_item %>
 
-<% form_for :content_item, :url => content_item_path, :html => { :method => :put } do |f| -%>
+<% form_for :content_item, :url => content_item_path, :html => { :method => :put, :multipart => true } do |f| -%>
 
   <%= render :partial => 'form', :locals => { :f => f } -%>
 
