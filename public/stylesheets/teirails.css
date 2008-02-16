@@ -18,6 +18,13 @@ body {
    margin-top: 20px;
 }
 
+#header_options ul li:after {
+   content: " | ";
+}
+
+#header_options ul li.last:after {
+   content: "";
+}
 
 #header_options li {
     display: inline;
@@ -30,6 +37,9 @@ body {
     text-decoration: none;
 }
 
+#header_options a:link {
+    color: #000000;
+}
 
 #header_options a:visited {
     color: #000000;

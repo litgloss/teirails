@@ -3,10 +3,10 @@
     <% if logged_in? -%>
       
       <li><%= link_to "My Profile", user_profile_path(current_user) -%></li>
-      <li><%= link_to 'Logout', logout_path -%></li>
+      <li class="last"><%= link_to 'Logout', logout_path -%></li>
     <% else -%>
-      <li><%= link_to 'Join Litgloss', new_user_path -%> </li>
-      <li><%= link_to 'Login', login_path -%></li>
+      <li><%= link_to 'Join Litgloss', new_user_path -%></li>
+      <li class="last"><%= link_to 'Login', login_path -%></li>
     <% end -%>
   </ul>
 </div>
