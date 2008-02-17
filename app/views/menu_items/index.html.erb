@@ -1,0 +1,19 @@
+<h1>Menu Items</h1>
+
+<p>There are currently <%= @menu_items.size -%> items available in the system menu.  Would you like to <%= link_to 'Add one', new_menu_item_path -%>?  
+
+  <% if !@menu_items.empty? -%>
+    Current menu items are listed below:</p>
+
+<ul>
+  <% @menu_items.each do |m| -%>
+    <li><%= m.name -%> (<%= link_to 'show', menu_item_path(m) -%>, 
+      <%= link_to 'edit', edit_menu_item_path(m) -%>,
+      <%= link_to 'delete', menu_item_path(m),
+	  :confirm => "Are you sure?",
+          :method => :delete -%>)
+    </li>
+  <% end -%>
+</ul>
+
+<% end -%>

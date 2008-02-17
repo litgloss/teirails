@@ -2,8 +2,10 @@ class ContentItem < ActiveRecord::Base
   acts_as_versioned
 
   belongs_to :creator, :class_name => "User"
+  
+  has_many :images, :as => :imageable
 
-  has_one :photo, :as => :imageable
+  has_one :system_page
 
   # Constant to prepend to temporary files that we create.
   TempFilePrefix = 'teirails'
