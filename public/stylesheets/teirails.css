@@ -207,6 +207,14 @@ label {
 	padding-right: 20px;
 }
 
+p.form {
+       padding-top: 10px;
+}
+
+p.form label {
+       width: 600px;
+}
+
 br {
 	clear: left;
 }

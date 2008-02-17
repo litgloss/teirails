@@ -27,7 +27,8 @@ class Image < ActiveRecord::Base
   end
 
   after_attachment_saved do |image|
-    image.copy_attributes_from_parent
+    #image.copy_attributes_from_parent
+    
   end
 
 end

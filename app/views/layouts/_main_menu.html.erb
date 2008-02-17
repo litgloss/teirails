@@ -4,8 +4,7 @@
     <%= generate_system_menu_items -%>
 
     <li><%= make_menu_link(:content_items, :content_items_path, 'Content Items') %></li>
-    <li><%= make_menu_link(:annotations, :annotations_path, 'Annotations') %></li>
-    <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
+    
     <% if logged_in? %>
       <% if current_user.can_act_as?("editor") -%>
 	<li>
@@ -15,6 +14,7 @@
 	</li>
       <% end -%>
 
+      <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
     <% end %>
 
   </ul>

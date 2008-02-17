@@ -1,17 +1,10 @@
-<h1>Upload a Image</h1>
+<h1>Upload an Image</h1>
 
 <%= error_messages_for :image %>
 
 <% form_for(:image, :url => images_path, :method => :put,
             :html => { :multipart => true }) do |f| -%>
 
-  <p>
-    <label for="image">Upload An Image:</label>
-  </p>
-
-  <p>
-    <%= f.file_field :uploaded_data %>
-  </p>
 
   <%= render :partial => 'form', :locals => { :f => f } -%>
 
@@ -19,4 +12,5 @@
     <%= submit_tag 'Create' %>
   </p>
 
+  <br />
 <% end -%>

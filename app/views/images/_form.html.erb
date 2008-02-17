@@ -1,12 +1,16 @@
-<p>Image name:</p>
+<%= f.label :title -%>
+<%= f.text_field :title %><br />
+
+<%= f.label :description -%>
+<%= f.text_area :description %><br />
+
+
 <p>
-  <%= f.text_field :title %>
+  <%= f.label :uploaded_data, "Select an image" -%>
+  <%= f.file_field :uploaded_data %><br />
 </p>
 
-<p>Image description:</p>
-<p>
-  <%= f.text_area :description %>
-</p>
+
 
 <%= f.hidden_field :imageable_type, :value => @imageable_type -%>
 <%= f.hidden_field :imageable_id, :value => @imageable_id -%>

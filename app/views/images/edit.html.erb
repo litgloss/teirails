@@ -1,8 +1,11 @@
 <h1>Edit Image Properties</h1>
 
+<p>Edit any of the fields that you wish to change for this image below. Not selecting a new image will leave the old image in place.</p>
+
 <%= error_messages_for :image %>
 
-<% form_for(:image, :url => image_path, :html => { :method => :put } ) do |f| -%>
+<% form_for(:image, :url => image_path, :html => { :method => :put,
+	      :multipart => true } ) do |f| -%>
 
 <%= render :partial => 'form', :locals => { :f => f } -%>
 
@@ -10,6 +13,7 @@
   <%= submit_tag 'Modify Image' %>
 </p>
 
+<br />
 <% end -%>
 
 <p>
