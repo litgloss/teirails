@@ -192,3 +192,22 @@ ul.thumbnailImages li {
 #footerText {
     font-size: .8em;
 }
+
+/* BEGIN css for form layout */
+label,input {
+	display: block;
+	/* allow variable width:  width: 200px; */
+	float: left;
+	margin-bottom: 10px;
+}
+
+label {
+	text-align: left;
+	width: 150px;
+	padding-right: 20px;
+}
+
+br {
+	clear: left;
+}
+/* END css for form layout */

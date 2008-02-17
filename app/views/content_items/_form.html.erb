@@ -1,3 +1,11 @@
-<p><label for="tei_data">Select a file with TEI Lite contents:</label><br/>
+<%= f.label(:tei_data, "Select file") -%>
+<%= f.file_field :tei_data  %><br />
 
-<%= file_field :content_item, :tei_data  %></p>
+<%= f.label(:published) -%>
+<%= f.check_box(:published) -%><br />
+
+
+<% if current_user.can_act_as?("administrator") -%>
+  <%= label(:system, "System content item") -%>
+  <%= check_box(:system, :flag) -%><br />
+<% end -%>

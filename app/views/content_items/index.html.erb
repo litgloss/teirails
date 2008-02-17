@@ -3,9 +3,14 @@
 <% if !@content_items.empty? -%>
 <ul>
 <% @content_items.each do |c| -%>
-<li>
-<%= link_to "Content item id #{c.id}", content_item_path(c) -%> (<%= link_to "Edit", edit_content_item_path(c) %>)
-</li>
+  <li>
+    <%= link_to "Content item id #{c.id}", content_item_path(c) -%> 
+
+    <% if logged_in? -%>
+      (<%= link_to "Edit", edit_content_item_path(c) %>)
+    <% end -%>
+
+  </li>
 <% end -%>
 </ul>
 <% else %>
