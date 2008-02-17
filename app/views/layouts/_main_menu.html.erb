@@ -1,5 +1,8 @@
 <div id="main-navigation">
   <ul id="headernav">
+
+    <%= generate_system_menu_items -%>
+
     <li><%= make_menu_link(:content_items, :content_items_path, 'Content Items') %></li>
     <li><%= make_menu_link(:annotations, :annotations_path, 'Annotations') %></li>
     <li><%= make_menu_link(:search, :search_path, 'Search') %></li>
@@ -12,15 +15,6 @@
 	</li>
       <% end -%>
 
-
-      <% if current_user.can_act_as?("administrator") -%>
-	<li>
-	  <%= make_menu_link(:administrative_options, 
-			     :administrative_options_path, 
-			     'Administrative Options') -%>
-	</li>
-      <% end -%>
-      
     <% end %>
 
   </ul>

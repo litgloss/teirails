@@ -4,6 +4,7 @@ class CreateContentItems < ActiveRecord::Migration
       t.text :tei_data
 
       t.integer :creator_id
+      t.boolean :public, :default => false
 
       t.timestamps
     end
