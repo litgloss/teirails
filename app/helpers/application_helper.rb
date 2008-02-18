@@ -14,19 +14,35 @@ module ApplicationHelper
     
     links = []
 
+    current_controller = request.path_parameters['controller']
+
+    # Use custom path prefix if we are in manage_system_pages,
+    # since this is a nested route.  Otherwise we default to
+    # something based on class name.
+    restful_part = nil
+    id_string = ""
+    if current_controller.eql?("manage_system_pages")
+      restful_part = "menu_item_manage_system_page_path"
+      id_string = "#{element.menu_item.id}, #{element.id}"
+    else
+      restful_part = element.class.table_name.singularize +
+        "_path"
+      id_string = element.id
+    end
+
     if element.first?
       # Add link to move object to beginning or higher
-      links << move_lower_link(element)
-      links << move_to_bottom_link(element)
+      links << move_lower_link(element, restful_part, id_string)
+      links << move_to_bottom_link(element, restful_part, id_string)
     elsif element.last?
-      links << move_higher_link(element)
-      links << move_to_top_link(element)
+      links << move_higher_link(element, restful_part, id_string)
+      links << move_to_top_link(element, restful_part, id_string)
     else
       # Add links for top, bottom, higher, lower
-      links << move_higher_link(element)
-      links << move_lower_link(element)
-      links << move_to_bottom_link(element)
-      links << move_to_top_link(element)
+      links << move_higher_link(element, restful_part, id_string)
+      links << move_lower_link(element, restful_part, id_string)
+      links << move_to_bottom_link(element, restful_part, id_string)
+      links << move_to_top_link(element, restful_part, id_string)
     end
 
     links.join(", ")
@@ -158,7 +174,13 @@ module ApplicationHelper
     end
 
     if !mi.nil?
-      cis = mi.content_items
+      s_pgs = mi.system_pages.find(:all, :order => "position")
+      cis = []
+
+      s_pgs.each do |sp|
+        cis << sp.content_item
+      end
+
       cis.each do |c|
         links << link_to("ci id #{c.id}", content_item_path(c))
       end
@@ -167,27 +189,23 @@ module ApplicationHelper
     links
   end
 
-  def move_higher_link(element)
-    path_string = "move_higher_" + element.class.table_name.singularize + 
-      "_path" + "(#{element.id})"
+  def move_higher_link(element, restful_part, id_string)
+    path_string = "move_higher_" + restful_part + "(#{id_string})"
     link_to("move higher", eval(path_string), :method => :post)
   end
 
-  def move_lower_link(element)
-    path_string = "move_lower_" + element.class.table_name.singularize + 
-      "_path" + "(#{element.id})"
+  def move_lower_link(element, restful_part, id_string)
+    path_string = "move_lower_" + restful_part + "(#{id_string})"
     link_to("move lower", eval(path_string), :method => :post)
   end
 
-  def move_to_top_link(element)
-    path_string = "move_to_top_" + element.class.table_name.singularize + 
-      "_path" + "(#{element.id})"
+  def move_to_top_link(element, restful_part, id_string)
+    path_string = "move_to_top_" + restful_part + "(#{id_string})"
     link_to("move to top", eval(path_string), :method => :post)
   end
 
-  def move_to_bottom_link(element)
-    path_string = "move_to_bottom_" + element.class.table_name.singularize + 
-      "_path" + "(#{element.id})"
+  def move_to_bottom_link(element, restful_part, id_string)
+    path_string = "move_to_bottom_" + restful_part + "(#{id_string})"
     link_to("move to bottom", eval(path_string), :method => :post)
   end
 end

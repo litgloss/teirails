@@ -1,0 +1,7 @@
+<h1>Manage System Pages</h1>
+
+<ul>
+  <% @system_pages.each do |sp| -%>
+    <li>Page ID <%= sp.id -%> (<%= get_movement_links( sp ) -%>)</li>
+  <% end -%>
+</ul>

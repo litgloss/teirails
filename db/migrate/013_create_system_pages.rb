@@ -3,6 +3,7 @@ class CreateSystemPages < ActiveRecord::Migration
     create_table :system_pages do |t|
       t.integer :content_item_id
       t.integer :menu_item_id
+      t.integer :position
 
       t.timestamps
     end

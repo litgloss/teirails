@@ -32,7 +32,14 @@ ActionController::Routing::Routes.draw do |map|
     :move_lower => :post,
     :move_to_top => :post,
     :move_to_bottom => :post
-  }
+  } do |menu_item|
+    menu_item.resources :manage_system_pages, :member => {
+      :move_higher => :post,
+      :move_lower => :post,
+      :move_to_top => :post,
+      :move_to_bottom => :post
+    }
+  end
 
   # The annotea server.  XXX - code generating this
   # route needs to be moved to the acts_as_annotea_server

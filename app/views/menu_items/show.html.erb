@@ -3,12 +3,3 @@
 <p>Visible: <%= @menu_item.visible -%></p>
 
 <p>Return to <%= link_to 'menu item index', menu_items_path -%>.</p>
-
-
-<h2>Options</h2>
-
-<%= link_to 'show', menu_item_path(m) -%>, 
-	<%= link_to 'edit', edit_menu_item_path(m) -%>,
-	<%= link_to 'delete', menu_item_path(m),
-	    :confirm => "Are you sure?",
-            :method => :delete -%>

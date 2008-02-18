@@ -15,6 +15,8 @@
 	<%= link_to 'delete', menu_item_path(m),
 	    :confirm => "Are you sure?",
             :method => :delete -%>, 
+	<%= link_to 'manage child page order', 
+	    menu_item_manage_system_pages_path(m) -%>,
 	<%= get_movement_links( m ) -%>)
       </li>
     <% end -%>
