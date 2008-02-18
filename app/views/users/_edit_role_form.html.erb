@@ -1,8 +1,5 @@
-<%= error_messages_for 'user_role' %>
+<%= f.label(:role_id, "User role") -%>
 
-<!--[form:user_role]-->
-<label for="user_role_id">Select user role</label>
-  <%= select 'user_role', 'id',
-      UserRole.find(:all).collect {|cc| [cc.name, cc.id]},
-      :prompt => "Select User Role" %>
-<!--[eoform:user_role]-->
+<%= f.select :role_id,
+    UserRole.find(:all).collect {|cc| [cc.name, cc.id]},
+    :prompt => "Select User Role" %>

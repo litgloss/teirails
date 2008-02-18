@@ -14,6 +14,21 @@ class UsersController < ApplicationController
   def edit
   end
 
+  # Commits changes to user model.  Currently only works 
+  # for user role management.
+  def update
+    @user = User.find(params[:id])
+    
+    if @user.role != UserRole.find(params[:user][:role_id])
+      @user.role = UserRole.find(params[:user][:role_id])
+      @user.save
+    end
+
+    flash[:notice] = 'User data updated.'
+    redirect_to edit_user_path(@user)
+  end
+
+
   # render new.rhtml
   def new
   end
