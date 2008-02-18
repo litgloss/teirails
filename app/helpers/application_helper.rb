@@ -9,13 +9,21 @@ module ApplicationHelper
     res = nil
 
     # Usually we change the style of the current tab, unless it is 
-    # a content item which is also a system_page.
+    # a content item which is also a system_page.  Also if this
+    # is a content page which is a system page but which has no reference
+    # to a menu item, highlight it as current.
     if current_controller.eql?(controller_name.to_s) && 
         (!(current_controller.eql?("content_items") &&
            current_action.eql?("show")) ||
          (current_controller.eql?("content_items") &&
           current_action.eql?("show") &&
-          !ContentItem.find(params[:id]).has_system_page))
+          !ContentItem.find(params[:id]).has_system_page) ||
+         (current_controller.eql?("content_items") &&
+          current_action.eql?("show") &&
+          ContentItem.find(params[:id]).has_system_page &&
+          ContentItem.find(params[:id]).system_page.menu_item.nil?
+          )
+         )
 
       res = link_to(link_text, eval(restful_path_sym.to_s), :class => :curpage)
     else
@@ -36,14 +44,9 @@ module ApplicationHelper
     # all relevant content items.
     case current_controller
     when "menu_items"
-      mi = MenuItem.find(params[:id])
-      cis = mi.content_items
-      cis.each do |c|
-        links << link_to("ci id #{c.id}", content_item_path(c))
-      end
-    
+      links = get_menu_item_submenu_links
     when "content_items"
-      links << "ci submenu"
+      links = get_content_item_submenu_links
     end
 
     # Surround links with <li></li> tags.
@@ -91,5 +94,43 @@ module ApplicationHelper
   # inside of the URL.  Use a regex, fix if this breaks.
   def gsub_insert_span_tags(original_link, link_text)
     return original_link.gsub(/>.*?</, "><span>#{link_text}</span><")
+  end
+
+  def get_content_item_submenu_links
+    links = []
+
+    # If this content item is a system page, run method to
+    # create submenu links instead of content item links.
+    if !@content_item.nil? && @content_item.has_system_page &&
+        !@content_item.system_page.menu_item.nil?
+      links = get_menu_item_submenu_links(true)
+    else
+      links << "ci submenu"
+    end
+
+    links
+  end
+
+  def get_menu_item_submenu_links(content_item_selected = false)
+    links = []
+
+    mi = nil
+
+    if content_item_selected
+      mi = @content_item.system_page.menu_item
+    else
+      if params[:id]
+        mi = MenuItem.find(params[:id])      
+      end
+    end
+
+    if !mi.nil?
+      cis = mi.content_items
+      cis.each do |c|
+        links << link_to("ci id #{c.id}", content_item_path(c))
+      end
+    end
+
+    links
   end
 end

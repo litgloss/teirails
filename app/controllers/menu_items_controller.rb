@@ -11,6 +11,16 @@ class MenuItemsController < ApplicationController
   end
 
   def show
+    if @menu_item.content_items.find(:all, :conditions => { 
+                                       :published => true 
+                                     }).size > 0
+      redirect_to content_item_path(@menu_item.
+                                    content_items.find(:first,
+                                                       :conditions => {
+                                                         :published => true
+                                                       }))
+      return
+    end
   end
 
   def destroy
