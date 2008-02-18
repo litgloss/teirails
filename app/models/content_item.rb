@@ -1,11 +1,12 @@
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
+  self.non_versioned_columns << 'published'
 
   belongs_to :creator, :class_name => "User"
   
   has_many :images, :as => :imageable
 
-  has_one :system_page
+  has_one :system_page, :dependent => :destroy
 
   # Constant to prepend to temporary files that we create.
   TempFilePrefix = 'teirails'
@@ -18,6 +19,44 @@ class ContentItem < ActiveRecord::Base
   def tei_data_to_xhtml
     jxml_string = tei_to_jxml_string
     jxml_to_erb_string(jxml_string)
+  end
+
+  def set_as_system_content!
+    s = SystemPage.new
+    self.system_page = s
+    self.save
+  end
+  
+  # Returns boolean value representing whether or not this
+  # item is a system page.
+  def has_system_page
+    return !self.system_page.nil?
+  end
+
+  # Accepts a 
+  def set_system_page_value(value)
+    logger.info("\n\nGONNA set page value #{value}\n\n")
+
+    # Filter input before eval, even though RoR is too dumb to care
+    # about this.
+    if !value =~ /0|1/
+      raise Exception.new("Bad value (#{value}) in input field for system page.")
+      return
+    end
+
+    if (!eval(value).zero?)
+      # Ignore if we already have a non-nil system page,
+      # otherwise create one.
+      if self.system_page.nil?
+        self.system_page = SystemPage.new
+      end
+    else
+      # Delete a system page if we have one.
+      if !self.system_page.nil?
+        s = self.system_page
+        s.destroy
+      end
+    end
   end
 
   private

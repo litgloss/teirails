@@ -7,8 +7,44 @@ class ContentItemsController < ApplicationController
                                               :update]
 
 
+  # Default method for displaying all published content items
+  # 
   def index
-    @content_items = ContentItem.find(:all)
+    cis = ContentItem.find(:all, :conditions => {
+                            :published => true
+                          })
+
+    @content_items = []
+    cis.each do |c|
+      @content_items << c unless c.has_system_page
+    end
+
+    @title = "Public Content Items"
+  end
+
+  # Display unpublished content items.
+  def unpublished
+    @title = "Unpublished Content Items"
+    @content_items = ContentItem.find(:all, :conditions => {
+                            :published => false
+                          })
+    
+    render :template => "content_items/index"
+  end
+
+
+  # Display system content items.
+  def system
+    @title = "System Content Items"
+
+    @content_items = []
+    ContentItem.find(:all).each do |c|
+      if c.has_system_page
+        @content_items << c
+      end
+    end
+
+    render :template => "content_items/index"
   end
 
   def new
@@ -36,20 +72,25 @@ class ContentItemsController < ApplicationController
   # Updates the tei_data property of this model, as long
   # as the string given to us conforms to the TEI DTD.
   def update
-    tei_data = params[:content_item][:tei_data].read
+    # Save tei_data if it was provided.
+    if params[:content_item][:tei_data].class == 
+        ActionController::UploadedStringIO.new.class
 
-    if !validate_tei(tei_data)
-      redirect_to edit_content_item_path(@content_item)    
-    else
-      @content_item.tei_data = tei_data
-      if @content_item.save
-        flash[:notice] = 'Content item was successfully updated.'
-        redirect_to content_item_path(@content_item)
+      tei_data = params[:content_item][:tei_data].read
+      
+      logger.info("got tei_data before val call:\n#{tei_data}")
+
+      if validate_tei(tei_data)
+        @content_item.tei_data = tei_data
+        @content_item.save!
       else
-        flash[:notice] = "Failed to save new tei data."
-        redirect_to edit_content_item_path(@content_item)            
+        redirect_to edit_content_item_path(@content_item)    
       end
     end
+    
+    set_content_item_properties
+
+    redirect_to content_item_path(@content_item)
   end
 
   def create
@@ -62,7 +103,8 @@ class ContentItemsController < ApplicationController
     else
       @content_item.tei_data = tei_data
       if @content_item.save
-        flash[:notice] = 'Content item was successfully updated.'
+        set_content_item_properties
+        flash[:notice] = 'Content item was successfully created.'
         redirect_to content_item_path(@content_item)
       else
         flash[:notice] = "Failed to save new tei data."
@@ -90,6 +132,8 @@ class ContentItemsController < ApplicationController
   def validate_tei(tei_string)
     has_errors = false
 
+    logger.info("\n\nGOT string to val: #{tei_string}\n\n")
+
     begin
       res = validate_tei_document(tei_string)
     rescue XML::Parser::ParseError
@@ -106,5 +150,22 @@ class ContentItemsController < ApplicationController
     end
 
     return !has_errors
+  end
+
+  # Sets properties for content item, including system page
+  # and published.
+  def set_content_item_properties
+    @content_item.published = params[:content_item][:published]
+
+    begin
+      @content_item.
+        set_system_page_value(params[:content_item][:has_system_page])
+    rescue Exception => e
+      flash[:error] = "Exception: #{e}"
+      redirect_to edit_content_item_path(@content_item)
+      return
+    end
+    
+    @content_item.save!
   end
 end

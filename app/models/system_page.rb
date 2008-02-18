@@ -1,4 +1,4 @@
-class MenuItem < ActiveRecord::Base
-  has_many :system_pages
-  has_many :content_items, :through => :system_pages
+class SystemPage < ActiveRecord::Base
+  belongs_to :menu_item
+  belongs_to :content_item
 end

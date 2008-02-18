@@ -7,5 +7,5 @@
 
 <% if current_user.can_act_as?("administrator") -%>
   <%= label(:system, "System content item") -%>
-  <%= check_box(:system, :flag) -%><br />
+  <%= f.check_box( :has_system_page) -%><br />
 <% end -%>

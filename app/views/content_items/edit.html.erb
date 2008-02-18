@@ -5,6 +5,7 @@
 <%= error_messages_for :content_item %>
 
 <% form_for :content_item, :url => content_item_path, :html => { :method => :put, :multipart => true } do |f| -%>
+
 <br />
 
 <%= render :partial => 'form', :locals => { :f => f } -%>

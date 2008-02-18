@@ -10,6 +10,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :content_items, :member => {
     :annotatable => :get
+  }, :collection => {
+    :system => :get,
+    :unpublished => :get
   }
 
   map.resources :images, :member => {

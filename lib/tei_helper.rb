@@ -16,7 +16,9 @@ module TeiHelper
     dtd = Dtd.new("system", "#{RAILS_ROOT}/dtd/teilite.dtd")
 
     p =  Parser.string(tei)
+    
     doc = p.parse
+
     res = doc.validate(dtd)
     
     if !res
