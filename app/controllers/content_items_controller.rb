@@ -78,13 +78,13 @@ class ContentItemsController < ApplicationController
 
       tei_data = params[:content_item][:tei_data].read
       
-      logger.info("got tei_data before val call:\n#{tei_data}")
-
       if validate_tei(tei_data)
         @content_item.tei_data = tei_data
         @content_item.save!
       else
-        redirect_to edit_content_item_path(@content_item)    
+        flash[:error] = "TEI validation failed."
+        redirect_to edit_content_item_path(@content_item)
+        return
       end
     end
     

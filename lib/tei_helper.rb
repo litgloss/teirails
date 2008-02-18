@@ -25,7 +25,6 @@ module TeiHelper
       raise DTDValidationFailedError.new
     end
   end
-
 end
 
 class DTDValidationFailedError < StandardError

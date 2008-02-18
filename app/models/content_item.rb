@@ -1,6 +1,10 @@
+require 'rexml/document'
+
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
   self.non_versioned_columns << 'published'
+
+  include REXML
 
   belongs_to :creator, :class_name => "User"
   
@@ -26,7 +30,39 @@ class ContentItem < ActiveRecord::Base
     self.system_page = s
     self.save
   end
-  
+
+  # Returns a XML::Document of this tei_data
+  def doc
+    return REXML::Document.new(self.tei_data)
+  end
+
+  # Returns the document title, if found, in the XML document
+  # header.
+  def title
+    val = XPath.first(doc, '/TEI/teiHeader/fileDesc/titleStmt/title')
+    val.text
+  end
+
+  # Set the value of the title field and save resulting TEI 
+  # document to body.
+  def title=(val)
+    mydoc = self.doc
+
+    old_title = XPath.first(mydoc, '/TEI/teiHeader/fileDesc/titleStmt/title')
+
+    # Replace old title if it exists.
+    if !old_title.nil?
+      old_title.text = val
+    else
+      new_title = Element.new('title')
+      titlestmt = XPath.first(mydoc, '/TEI/teiHeader/fileDesc/titleStmt')
+      titlestmt.add_element(new_title)
+    end
+
+    self.tei_data = mydoc.to_s
+    self.save
+  end
+
   # Returns boolean value representing whether or not this
   # item is a system page.
   def has_system_page
