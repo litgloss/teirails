@@ -1,0 +1,9 @@
+<h1>Select Menu Item</h1>
+
+<p>Choose the menu item with which this content item should be associated.  Any selection removes existing association, if one exists.</p>
+
+<ul>
+  <% MenuItem.find(:all).each do |mi| -%>
+    <li><%= link_to mi.name, content_item_menu_item_selection_path(@content_item, mi), :method => :put -%></li>
+  <% end -%>
+</ul>

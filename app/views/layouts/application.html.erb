@@ -16,28 +16,16 @@
 
   <%= render_partial "layouts/main_menu" %>
 
-
   <div id="mainContent">
 
-    <% if flash[:error] -%>
-      <div id="errorBox">
-        <p>
-          <%= flash[:error] -%>
-        </p>
-      </div>
-    <% end -%>
+  <%= render_partial "layouts/sub_menu" -%>
 
-    <% if flash[:notice] -%>
-      <div id="noticeBox">
-        <p>
-          <%= flash[:notice] -%>
-        </p>
-      </div>
-    <% end -%>
-
-    <%= yield -%>
+  <%= render_partial "layouts/flashes" -%>
 
 
-    <%= render_partial "layouts/footer" %>
+  <%= yield -%>
 
-    <%= render_partial "layouts/body_end" %>
+  
+  <%= render_partial "layouts/footer" %>
+
+  <%= render_partial "layouts/body_end" %>

@@ -8,9 +8,7 @@
   <li>
     <%= link_to "Content item id #{c.id}", content_item_path(c) -%> 
 
-    <% if logged_in? -%>
-      (<%= link_to "Edit", edit_content_item_path(c) %>)
-    <% end -%>
+    <%= get_valid_item_links(c) -%>
 
   </li>
 <% end -%>

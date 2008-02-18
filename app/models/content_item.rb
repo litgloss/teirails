@@ -35,8 +35,6 @@ class ContentItem < ActiveRecord::Base
 
   # Accepts a 
   def set_system_page_value(value)
-    logger.info("\n\nGONNA set page value #{value}\n\n")
-
     # Filter input before eval, even though RoR is too dumb to care
     # about this.
     if !value =~ /0|1/
@@ -66,7 +64,9 @@ class ContentItem < ActiveRecord::Base
       '<%= render_partial "layouts/header_components" %>' +
       "\n" +
       '<%= render_partial "layouts/main_menu" %>' + "\n" +
-      '<div id="mainContent">' + "\n"
+      '<div id="mainContent">' + "\n" +
+      '<%= render_partial "layouts/sub_menu" -%>' + "\n" +
+      '<%= render_partial "layouts/flashes" -%>'
 
     footer_string = "\n" +
       '<%= render_partial "layouts/footer" %>' + "\n"

@@ -13,7 +13,9 @@ ActionController::Routing::Routes.draw do |map|
   }, :collection => {
     :system => :get,
     :unpublished => :get
-  }
+  } do |content_item|
+    content_item.resources :menu_item_selections
+  end
 
   map.resources :images, :member => {
     :stream => :get

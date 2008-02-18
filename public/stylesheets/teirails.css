@@ -33,7 +33,6 @@ body {
 }
 
 #header_options a {
-    font-color: #000000;
     text-decoration: none;
 }
 
@@ -94,20 +93,17 @@ body {
 /* End IE5-Mac hack */
 
 #submenu {
-    border-width: 1px;
-    border-color: solid;
-    padding: 10px 5px 15px 0px;
+    padding-top: 2px;
 }
 
-ul.submenu{
-    position: absolute;
-    margin: 0px;
+#submenu ul {
+    padding-left: 0px;
 }
 
-ul.submenu li {
+#submenu li {
     display: inline;
-    line-height: 5px;
     padding: 5px;
+    font-size: 1.2em;
 }
 
 #headernav {

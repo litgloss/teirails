@@ -4,8 +4,19 @@ class ContentItemsController < ApplicationController
   layout "layouts/application", :except => [:annotatable, :show]
 
   before_filter :find_content_item, :only => [:edit, :show, :annotatable, 
-                                              :update]
+                                              :update, :list_possible_menu_items,
+                                              :set_menu_item]
 
+  
+  # Shows a list of valid menu items to which this content item
+  # may be attached.
+  def list_possible_menu_items
+  end
+
+  # Sets the menu item with which this content item is associated.
+  def set_menu_item
+    menu_item = MenuItem.find(params[:menu_item_id])
+  end
 
   # Default method for displaying all published content items
   # 
