@@ -1,4 +1,7 @@
 class MenuItem < ActiveRecord::Base
-  has_many :system_pages
+  acts_as_list
+
+  has_many :system_pages, :order => "position"
+
   has_many :content_items, :through => :system_pages
 end

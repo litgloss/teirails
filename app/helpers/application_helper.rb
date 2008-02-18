@@ -1,5 +1,37 @@
 module ApplicationHelper
 
+  # Returns a set of links, joined by a comma, which
+  # allow this element to move up or down in a list.
+  # Input is an element of an object that acts_as_list.
+  def get_movement_links(element)
+    
+    # Raise an exception if this thing isn't a list.
+    if !element.class.ancestors.include?(ActiveRecord::Acts::List)
+      raise Exception.new("Tried to get movement links for a class " + 
+                          "that isn't a list!")
+      return nil
+    end
+    
+    links = []
+
+    if element.first?
+      # Add link to move object to beginning or higher
+      links << move_lower_link(element)
+      links << move_to_bottom_link(element)
+    elsif element.last?
+      links << move_higher_link(element)
+      links << move_to_top_link(element)
+    else
+      # Add links for top, bottom, higher, lower
+      links << move_higher_link(element)
+      links << move_lower_link(element)
+      links << move_to_bottom_link(element)
+      links << move_to_top_link(element)
+    end
+
+    links.join(", ")
+  end
+
   # Makes a link in the main application menu.  Use a style to keep it
   # darker if this is the current page.
   def make_menu_link(controller_name, restful_path_sym, link_text)
@@ -65,7 +97,8 @@ module ApplicationHelper
     current_controller = request.path_parameters['controller']
     current_action = request.path_parameters['action']
 
-    menu_items = MenuItem.find(:all, :conditions => { :visible => true })
+    menu_items = MenuItem.find(:all, :conditions => { :visible => true },
+                               :order => "position")
     
     res = []
 
@@ -132,5 +165,29 @@ module ApplicationHelper
     end
 
     links
+  end
+
+  def move_higher_link(element)
+    path_string = "move_higher_" + element.class.table_name.singularize + 
+      "_path" + "(#{element.id})"
+    link_to("move higher", eval(path_string), :method => :post)
+  end
+
+  def move_lower_link(element)
+    path_string = "move_lower_" + element.class.table_name.singularize + 
+      "_path" + "(#{element.id})"
+    link_to("move lower", eval(path_string), :method => :post)
+  end
+
+  def move_to_top_link(element)
+    path_string = "move_to_top_" + element.class.table_name.singularize + 
+      "_path" + "(#{element.id})"
+    link_to("move to top", eval(path_string), :method => :post)
+  end
+
+  def move_to_bottom_link(element)
+    path_string = "move_to_bottom_" + element.class.table_name.singularize + 
+      "_path" + "(#{element.id})"
+    link_to("move to bottom", eval(path_string), :method => :post)
   end
 end

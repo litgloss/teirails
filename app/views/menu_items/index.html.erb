@@ -5,15 +5,20 @@
   <% if !@menu_items.empty? -%>
     Current menu items are listed below:</p>
 
-<ul>
-  <% @menu_items.each do |m| -%>
-    <li><%= m.name -%> (<%= link_to 'show', menu_item_path(m) -%>, 
-      <%= link_to 'edit', edit_menu_item_path(m) -%>,
-      <%= link_to 'delete', menu_item_path(m),
-	  :confirm => "Are you sure?",
-          :method => :delete -%>)
-    </li>
-  <% end -%>
-</ul>
+<div>
+  <ul>
+    <% @menu_items.each do |m| -%>
+      <li id="item_<%= m.id -%>"><%= m.name -%> 
+	(<%= link_to 'show', 
+	    menu_item_path(m) -%>, 
+	<%= link_to 'edit', edit_menu_item_path(m) -%>,
+	<%= link_to 'delete', menu_item_path(m),
+	    :confirm => "Are you sure?",
+            :method => :delete -%>, 
+	<%= get_movement_links( m ) -%>)
+      </li>
+    <% end -%>
+  </ul>
+</div>
 
 <% end -%>

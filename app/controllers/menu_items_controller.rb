@@ -1,9 +1,10 @@
 class MenuItemsController < ApplicationController
-
-  before_filter :find_menu_item, :only => [:edit, :show, :update, :destroy]
+  before_filter :find_menu_item, :only => [:edit, :show, :update, :destroy,
+                                           :move_higher, :move_lower,
+                                           :move_to_top, :move_to_bottom]
 
   def index
-    @menu_items = MenuItem.find(:all)
+    @menu_items = MenuItem.find(:all, :order => :position)
   end
 
   def new
@@ -21,6 +22,36 @@ class MenuItemsController < ApplicationController
                                                        }))
       return
     end
+  end
+
+  # Moves this element in the list to a higher position.
+  def move_higher
+    @menu_item.move_higher
+    @menu_item.save
+    flash[:notice] = "Element moved higher."
+    redirect_to menu_items_path
+  end
+
+  # Moves this element in the list to a lower position.
+  def move_lower
+    @menu_item.move_lower
+    @menu_item.save
+    flash[:notice] = "Element moved lower."
+    redirect_to menu_items_path
+  end
+
+  def move_to_top
+    @menu_item.move_to_top
+    @menu_item.save
+    flash[:notice] = "Element moved to top."
+    redirect_to menu_items_path
+  end
+
+  def move_to_bottom
+    @menu_item.move_to_bottom
+    @menu_item.save
+    flash[:notice] = "Element moved to bottom."
+    redirect_to menu_items_path
   end
 
   def destroy
@@ -55,4 +86,5 @@ class MenuItemsController < ApplicationController
   def find_menu_item
     @menu_item = MenuItem.find(params[:id])
   end
+
 end
