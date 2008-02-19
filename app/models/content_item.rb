@@ -1,5 +1,8 @@
 require 'rexml/document'
 
+# Content item which stores documents in TEI form.  This 
+# class also contains methods for accessing and manipulating 
+# some teiHeader elements.
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
   self.non_versioned_columns << 'published'
@@ -25,6 +28,11 @@ class ContentItem < ActiveRecord::Base
     jxml_to_erb_string(jxml_string)
   end
 
+  # Sets this object as a "system" content piece, which means 
+  # that it is intended for use under a user-defined menu
+  # item, rather than in the general category of Content Items.
+  # In practice, Content Items which are "system" content are used
+  # for static site pages, like the "About" page.
   def set_as_system_content!
     s = SystemPage.new
     self.system_page = s
@@ -33,7 +41,7 @@ class ContentItem < ActiveRecord::Base
 
   # Returns a XML::Document of this tei_data
   def doc
-    return REXML::Document.new(self.tei_data)
+    REXML::Document.new(self.tei_data)
   end
 
   # Returns the document title, if found, in the XML document
@@ -41,6 +49,24 @@ class ContentItem < ActiveRecord::Base
   def title
     val = XPath.first(doc, '/TEI/teiHeader/fileDesc/titleStmt/title')
     val.text
+  end
+
+  # Returns (currently) the first language in the profileDesc
+  # section of the teiHeader.
+  def primary_language
+    val = XPath.first(doc, '/TEI/teiHeader/profileDesc/langUsage/language')
+    val.text
+  end
+
+  # Returns an array of all languages defined under the profileDesc
+  # section of the teiHeader.
+  def languages
+    languages = []
+    XPath.each(doc, '/TEI/teiHeader/profileDesc/langUsage/language') do |l|
+      languages << l.text
+    end
+    
+    languages
   end
 
   # Returns an array of authors in this content item.
@@ -90,7 +116,7 @@ class ContentItem < ActiveRecord::Base
   # Returns boolean value representing whether or not this
   # item is a system page.
   def has_system_page
-    return !self.system_page.nil?
+    !self.system_page.nil?
   end
 
   # Accepts a 
@@ -141,7 +167,7 @@ class ContentItem < ActiveRecord::Base
       jxml_string.gsub!(/#{s}/, textsubs[s])
     end
 
-    return jxml_string
+    jxml_string
   end
 
   # Returns the contentof this object wih TEI replaced with XHTML.
