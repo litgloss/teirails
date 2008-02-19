@@ -16,13 +16,30 @@
 <%= link_to '[large]', image_path(@image, { :size => "large" } ) -%>
 </p>
 
-<% if logged_in? && @image.creator == current_user -%>
-  <p>
-    <%= link_to 'Delete', { :action => "destroy",
-          :id => @image },
-        :confirm => "Are you sure?",
-        :method => :delete -%> |
 
-    <%= link_to 'Edit', edit_image_path -%>
+<% if logged_in? %>
+  <%= get_management_links(@image) -%></p>
+<% end -%>
+
+
+<%=  -%>
+
+<% if !@image.imageable_type.nil? && 
+       !@image.imageable_id.nil? &&
+       logged_in? && 
+       current_user.can_act_as?("editor") -%>
+  <p>
+    This image is associated with 
+    <%= get_associated_object_show_link(@image) -%>.
+    
+  </p>
+
+  <p>
+    The currently displayed resolution is streamed from the
+    path <%= link_to stream_image_url(@image), stream_image_path(@image) -%>.
+  </p>
+
+  <p>
+    Go <%= link_to 'back to image index', images_url(:imageable_type => @image.imageable_type, :imageable_id => @imageable_id) -%>.
   </p>
 <% end -%>

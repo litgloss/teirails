@@ -1,5 +1,10 @@
 module ApplicationHelper
 
+  # Changes all underscores to spaces in a word.
+  def underscores_to_spaces(term)
+    return term.gsub(/_/, ' ')
+  end
+
   # Returns a set of links, joined by a comma, which
   # allow this element to move up or down in a list.
   # Input is an element of an object that acts_as_list.

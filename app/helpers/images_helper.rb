@@ -11,6 +11,69 @@ module ImagesHelper
     return image_text
   end
 
+  def get_associated_object_show_link(image)
+    controller = eval(image.imageable_type.camelize).table_name.singularize
+
+    # Profiles are a nested route, add prefix for these.
+    if controller =~ /profile/
+      controller = "user_" + controller
+    end
+
+    link_to("#{image.imageable_type} id #{image.imageable_id}", 
+            eval(controller + "_path(" + image.imageable_id.to_s + ")"))
+  end
+
+  def get_associated_object_show_link_from_type_and_id(obj_type, obj_id)
+    controller = eval(obj_type.camelize).table_name.singularize
+
+    # Profiles are a nested route, add prefix for these.
+    if controller =~ /profile/
+      controller = "user_" + controller
+    end
+
+    link_to("#{obj_type} id #{obj_id}", 
+            eval(controller + "_path(" + obj_id.to_s + ")"))
+  end
+
+  # Returns the links that a user is able to use in
+  # order to manage this object, if any.
+  def get_management_links(image)
+    links = []
+    case image.imageable_type
+    when "content_item"
+      if logged_in? 
+        if current_user.can_act_as?("editor")
+          links << link_to('Edit Image', edit_image_path(image))
+        end
+        
+        if current_user.can_act_as?("administrator")
+          links << link_to('Delete Image', { 
+                             :action => "destroy",
+                             :id => image 
+                           },
+                           :confirm => "Are you sure?",
+                           :method => :delete)
+        end
+      end
+      
+    when "profile"
+      if logged_in?
+        if current_user == User.find(image.imageable_id) ||
+          current_user.can_act_as?("administrator")
+          links << link_to('Edit Image', edit_image_path(image))
+          links << link_to('Delete Image', { 
+                             :action => "destroy",
+                             :id => image 
+                           },
+                           :confirm => "Are you sure?",
+                           :method => :delete)
+        end
+      end
+    end
+
+    links.join(" | ")
+  end
+
   def streamed_image_tag(image)
     width = image.width
     height = image.height

@@ -16,9 +16,9 @@ class ImagesController < ApplicationController
     end
 
     if image_to_update.update_attributes(params[:image])
-      #image_to_update.thumbnails.each do |t|
-      #  t.update_attributes(params[:image])
-      #end
+      image_to_update.thumbnails.each do |t|
+        t.update_attributes(params[:image])
+      end
 
       flash[:notice] = 'Image was successfully updated.'
       redirect_to image_path

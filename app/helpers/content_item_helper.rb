@@ -8,6 +8,9 @@ module ContentItemHelper
     if logged_in?
       if current_user.can_act_as?("editor")
         links << link_to("Edit", edit_content_item_path(content_item))
+        links << link_to("Images", 
+                         images_path(:imageable_type => "content_item", 
+                                     :imageable_id => content_item.id))
       end
 
       if content_item.has_system_page &&
