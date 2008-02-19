@@ -9,22 +9,29 @@ class ContentItemsController < ApplicationController
 
   def search
     # If search term is empty, redirect back with error.
-    if params[:search][:term].empty?
+    if params[:term].empty?
       flash[:error] = "Search term empty."
       has_errors = true
     end
 
-    if params[:search][:term].length > 20
+    # If there are invalid characters in term, send error.
+    if !(params[:term] =~ /[a-zA-Z0-9 ]+/)
+      flash[:error] = "Search string can only contain alphanumeric " +
+        "characters and spaces, please try again."
+      has_errors = true
+    end
+
+    if params[:term].length > 20
       flash[:error] = "Search term longer than 20 characters."
       has_errors = true
     end
 
     # Check that we have at least one search criteria.
-    search_parts = [:titles, :authors, :contents]
+    search_parts = [:titles, :authors, :bodies]
 
     has_search_part = false
     search_parts.each do |s| 
-      if params[:search][s] == true
+      if params.include?(s)
         has_search_part = true
       end
     end
@@ -43,12 +50,12 @@ class ContentItemsController < ApplicationController
     # to search routine.
     parts_to_search = []
     search_parts.each do |s|
-      if params[:search][s] == true
+      if params.include?(s)
         parts_to_search << s
       end
     end
 
-    @term = params[:search][:term]
+    @term = params[:term]
     @content_items = get_content_items_with_filter('search', @term, 
                                                    parts_to_search)
   end
@@ -105,10 +112,8 @@ class ContentItemsController < ApplicationController
       # Return list of content items that user is allowed to 
       # view in all categories that we received in the search_symbols
       # ary.
-      ContentItem.each do |c|
-        
-      end
-
+      content_items = ContentItem.find_matching(search_term, 
+                                                search_symbols)
     else
       content_items = ContentItem.find(:all)
 

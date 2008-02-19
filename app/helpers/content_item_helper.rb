@@ -30,7 +30,18 @@ module ContentItemHelper
     if !content_item.authors.empty?
       content_item.authors.join(", ")
     else
-      "Author Unknown"
+      "Unknown Author"
+    end
+  end
+
+  # Wraps the title method of the content item
+  # so that "Unknown Title" shows up in cases
+  # where it doesn't exist in the TEI.
+  def get_title(content_item)
+    if content_item.title.nil? || content_item.title.empty?
+      "Unkown Title"
+    else
+      content_item.title
     end
   end
 end

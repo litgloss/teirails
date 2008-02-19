@@ -2,6 +2,6 @@
 
 <ul>
 <% @content_items.each do |ci| -%>
-  <li><%= link_to ci.title, content_item_path(ci) -%> by <%= get_authors(ci) -%></li>
+  <li><%= link_to get_title(ci), content_item_path(ci) -%> by <%= get_authors(ci) -%></li>
 <% end -%>
 </ul>

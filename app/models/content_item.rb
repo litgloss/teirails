@@ -50,7 +50,7 @@ class ContentItem < ActiveRecord::Base
     val = XPath.first(doc, '/TEI/teiHeader/fileDesc/titleStmt/title')
 
     if val.nil? || val.text.nil?
-      "Unknown Title"
+      ""
     else
       val.text
     end
@@ -86,6 +86,11 @@ class ContentItem < ActiveRecord::Base
     end
     
     authors
+  end
+
+  # Returns the contents of the document body.
+  def body
+    return XPath.first(doc, '/TEI/text/body')
   end
 
   # Add an author to the TEI header.
@@ -152,21 +157,69 @@ class ContentItem < ActiveRecord::Base
     end
   end
 
+  # Returns a set of content items matching this term
+  # in the specified fields.
+  def ContentItem.find_matching(search_term, search_fields)
+    content_items = []
+
+    search_fields.each do |s|
+      case s
+      when :titles
+        ContentItem.find(:all).each do |c|
+          if c.title =~ /#{search_term}/i
+            if !content_items.include?(c)
+              content_items << c
+            end
+          end
+        end
+
+      when :authors
+        ContentItem.find(:all).each do |c|
+          c.authors.each do |a|
+            if a =~ /#{search_term}/i
+              if !content_items.include?(c)
+                content_items << c
+              end
+            end
+          end
+        end
+
+      when :bodies
+        logger.info("\n\nDoing body scan.\n\n")
+        ContentItem.find(:all).each do |c|
+          if c.body.to_s =~ /#{search_term}/i
+            if !content_items.include?(c)
+              content_items << c
+            end
+          end
+        end
+      end
+
+    end
+    
+    content_items
+  end
+  
   def readable_by?(user)
     
     return case 
-             
-           when self.published && !self.protected then 
+       
+           when self.has_system_page && self.published?
+             # We don't care about "protected" property on system
+             # pages right now.
              true
              
-           when self.published && !self.protected then
+           when self.published? && !self.protected? then 
+             true
+             
+           when self.published? && !self.protected? then
              (user.class == User)
              
-           when self.published && self.protected then
+           when self.published? && self.protected? then
              (user.class == User) && 
                (user.can_act_as?("protected_item_viewer"))
              
-           when !self.published
+           when !self.published?
              user.can_act_as?("editor")
 
            else

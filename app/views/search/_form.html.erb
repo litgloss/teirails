@@ -1,14 +1,13 @@
-<%= f.label :term -%>
-<%= f.text_field :term, :size => "20", :maxsize => "20" %><br />
+<%= label_tag("Search Term", :term) -%>
+<%= text_field_tag :term, nil, :size => 20, :maxlength => 20 %><br />
 
+<%= label_tag("Search Titles", :titles) -%>
+<%= check_box_tag :titles, nil, true %><br />
 
-<%= f.label :titles -%>
-<%= f.check_box :titles, :checked => 'checked' %><br />
-
-<%= f.label :authors -%>
-<%= f.check_box :authors %><br />
+<%= label_tag("Search Authors", :authors) -%>
+<%= check_box_tag :authors, nil %><br />
 
 <% if logged_in? -%>
-  <%= f.label :contents -%>
-  <%= f.check_box :contents %><br />
+  <%= label_tag("Search Document Bodies", :bodies) -%>
+  <%= check_box_tag :bodies, nil %><br />
 <% end -%>

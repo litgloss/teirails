@@ -1,8 +1,9 @@
 <h2>Search Contents</h2>
 
-<% form_for :search, :url => search_content_items_path, :html => { :method => :get } do |f| -%>
+<%= form_tag search_content_items_url, 
+    :method => :get -%>
 
-  <%= render :partial => 'form', :locals => { :f => f } -%>
+  <%= render :partial => 'form' -%>
 
   <p class="form">
     <%= submit_tag 'Search Contents' %>
@@ -10,5 +11,4 @@
   
   <br />
 
-<% end -%>
-
+</form>

@@ -138,6 +138,13 @@ module ApplicationHelper
     res.join("\n")
   end
 
+  # There was a patch for label_tag to the rails core,
+  # but it was only on Jan 14 2008... until it's included, we'll
+  # use our own.
+  def label_tag(label, for_element)
+    "<label for=\"#{for_element}\">#{label}</label>"
+  end
+
   protected
   # This is "weird," but we have to insert span tags
   # inside of the URL.  Use a regex, fix if this breaks.
