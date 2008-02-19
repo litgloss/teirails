@@ -43,6 +43,30 @@ class ContentItem < ActiveRecord::Base
     val.text
   end
 
+  # Returns an array of authors in this content item.
+  def authors
+    authors = []
+    XPath.each(doc, '/TEI/teiHeader/fileDesc/titleStmt/author') do |a|
+      authors << a.text
+    end
+    
+    authors
+  end
+
+  # Add an author to the TEI header.
+  def add_author(author)
+    mydoc = self.doc
+
+    new_author_elt = Element.new('author')
+    new_author_elt.text = author
+
+    titlestmt = XPath.first(mydoc, '/TEI/teiHeader/fileDesc/titleStmt')
+    titlestmt.add_element(new_author_elt)
+
+    self.tei_data = mydoc.to_s
+    self.save
+  end
+
   # Set the value of the title field and save resulting TEI 
   # document to body.
   def title=(val)

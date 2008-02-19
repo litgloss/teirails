@@ -182,7 +182,7 @@ module ApplicationHelper
       end
 
       cis.each do |c|
-        links << link_to("ci id #{c.id}", content_item_path(c))
+        links << link_to(c.title, content_item_path(c))
       end
     end
 

@@ -24,4 +24,9 @@ module ContentItemHelper
       end
   end
 
+  
+  # Returns a string of authors separated by commas
+  def get_authors(content_item)
+    content_item.authors.join(", ")
+  end
 end
