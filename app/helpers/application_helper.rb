@@ -154,7 +154,9 @@ module ApplicationHelper
         !@content_item.system_page.menu_item.nil?
       links = get_menu_item_submenu_links(true)
     else
-      links << "ci submenu"
+      links << get_ci_submenu_by_author_link
+      links << get_ci_submenu_by_language_link
+      links << get_ci_submenu_by_title_link
     end
 
     links
@@ -207,5 +209,39 @@ module ApplicationHelper
   def move_to_bottom_link(element, restful_part, id_string)
     path_string = "move_to_bottom_" + restful_part + "(#{id_string})"
     link_to("move to bottom", eval(path_string), :method => :post)
+  end
+
+  # Used to maintain a filter that was applied previously on content 
+  # items through state changes.
+  def get_previous_filter
+    if params[:filter]
+      action = params[:filter]
+    else
+      action = request.path_parameters['action']
+    end
+
+    no_param_actions = [ "index", "by_author", "by_language", "by_title" ]
+
+    if no_param_actions.include?(action)
+      return { }
+    else
+      return { :filter => action }
+    end
+  end
+
+  def get_ci_submenu_by_author_link
+    link_to "by author", by_author_content_items_url(get_previous_filter)
+  end
+
+  def get_ci_submenu_by_language_link
+    action = request.path_parameters['action']
+
+    link_to "by language", by_language_content_items_path(get_previous_filter)
+  end
+
+  def get_ci_submenu_by_title_link
+    action = request.path_parameters['action']
+
+    link_to "by title", by_title_content_items_path(get_previous_filter)
   end
 end

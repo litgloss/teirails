@@ -55,7 +55,11 @@ class ContentItem < ActiveRecord::Base
   # section of the teiHeader.
   def primary_language
     val = XPath.first(doc, '/TEI/teiHeader/profileDesc/langUsage/language')
-    val.text
+    if !val.nil?
+      val.text
+    else
+      nil
+    end
   end
 
   # Returns an array of all languages defined under the profileDesc

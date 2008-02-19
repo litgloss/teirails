@@ -1,0 +1,7 @@
+<h1>Content Items by Title</h1>
+
+<ul>
+<% @content_items.each do |ci| -%>
+  <li><%= link_to ci.title, content_item_path(ci) -%> by <%= get_authors(ci) -%></li>
+<% end -%>
+</ul>

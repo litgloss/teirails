@@ -12,7 +12,11 @@ ActionController::Routing::Routes.draw do |map|
     :annotatable => :get
   }, :collection => {
     :system => :get,
-    :unpublished => :get
+    :unpublished => :get,
+    :by_author => :get,
+    :by_title => :get,
+    :by_language => :get
+
   } do |content_item|
     content_item.resources :menu_item_selections
   end

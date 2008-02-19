@@ -22,27 +22,59 @@ class ContentItemsController < ApplicationController
     @title = "Public Content Items"
   end
 
+  # Prints index of content items passed to us
+  # sorted by title.
+  def by_title
+
+    # Return content item array sorted alphabetically 
+    # according to title.
+    
+    @content_items = get_content_items_with_filter(params[:filter])
+
+    @content_items.sort! { |a, b| a.title.downcase <=> b.title.downcase }
+  end
+
+
+  # Returns a set of content items suitable for
+  # display with this filter setting.  First parameter
+  # to this method is the filter received.
+  def get_content_items_with_filter(filter = nil, value = nil)
+    content_items = nil
+
+    case filter
+    when "system"
+      content_items = []
+      ContentItem.find(:all).each do |c|
+        if c.has_system_page
+          content_items << c
+        end
+      end
+      
+    when "unpublished"
+      content_items = ContentItem.find(:all, :conditions => {
+                                          :published => false
+                                        })
+      
+    else
+      content_items = ContentItem.find(:all)
+
+    end
+
+    content_items
+  end
+
   # Display unpublished content items.
   def unpublished
     @title = "Unpublished Content Items"
-    @content_items = ContentItem.find(:all, :conditions => {
-                            :published => false
-                          })
-    
+    @content_items = get_content_items_with_filter("unpublished")
+
     render :template => "content_items/index"
   end
-
 
   # Display system content items.
   def system
     @title = "System Content Items"
-
-    @content_items = []
-    ContentItem.find(:all).each do |c|
-      if c.has_system_page
-        @content_items << c
-      end
-    end
+    @content_items = get_content_items_with_filter("system")
 
     render :template => "content_items/index"
   end
@@ -120,7 +152,61 @@ class ContentItemsController < ApplicationController
   end
 
 
+  # Prints index of content items passed to us
+  # sorted by author.
+  def by_author
+
+    # Build a hash of unique authors, with keys being
+    # content item objects.
+
+    @content_items = {}
+
+    ci_array = get_content_items_with_filter(params[:filter])
+    
+    ci_array.each do |ci|
+      author = ci.authors[0] || "Unknown Author"
+      if !@content_items.keys.include?(author)
+        @content_items[author] = []
+      end
+      
+      @content_items[author] << ci
+    end
+
+    @content_item_ary = @content_items.to_a.sort!
+  end
+
+  # Prints index of content items passed to us
+  # sorted by language.
+  def by_language
+
+    # Build a hash of unique languages, with keys being
+    # content item objects.
+
+    @content_items = {}
+
+    ci_array = get_content_items_with_filter(params[:filter])
+    
+    ci_array.each do |ci|
+      language = ci.primary_language || "Unknown Language"
+      if !@content_items.keys.include?(language)
+        @content_items[language] = []
+      end
+      
+      @content_items[language] << ci
+    end
+
+    @content_item_ary = @content_items.to_a.sort
+  end
+
+
   protected
+  
+  # Sorting code from the ruby-talk mailing list:
+  # http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/197213
+  def sort_hash_by_key(hashtable)
+    hashtable.keys.sort_by {|s| s.to_s}.map {|key| [key, hashtable[key]] }
+  end
+
   def find_content_item
     @content_item = ContentItem.find(params[:id])    
   end
@@ -168,4 +254,5 @@ class ContentItemsController < ApplicationController
     
     @content_item.save!
   end
+
 end

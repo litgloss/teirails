@@ -27,6 +27,10 @@ module ContentItemHelper
   
   # Returns a string of authors separated by commas
   def get_authors(content_item)
-    content_item.authors.join(", ")
+    if !content_item.authors.empty?
+      content_item.authors.join(", ")
+    else
+      "Author Unknown"
+    end
   end
 end
