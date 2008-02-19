@@ -25,6 +25,7 @@ class CreateUserRoles < ActiveRecord::Migration
     
     UserRole.create :name => 'administrator', :level => 10
     UserRole.create :name => 'editor', :level => 20
+    UserRole.create :name => 'protected_item_viewer', :level => 25
     UserRole.create :name => 'user', :level => 30
 
     # Modify the user model to accept the user_role id.

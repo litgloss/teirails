@@ -1,0 +1,14 @@
+<%= f.label :term -%>
+<%= f.text_field :term, :size => "20", :maxsize => "20" %><br />
+
+
+<%= f.label :titles -%>
+<%= f.check_box :titles, :checked => 'checked' %><br />
+
+<%= f.label :authors -%>
+<%= f.check_box :authors %><br />
+
+<% if logged_in? -%>
+  <%= f.label :contents -%>
+  <%= f.check_box :contents %><br />
+<% end -%>

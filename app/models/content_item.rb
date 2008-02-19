@@ -48,7 +48,12 @@ class ContentItem < ActiveRecord::Base
   # header.
   def title
     val = XPath.first(doc, '/TEI/teiHeader/fileDesc/titleStmt/title')
-    val.text
+
+    if val.nil? || val.text.nil?
+      "Unknown Title"
+    else
+      val.text
+    end
   end
 
   # Returns (currently) the first language in the profileDesc
@@ -147,6 +152,42 @@ class ContentItem < ActiveRecord::Base
     end
   end
 
+  def readable_by?(user)
+    
+    return case 
+             
+           when self.published && !self.protected then 
+             true
+             
+           when self.published && !self.protected then
+             (user.class == User)
+             
+           when self.published && self.protected then
+             (user.class == User) && 
+               (user.can_act_as?("protected_item_viewer"))
+             
+           when !self.published
+             user.can_act_as?("editor")
+
+           else
+             false
+
+           end
+  end
+
+  # Given an array of content items and a user, returns the
+  # array of content items that this user has access to.
+  def ContentItem.filter_content_item_ary_by_user_level(content_items, user)
+    new_cis = []
+    content_items.each do |c|
+      if c.readable_by?(user)
+        new_cis << c
+      end
+    end
+
+    return new_cis
+  end
+
   private
 
   def jxml_to_erb_string(jxml_string)
@@ -199,4 +240,5 @@ class ContentItem < ActiveRecord::Base
       return text
     end
   end
+
 end

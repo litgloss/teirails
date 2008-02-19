@@ -6,18 +6,63 @@ class ContentItemsController < ApplicationController
   before_filter :find_content_item, :only => [:edit, :show, :annotatable, 
                                               :update]
 
+
+  def search
+    # If search term is empty, redirect back with error.
+    if params[:search][:term].empty?
+      flash[:error] = "Search term empty."
+      has_errors = true
+    end
+
+    if params[:search][:term].length > 20
+      flash[:error] = "Search term longer than 20 characters."
+      has_errors = true
+    end
+
+    # Check that we have at least one search criteria.
+    search_parts = [:titles, :authors, :contents]
+
+    has_search_part = false
+    search_parts.each do |s| 
+      if params[:search][s] == true
+        has_search_part = true
+      end
+    end
+
+    unless has_search_part
+      flash[:error] = "Search failed: You need to check at least one box below."
+      has_errors = true
+    end
+
+    if has_errors
+      redirect_to search_path
+      return
+    end
+
+    # Build array of parts we're searching for to send
+    # to search routine.
+    parts_to_search = []
+    search_parts.each do |s|
+      if params[:search][s] == true
+        parts_to_search << s
+      end
+    end
+
+    @term = params[:search][:term]
+    @content_items = get_content_items_with_filter('search', @term, 
+                                                   parts_to_search)
+  end
   
   # Default method for displaying all published content items
   # 
   def index
-    cis = ContentItem.find(:all, :conditions => {
-                            :published => true
-                          })
-
-    @content_items = []
-    cis.each do |c|
-      @content_items << c unless c.has_system_page
-    end
+    @content_items = ContentItem.find(:all, :conditions => {
+                                        :published => true
+                                      })
+    
+    @content_items = 
+      ContentItem.filter_content_item_ary_by_user_level(@content_items, 
+                                                        current_user)
 
     @title = "Public Content Items"
   end
@@ -38,7 +83,8 @@ class ContentItemsController < ApplicationController
   # Returns a set of content items suitable for
   # display with this filter setting.  First parameter
   # to this method is the filter received.
-  def get_content_items_with_filter(filter = nil, value = nil)
+  def get_content_items_with_filter(filter = nil, search_term = nil,
+                                    search_symbols = nil)
     content_items = nil
 
     case filter
@@ -55,12 +101,21 @@ class ContentItemsController < ApplicationController
                                           :published => false
                                         })
       
+    when "search"
+      # Return list of content items that user is allowed to 
+      # view in all categories that we received in the search_symbols
+      # ary.
+      ContentItem.each do |c|
+        
+      end
+
     else
       content_items = ContentItem.find(:all)
 
     end
 
-    content_items
+    ContentItem.filter_content_item_ary_by_user_level(content_items, 
+                                                      current_user)
   end
 
   # Display unpublished content items.
@@ -242,6 +297,7 @@ class ContentItemsController < ApplicationController
   # and published.
   def set_content_item_properties
     @content_item.published = params[:content_item][:published]
+    @content_item.protected = params[:content_item][:protected]
 
     begin
       @content_item.

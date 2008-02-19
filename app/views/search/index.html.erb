@@ -1,3 +1,14 @@
 <h2>Search Contents</h2>
 
-<p>Not yet implemented.</p>
+<% form_for :search, :url => search_content_items_path, :html => { :method => :get } do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+  <p class="form">
+    <%= submit_tag 'Search Contents' %>
+  </p>
+  
+  <br />
+
+<% end -%>
+

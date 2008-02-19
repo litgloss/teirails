@@ -6,6 +6,10 @@ class CreateContentItems < ActiveRecord::Migration
       t.integer :creator_id
       t.boolean :published, :default => false
 
+      # Item is protected for copyright or other reason.
+      # If this is the case, user must have at least role of 
+      # "protected item viewer" or higher to see it.
+      t.boolean :protected, :default => false
       t.timestamps
     end
   end

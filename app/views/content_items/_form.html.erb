@@ -4,6 +4,9 @@
 <%= f.label(:published) -%>
 <%= f.check_box(:published) -%><br />
 
+<%= f.label(:protected) -%>
+<%= f.check_box(:protected) -%><br />
+
 
 <% if current_user.can_act_as?("administrator") -%>
   <%= label(:system, "System content item") -%>
