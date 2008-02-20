@@ -135,6 +135,7 @@ class User < ActiveRecord::Base
   def forgot_password
     @forgotten_password = true
     self.make_password_reset_code
+    UserMailer.deliver_forgot_password(self)
   end
   
   def reset_password
@@ -158,12 +159,6 @@ class User < ActiveRecord::Base
       ['email = ? and activation_code IS NULL', email]
   end
 
-
-  #def make_activation_code
-  #  self.deleted_at = nil
-  #  self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-  #  self.save!
-  #end
 
   protected
     # before filter
@@ -190,7 +185,6 @@ class User < ActiveRecord::Base
     def make_password_reset_code
       self.password_reset_code = 
         Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+      self.save
     end
-    
-
 end

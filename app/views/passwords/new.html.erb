@@ -1,0 +1,17 @@
+<h1>Forgot Password</h1>
+
+<p>Enter the email address that you used when registering your account.  We will use it to send you an email that will allow you to create a new password.</p>
+
+<% form_tag url_for(:action => 'create') do %>
+  <%= label_tag :email, 
+      "What is the email address used to create your account?" -%>
+
+  <%= text_field_tag :email, "", :size => 20 %><br />
+
+  <p>
+    <%= submit_tag 'Reset Password' %>
+  </p>
+
+  <br />
+<% end %>
+

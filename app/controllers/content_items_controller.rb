@@ -45,10 +45,18 @@ class ContentItemsController < ApplicationController
   # Default method for displaying all published content items
   # 
   def index
-    @content_items = ContentItem.find(:all, :conditions => {
-                                        :published => true
-                                      })
+    cis = ContentItem.find(:all, :conditions => {
+                             :published => true
+                           })
     
+    @content_items = []
+
+    cis.each do |c|
+      if !c.has_system_page
+        @content_items << c
+      end
+    end
+
     @content_items = 
       ContentItem.filter_content_item_ary_by_user_level(@content_items, 
                                                         current_user)
