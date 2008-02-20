@@ -15,7 +15,7 @@ class ContentItemsController < ApplicationController
     end
 
     # If there are invalid characters in term, send error.
-    if !(params[:term] =~ /[a-zA-Z0-9 ]+/)
+    if !(params[:term] =~ /^[a-zA-Z0-9 ]+$/)
       flash[:error] = "Search string can only contain alphanumeric " +
         "characters and spaces, please try again."
       has_errors = true
