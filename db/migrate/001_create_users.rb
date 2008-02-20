@@ -13,6 +13,8 @@ class CreateUsers < ActiveRecord::Migration
       t.column :activated_at, :datetime
       t.column :state, :string, :null => :no, :default => 'passive'
       t.column :deleted_at, :datetime
+
+
     end
   end
 

@@ -17,7 +17,7 @@ class UserMailer < ActionMailer::Base
     def setup_email(user)
       @recipients  = "#{user.email}"
       @from        = "justin@phq.org"
-      @subject     = "[LitRails] "
+      @subject     = SystemSetting.get("site_name") + " "
       @sent_on     = Time.now
       @body[:user] = user
     end

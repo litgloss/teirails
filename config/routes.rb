@@ -58,6 +58,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
+  map.resources :passwords
+
   ###
   # Map certain URLs to more intuitive paths.
   ###
@@ -67,6 +69,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.activate '/activate/:activation_code', :controller =>
     'users', :action => 'activate'
+
+  map.forgot_password '/forgot_password', :controller => 
+    'passwords', :action => 'new'
+
+  map.reset_password '/reset_password/:id', :controller => 
+    'passwords', :action => 'edit'
+
+  map.change_password '/change_password', :controller => 
+    'accounts', :action => 'edit'
+
 
   map.resource :search, :controller => :search
 
