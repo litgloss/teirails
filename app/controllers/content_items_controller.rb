@@ -27,16 +27,7 @@ class ContentItemsController < ApplicationController
     end
 
     # Check that we have at least one search criteria.
-    search_parts = [:titles, :authors, :bodies]
-
-    has_search_part = false
-    search_parts.each do |s| 
-      if params.include?(s)
-        has_search_part = true
-      end
-    end
-
-    unless has_search_part
+    unless has_search_part?
       flash[:error] = "Search failed: You need to check at least one box below."
       has_errors = true
     end
@@ -46,18 +37,9 @@ class ContentItemsController < ApplicationController
       return
     end
 
-    # Build array of parts we're searching for to send
-    # to search routine.
-    parts_to_search = []
-    search_parts.each do |s|
-      if params.include?(s)
-        parts_to_search << s
-      end
-    end
 
     @term = params[:term]
-    @content_items = get_content_items_with_filter('search', @term, 
-                                                   parts_to_search)
+    @content_items = get_content_items_with_filter('search')
   end
   
   # Default method for displaying all published content items
@@ -112,8 +94,8 @@ class ContentItemsController < ApplicationController
       # Return list of content items that user is allowed to 
       # view in all categories that we received in the search_symbols
       # ary.
-      content_items = ContentItem.find_matching(search_term, 
-                                                search_symbols)
+      content_items = ContentItem.find_matching(params[:term],
+                                                get_search_parts)
     else
       content_items = ContentItem.find(:all)
 
@@ -169,18 +151,16 @@ class ContentItemsController < ApplicationController
         ActionController::UploadedStringIO.new.class
 
       tei_data = params[:content_item][:tei_data].read
-      
+    
       if validate_tei(tei_data)
         @content_item.tei_data = tei_data
-        @content_item.save!
+        set_content_item_properties
       else
         flash[:error] = "TEI validation failed."
         redirect_to edit_content_item_path(@content_item)
         return
       end
     end
-    
-    set_content_item_properties
 
     redirect_to content_item_path(@content_item)
   end
@@ -191,17 +171,14 @@ class ContentItemsController < ApplicationController
     tei_data = params[:content_item][:tei_data].read
 
     if !validate_tei(tei_data)
+      flash[:notice] = "Data failed TEI validation, unable to save."
       redirect_to new_content_item_path
     else
       @content_item.tei_data = tei_data
-      if @content_item.save
-        set_content_item_properties
-        flash[:notice] = 'Content item was successfully created.'
-        redirect_to content_item_path(@content_item)
-      else
-        flash[:notice] = "Failed to save new tei data."
-        redirect_to new_content_item_path 
-      end
+      set_content_item_properties
+
+      flash[:notice] = 'Content item was successfully created.'
+      redirect_to content_item_path(@content_item)
     end
   end
 
@@ -210,7 +187,6 @@ class ContentItemsController < ApplicationController
       redirect_to content_items_path
     end
   end
-
 
   # Prints index of content items passed to us
   # sorted by author.
@@ -314,6 +290,32 @@ class ContentItemsController < ApplicationController
     end
     
     @content_item.save!
+  end
+
+  def get_search_parts
+    possible_parts = [:titles, :authors, :bodies]
+    parts_to_search = []
+
+    possible_parts.each do |s|
+      if params.include?(s)
+        parts_to_search << s
+      end
+    end
+
+    parts_to_search
+  end
+
+  def has_search_part?
+    search_parts = [:titles, :authors, :bodies]
+    
+    has_sp = false
+    search_parts.each do |s|
+      if params.include?(s)
+        search_parts = true
+      end
+    end
+    
+    search_parts
   end
 
 end

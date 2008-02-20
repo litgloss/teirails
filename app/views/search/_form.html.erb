@@ -10,4 +10,6 @@
 <% if logged_in? -%>
   <%= label_tag("Search Document Bodies", :bodies) -%>
   <%= check_box_tag :bodies, nil %><br />
+<% else -%>
+  Search on text in document bodies is only allowed for authenticated users.<br />
 <% end -%>

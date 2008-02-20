@@ -11,6 +11,8 @@ module ContentItemHelper
         links << link_to("Images", 
                          images_path(:imageable_type => "content_item", 
                                      :imageable_id => content_item.id))
+        links << link_to("Versions", 
+                         content_item_versions_path(content_item))
       end
 
       if content_item.has_system_page &&

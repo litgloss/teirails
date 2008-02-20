@@ -3,5 +3,12 @@
 </h1>
 
 <p>
-  Value:<<%= @system.setting.value -%>
+  Value:  <%= @system_setting.value -%>
 </p>
+
+<p>
+  <%= link_to "Back to system setting index", system_settings_path -%> |
+  <%= link_to "Edit this setting", edit_system_setting_path(@system_setting) -%> |
+  <%= link_to 'Delete this setting', system_setting_path(@system_setting),
+            :confirm => "Are you sure?",
+            :method => :delete -%>

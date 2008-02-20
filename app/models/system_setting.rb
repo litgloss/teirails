@@ -5,28 +5,22 @@
 class SystemSetting < ActiveRecord::Base
   validates_uniqueness_of :key
 
-  # Gets the key with the value passed to us in the first parameter.
+  # Returns the value of a system setting with the specified key
   def SystemSetting.get(key)
-    record = SystemSetting.find_by_key(name)
-
-    if record.nil?
-      return nil
+    if !SystemSetting.find_by_key(key).nil?
+      return SystemSetting.find_by_key(key).value
     else
-      return Marshal.load(record.value)      
+      return nil
     end
   end
 
-  # Sets the key (parameter 1) to value (parameter 2).
-  def SystemSetting.set(key, value, label = nil)
-    record = SystemSetting.find_by_key(key)
-    
-    if record.nil?
-      record = SystemSetting.new(:key => key)
+  # Returns the value of a label with the specified key
+  def SystemSetting.label(key)
+    if !SystemSetting.find_by_key(key).nil?
+      return SystemSetting.find_by_key(key).label
+    else
+      return nil
     end
-    
-    record.value = Marshal.dump(value)
-
-    record.save!
   end
 end
 

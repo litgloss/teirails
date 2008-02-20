@@ -1,3 +1,18 @@
 <h1>System Settings Index</h1>
 
-<p>Not implemented.</p>
+<p>System settings:</p>
+
+<ul>
+  <% SystemSetting.find(:all).each do |ss| -%>
+    <li>
+      <abbr title="<%= ss.label -%>"><%= ss.key -%> => <%= ss.value -%></abbr>
+      (<%= link_to "Show", system_setting_path(ss) -%>, 
+      <%= link_to "Edit", edit_system_setting_path(ss) -%>, 
+  <%= link_to 'Delete', system_setting_path(ss),
+            :confirm => "Are you sure?",
+            :method => :delete -%>
+)</li>
+  <% end -%>
+</ul>
+
+<p><%= link_to 'Create a new setting', new_system_setting_path -%></p>

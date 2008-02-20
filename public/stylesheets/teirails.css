@@ -106,6 +106,17 @@ body {
     font-size: 1.2em;
 }
 
+#submenu a:visited {
+    color: #000000;
+    text-decoration: none
+}
+
+#submenu a:link {
+    text-decoration: none;
+    color: #000000;
+}
+
+
 #headernav {
     clear: both;
     padding: 0 0 26px 0em;
@@ -180,13 +191,19 @@ ul.thumbnailImages li {
 }
 
 .fieldWithErrors {
-  padding: 2px;
-  background-color: #760404;
-  display: table;
+  /* padding: 2px; */
+  color: #760404;
+  /* display: table; */
 }
 
 #footerText {
     font-size: .8em;
+}
+
+#errorExplanation {
+    background-color: #f5f5f5;
+    padding: 4px;
+    margin-bottom: 5px;
 }
 
 /* BEGIN css for form layout */

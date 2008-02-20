@@ -237,7 +237,11 @@ module ApplicationHelper
     if no_param_actions.include?(action)
       return { }
     else
-      return { :filter => action }
+      if action.eql?("search")
+        return get_search_field_params
+      else
+        return { :filter => action }
+      end
     end
   end
 
@@ -255,5 +259,22 @@ module ApplicationHelper
     action = request.path_parameters['action']
 
     link_to "by title", by_title_content_items_path(get_previous_filter)
+  end
+
+  def get_search_field_params
+    search_parts = [:titles, :authors, :bodies]
+    search_params = { }
+
+    search_parts.each do |sp|
+      if params.include?(sp)
+        search_params[sp] = 'on'
+      end
+    end
+
+    search_params[:term] = params[:term]
+
+    search_params[:filter] = "search"
+
+    return search_params
   end
 end
