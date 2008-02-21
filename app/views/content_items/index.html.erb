@@ -7,7 +7,9 @@
 <% @content_items.each do |c| -%>
   <li>
 
-    <%= link_to get_title(c), content_item_path(c) -%> (<%= link_to "XML", formatted_content_item_path(c, 'xml') -%>) by <%= get_authors(c) -%>
+    <%= link_to get_title(c), content_item_path(c) -%> 
+    (<%= link_to "XML", formatted_content_item_path(c, 'xml') -%>) by 
+    <%= get_authors(c) -%>
 
     <%= get_valid_item_links(c) -%>
 

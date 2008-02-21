@@ -1,4 +1,25 @@
 module ContentItemHelper
+
+  def get_content_item_type(content_item)
+    results = []
+
+    if content_item.private_clone?
+      results << "private clone"
+    else
+      if content_item.published?
+        results << "published"
+      else
+        results << "private"
+      end
+
+      if content_item.has_system_page
+        results << "system page"
+      end
+    end
+    
+    return results.join(", ")
+
+  end
   
   # Returns the links that can be used to modify this content
   # item for a given user.
