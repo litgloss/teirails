@@ -228,6 +228,20 @@ class ContentItem < ActiveRecord::Base
            end
   end
 
+  # Given an array of content items, removes those that have system
+  # pages.
+  def ContentItem.remove_system_content_items(content_items)
+    new_content_items = []
+
+    content_items.each do |c|
+      if !c.has_system_page
+        new_content_items << c
+      end
+    end
+    
+    new_content_items
+  end
+
   # Given an array of content items and a user, returns the
   # array of content items that this user has access to.
   def ContentItem.filter_content_item_ary_by_user_level(content_items, user)

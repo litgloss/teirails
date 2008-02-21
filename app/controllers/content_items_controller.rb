@@ -97,16 +97,21 @@ class ContentItemsController < ApplicationController
       content_items = ContentItem.find(:all, :conditions => {
                                           :published => false
                                         })
-      
+
+      content_items = ContentItem.remove_system_content_items(content_items)
+
     when "search"
       # Return list of content items that user is allowed to 
       # view in all categories that we received in the search_symbols
       # ary.
       content_items = ContentItem.find_matching(params[:term],
                                                 get_search_parts)
-    else
-      content_items = ContentItem.find(:all)
 
+      content_items = ContentItem.remove_system_content_items(content_items)
+    else
+      content_items = ContentItem.find(:all, :conditions => 
+                                       { :published => true } )
+      content_items = ContentItem.remove_system_content_items(content_items)
     end
 
     ContentItem.filter_content_item_ary_by_user_level(content_items, 
