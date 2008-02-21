@@ -159,7 +159,18 @@ class User < ActiveRecord::Base
       ['email = ? and activation_code IS NULL', email]
   end
 
+  # Returns an array of the content items belonging to this
+  # user.
+  def cloned_content_items
+    conditions = 'parent_id != \'NULL\' AND ' +
+      'creator_id = ?'
 
+    return ContentItem.find( :all, 
+                             :conditions => [ conditions,
+                                              self.id ]
+                             )
+  end
+  
   protected
     # before filter
     def encrypt_password

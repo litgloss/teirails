@@ -19,8 +19,29 @@
 
 <% if @profile.user == current_user -%>
   <% if @profile.image.nil? -%>
-    <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %></p>
+    <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %>.</p>
   <% end -%>
 
   <p><%= link_to 'Edit your profile?', edit_user_profile_path -%></p>
+
+  <% if !@cloned_content_items.empty? -%>
+    <h2>Cloned Documents</h2>
+
+    <p>You have <%= @cloned_content_items.size -%> cloned content items.</p>
+
+    <ul>
+      <% @cloned_content_items.each do |cci| -%>
+	<li>
+	  <%= link_to cci.title, content_item_path(cci) -%> 
+	  (<%= link_to "Show Clone Properties", content_item_clone_path(cci.parent, cci) -%>,
+	<%= link_to 'Delete clone', content_item_path(cci),
+	    :confirm => "Are you sure?",
+            :method => :delete -%>)
+	</li>
+      <% end -%>
+      
+    </ul>
+  <% end -%>
+
+  
 <% end -%>

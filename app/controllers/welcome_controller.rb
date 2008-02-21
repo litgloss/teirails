@@ -14,10 +14,8 @@ class WelcomeController < ApplicationController
     
     ci_int = eval(sp)
     
-    cp = ContentItem.find(ci_int)
-    
-    if !cp.nil?
-      redirect_to content_item_path(cp)
+    if !ContentItem.find_by_id(ci_int).nil?
+      redirect_to content_item_path(ContentItem.find(ci_int))
     else
       redirect_to content_items_path
     end

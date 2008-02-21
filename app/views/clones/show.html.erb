@@ -1,0 +1,70 @@
+<h1>Clone Properties</h1>
+
+<p>You are viewing the properties of a content item clone.</p>
+
+<p>
+  <% if @content_item.tei_data.eql?(@clone.tei_data) -%>
+    The data of this content item <em>has not</em> changed from its parent.
+  <% else -%>
+    The data of this content item <em>has</em> changed from its parent.
+  <% end -%>
+</p>
+
+<h2>
+  <%= link_to "Clone Content Item", content_item_path(@clone) -%> 
+  Properties
+</h2>
+
+<% if @clone.writable_by?(current_user) -%>
+  <p>    
+    <%= link_to "Edit clone", edit_content_item_path(@clone) -%> |
+    <%= link_to "Pull from parent", content_item_clone_path(@content_item, @clone, :from => :parent), :confirm => "This operation will overwrite all contents of the clone with that of the parent.  Continue?", :method => :put -%> |
+    <%= link_to "View versions", content_item_versions_path(@clone) -%>
+  </p>
+<% end -%>
+
+<table border="1" width="600">
+
+  <tr>
+    <th width="25%">Property</th>
+    <th width="75%">Value</th>
+  </tr>
+
+    <% @clone_propset.each do |elt| -%>
+      <tr>
+	<td width="25%" bgcolor="lightgrey"><%= elt[0] -%></td>
+	<td width="75%"><%= elt[1] -%></td>
+      </tr>
+    <% end -%>
+
+</table>
+
+
+<h2><%= link_to "Parent Content Item", content_item_path(@content_item) -%> 
+  Properties</h2>
+
+
+<% if @content_item.writable_by?(current_user) -%>
+  <p>    
+    <%= link_to "Edit parent content item", edit_content_item_path(@content_item) -%> |
+    <%= link_to "Pull from clone", content_item_clone_path(@content_item, @clone, :from => :clone), :confirm => "This operation will overwrite all contents of the parent with that of the clone.  Continue?", :method => :put -%> |
+    <%= link_to "View versions", content_item_versions_path(@content_item) -%>
+  </p>
+<% end -%>
+
+<table border="1" width="600">
+
+  <tr>
+    <th width="25%">Property</th>
+    <th width="75%">Value</th>
+  </tr>
+
+    <% @parent_propset.each do |elt| -%>
+      <tr>
+	<td width="25%" bgcolor="lightgrey"><%= elt[0] -%></td>
+	<td width="75%"><%= elt[1] -%></td>
+      </tr>
+    <% end -%>
+
+</table>
+

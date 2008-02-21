@@ -69,6 +69,11 @@ body {
     font-size: 1.2em;
 }
 
+#main-navigation li {
+    width: 140px;
+    text-align: center;
+}
+
 #main-navigation a {
     color: #000;
     background: #afb1b4 url("/images/menu_tab_left_inactive.gif") left top no-repeat;
@@ -215,20 +220,37 @@ label,input {
 }
 
 label {
-	text-align: left;
-	width: 150px;
-	padding-right: 20px;
-}
+    text-align: left;
+    width: 150px;
+    padding-right: 20px;
+ }
 
 p.form {
-       padding-top: 10px;
+    padding-top: 10px;
 }
 
 p.form label {
-       width: 600px;
+    width: 600px;
 }
 
 br {
-	clear: left;
+    clear: left;
 }
 /* END css for form layout */
+
+#content_item_footer {
+    border: 1px dashed #CCC;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: .95em;
+}
+
+#content_item_footer a:link {
+    text-decoration: none;
+    color: #444444;
+}
+
+#content_item_footer a:visited {
+    text-decoration: none;
+    color: #444444;
+}

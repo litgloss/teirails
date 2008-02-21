@@ -93,11 +93,14 @@ class ContentItemsController < ApplicationController
         end
       end
       
+      content_items = ContentItem.remove_cloned_content_items(content_items)
+
     when "unpublished"
       content_items = ContentItem.find(:all, :conditions => {
                                           :published => false
                                         })
 
+      content_items = ContentItem.remove_cloned_content_items(content_items)
       content_items = ContentItem.remove_system_content_items(content_items)
 
     when "search"
@@ -107,10 +110,13 @@ class ContentItemsController < ApplicationController
       content_items = ContentItem.find_matching(params[:term],
                                                 get_search_parts)
 
+      content_items = ContentItem.remove_cloned_content_items(content_items)
       content_items = ContentItem.remove_system_content_items(content_items)
     else
       content_items = ContentItem.find(:all, :conditions => 
                                        { :published => true } )
+
+      content_items = ContentItem.remove_cloned_content_items(content_items)
       content_items = ContentItem.remove_system_content_items(content_items)
     end
 
@@ -163,18 +169,20 @@ class ContentItemsController < ApplicationController
     if params[:content_item][:tei_data].class == 
         ActionController::UploadedStringIO.new.class
 
+      oblog("in update meth")
+
       tei_data = params[:content_item][:tei_data].read
     
-      if validate_tei(tei_data)
-        @content_item.tei_data = tei_data
-        set_content_item_properties
-      else
+      if !validate_tei(tei_data)
         flash[:error] = "TEI validation failed."
         redirect_to edit_content_item_path(@content_item)
         return
+      else
+        @content_item.tei_data = tei_data
       end
     end
 
+    @content_item = set_content_item_properties!(@content_item)    
     redirect_to content_item_path(@content_item)
   end
 
@@ -188,7 +196,7 @@ class ContentItemsController < ApplicationController
       redirect_to new_content_item_path
     else
       @content_item.tei_data = tei_data
-      set_content_item_properties
+      @content_item = set_content_item_properties!(@content_item)
 
       flash[:notice] = 'Content item was successfully created.'
       redirect_to content_item_path(@content_item)
@@ -196,7 +204,19 @@ class ContentItemsController < ApplicationController
   end
 
   def destroy
+    clone = ContentItem.find(params[:id]).private_clone?
+
     if ContentItem.find(params[:id]).destroy
+      if clone
+        flash[:notice] = "Cloned content item deleted."
+        redirect_to user_profile_path(current_user)
+      else
+        flash[:notice] = "Content item deleted."
+        redirect_to content_items_path
+      end
+
+    else
+      flash[:error] = "Failed to delete content item."
       redirect_to content_items_path
     end
   end
@@ -289,20 +309,27 @@ class ContentItemsController < ApplicationController
 
   # Sets properties for content item, including system page
   # and published.
-  def set_content_item_properties
-    @content_item.published = params[:content_item][:published]
-    @content_item.protected = params[:content_item][:protected]
+  def set_content_item_properties!(content_item)
+    oblog("set prop ct item")
+    content_item.published = params[:content_item][:published]
+    content_item.protected = params[:content_item][:protected]
+    content_item.creator = current_user
 
     begin
-      @content_item.
+      content_item.
         set_system_page_value(params[:content_item][:has_system_page])
     rescue Exception => e
       flash[:error] = "Exception: #{e}"
       redirect_to edit_content_item_path(@content_item)
       return
     end
+
     
-    @content_item.save!
+    oblog("SHOULD BE SAVING MSG")
+
+    content_item.save!
+
+    return content_item
   end
 
   def get_search_parts

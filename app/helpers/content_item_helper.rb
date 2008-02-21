@@ -29,6 +29,45 @@ module ContentItemHelper
       end
   end
 
+  # Returns text for the content item footer, based on user permissions.
+  def get_footer_options(content_item)
+    links = []
+
+
+    # Allow user to clone this item if they are able to act as 
+    # contributors, and if this item isn't already a clone.
+    if current_user.can_act_as?("contributor") && 
+        content_item.parent_id.nil?
+      links << link_to( 'create clone', content_item_clones_path(content_item),
+                        :confirm => "Are you sure that you wish  to create " + 
+                        "a clone of this content item into your personal work" +
+                        "space?",
+                        :method => :post )
+    end
+
+    if content_item.writable_by?(current_user)
+      links << link_to("edit", edit_content_item_path(content_item))
+      links << link_to("images", 
+                       images_path(:imageable_type => "content_item", 
+                                   :imageable_id => content_item.id))
+
+      links << link_to("versions", 
+                       content_item_versions_path(content_item))
+    end
+
+    if current_user.can_act_as?("editor") &&
+        !content_item.private_clones.empty?
+      links << link_to('view clones', content_item_clones_path(content_item))
+    end
+
+    if current_user.can_act_as?("administrator")
+      links << link_to('delete', content_item_path(content_item),
+                       :confirm => "Are you sure?",
+                       :method => :delete)
+    end
+
+    links.join(" | ")
+  end
   
   # Returns a string of authors separated by commas
   def get_authors(content_item)

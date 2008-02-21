@@ -1,0 +1,13 @@
+<h1>Content Item Clones</h1>
+
+<p>The current content item has <%= @clones.size -%> clone(s).</p>
+
+<% if !@clones.empty? -%>
+  <ol>
+    <% @clones.each do |c| -%>
+    <li>Clone owned by <%= c.creator.full_name -%>, created at <%= c.created_at -%> and updated at <%= c.updated_at -%> (<%= link_to "Show", content_item_clone_path(@content_item, c) -%>)</li>
+    <% end -%>
+  </ol>
+<% end -%>
+
+<%= link_to "Back to content item", content_item_path(@content_item) -%>

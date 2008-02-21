@@ -1,12 +1,10 @@
 class ProfilesController < ApplicationController
   before_filter :get_user
 
-  def get_user
-    @user = User.find(params[:user_id])
-  end
-
   def show
     @profile = @user.profile
+
+    @cloned_content_items = @user.cloned_content_items
 
     if !@profile.image.nil?
       @image = @user.profile.image.thumbnails.find_by_thumbnail("small")
@@ -26,5 +24,10 @@ class ProfilesController < ApplicationController
     else
       render user_edit_profile
     end
+  end
+
+  protected
+  def get_user
+    @user = User.find(params[:user_id])
   end
 end

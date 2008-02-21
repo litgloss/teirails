@@ -10,6 +10,14 @@ class CreateContentItems < ActiveRecord::Migration
       # If this is the case, user must have at least role of 
       # "protected item viewer" or higher to see it.
       t.boolean :protected, :default => false
+
+      # Allows for "clones" which are copes of content 
+      # items strictly for modification in a local workspace
+      # of a user.  This is restricted in the ContentItem model
+      # to a two-level hierarchy; clones are not allowed to
+      # descend from each other.
+      t.integer :parent_id
+
       t.timestamps
     end
   end

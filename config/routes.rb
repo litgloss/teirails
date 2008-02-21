@@ -20,6 +20,9 @@ ActionController::Routing::Routes.draw do |map|
 
   } do |content_item|
     content_item.resources :menu_item_selections
+
+    content_item.resources :clones
+
     content_item.resources :versions, :member => {
       :revert_to => :post
     }

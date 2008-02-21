@@ -28,6 +28,93 @@ class ContentItem < ActiveRecord::Base
     jxml_to_erb_string(jxml_string)
   end
 
+  # Creates a clone of this content item in the workspace 
+  # of the user specified.  Will not work if the content item
+  # that this method is called on is already a clone -- returns
+  # "nil" in this case.  If clone is successful, returns the cloned
+  # content item object.  Named private_clone methods to avoid confusion
+  # with the ActiveRecord::Base#clone method.
+  def private_clone(user)
+    if !self.private_clone?
+      ci = ContentItem.new( :creator => user,
+                            :published => false,
+                            :tei_data => self.tei_data,
+                            :parent_id => self.id )
+
+      ci.save
+      return ci
+    else
+      return nil
+    end
+  end
+
+  # Returns boolean value indicating whether or not this content
+  # item is a clone.
+  def private_clone?
+    return !self.parent_id.nil?
+  end
+
+  # Returns boolean value indicating whether or not this 
+  # content item is related to the one passed to us.
+  def related_to?(content_item)
+    if self.parent_id == content_item.id ||
+        self.id == content_item.parent_id
+      return true
+    else
+      return false
+    end
+  end
+
+  # Returns the parent of this content item if it
+  # is a clone.  Else, returns nil.
+  def parent
+    if self.parent_id.nil?
+      return
+    else
+      return ContentItem.find(self.parent_id)
+    end
+  end
+
+  # Returns an array of the clones of this content item.
+  def private_clones
+    private_clones = []
+
+    ContentItem.find(:all, :conditions => {
+                       :parent_id => self.id
+                     })
+  end
+
+  # Copies the tei_data of the ContentItem given to us
+  # as parameter 1 into the body of this item.  Returns
+  # true if this operation succeeded, or raises an exception
+  # and returns nil otherwise.  Pull only works if items are 
+  # related to one another as parent and child, since it 
+  # doesn't make sense to do this otherwise.
+  def pull!(content_item)
+    if self.related_to?(content_item)
+      raise Exception.new("ContentItem objects need to be related " + 
+                          "for pull to work.")
+      return
+    else
+      self.tei_data = content_item.tei_data
+      self.save
+    end
+  end
+
+  # Given an array of content items, removes those marked as
+  # being a (private) clone.
+  def ContentItem.remove_cloned_content_items(content_items)
+    new_content_items = []
+
+    content_items.each do |ci|
+      if !ci.private_clone?
+        new_content_items << ci
+      end
+    end
+
+    new_content_items
+  end
+
   # Sets this object as a "system" content piece, which means 
   # that it is intended for use under a user-defined menu
   # item, rather than in the general category of Content Items.
@@ -228,6 +315,23 @@ class ContentItem < ActiveRecord::Base
            end
   end
 
+  def writable_by?(user)
+    
+    return case 
+       
+           when self.has_system_page
+             user.can_act_as?("administrator")
+             
+           when self.private_clone?
+             user.can_act_as?("administrator") ||
+             user.id == self.creator_id
+             
+           else
+             user.can_act_as?("editor")
+           end
+  end
+
+
   # Given an array of content items, removes those that have system
   # pages.
   def ContentItem.remove_system_content_items(content_items)
@@ -267,6 +371,7 @@ class ContentItem < ActiveRecord::Base
       '<%= render_partial "layouts/flashes" -%>'
 
     footer_string = "\n" +
+      '<%= render_partial "content_items/footer" %>' + "\n"
       '<%= render_partial "layouts/footer" %>' + "\n"
 
     textsubs = {
