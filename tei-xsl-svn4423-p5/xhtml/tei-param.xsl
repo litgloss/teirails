@@ -129,7 +129,9 @@ Display figures.
     <xd:short>[html] Hook where extra Javascript functions can be defined</xd:short>
     <xd:detail> </xd:detail>
   </xd:doc>
-  <xsl:template name="javascriptHook"/>
+  <xsl:template name="javascriptHook">
+    <script type="text/javascript" src="/javascripts/overlib.js"/>
+  </xsl:template>
   <xd:doc class="hook">
     <xd:short>[html] Hook where HTML can be inserted just before the &lt;address&gt;</xd:short>
     <xd:detail> </xd:detail>

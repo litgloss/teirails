@@ -109,7 +109,7 @@ module ApplicationHelper
       i += 1
     end
 
-    links.join(" | ")
+    links.join("\n")
   end
 
   # Returns a set of <li></li> items containing

@@ -25,7 +25,17 @@ class ContentItem < ActiveRecord::Base
   # finally results in a string that can be passed back to the user.
   def tei_data_to_xhtml
     jxml_string = tei_to_jxml_string
-    jxml_to_erb_string(jxml_string)
+    #logger.info("BEFORE litglosify\n#{jxml_string}")
+
+    litglosified_string = litglosify(jxml_string)
+
+    #logger.info("AFTER litglosify\n#{litglosified_string}")
+
+    result = jxml_to_erb_string(litglosified_string)
+
+    #logger.info("AFTER jxml_to_erb_string\n#{result}")
+
+    result
   end
 
   # Creates a clone of this content item in the workspace 
@@ -287,6 +297,49 @@ class ContentItem < ActiveRecord::Base
     content_items
   end
   
+  # When given a string of valid xhtml content, parses all href elements
+  # of type "litgloss" and re-writes them to use overlib.  This is kind 
+  # of hack-ish, but so are these types of "annotations," really.  They
+  # shouldn't be stored in-line, but this code accomodates for lazy
+  # and/or ignorant people who don't learn how to do good document markup
+  # by hand.
+  def litglosify(xhtml_content)
+
+    new_doc = Document.new(xhtml_content)
+
+    # Attribute search in XPath doesn't seem to work with namespaces... bug in REXML library?
+    # Will work around for now.
+    XPath.each( new_doc.root, '/html/body//a' ) do |href|
+      if !href.attributes.get_attribute('type').nil? &&
+          href.attributes.get_attribute('type').value.eql?('litgloss')
+
+        # Construct the javascript tag.
+        e = Element.new('a', nil, {:raw => :all})
+        
+        e.add_attribute('href', "/annotations/show/something")
+
+        onmouseover_value = 'return overlib("' + 
+          href.attributes.get_attribute('href').value + '");'
+
+        e.add_attribute('onmouseover', onmouseover_value)
+        e.add_attribute('onmouseout', 'return nd();')
+
+        logger.info("\n\nwe made element #{e}\n\n")
+
+        href.parent.insert_before( href, e)
+
+        # Just taking the text of the old node may be a problem
+        # if there is formatting contained in child nodes.
+        e.text = href.text
+
+        href.remove
+      end
+      
+    end
+
+    new_doc.to_s
+  end
+
   def readable_by?(user)
     
     return case 
@@ -371,12 +424,17 @@ class ContentItem < ActiveRecord::Base
       '<%= render_partial "layouts/flashes" -%>'
 
     footer_string = "\n" +
-      '<%= render_partial "content_items/footer" %>' + "\n"
+      '<%= render_partial "content_items/footer" %>' + "\n" +
       '<%= render_partial "layouts/footer" %>' + "\n"
 
+    # Depending on the XML parsing engine we put these pages through, 
+    # our own tags are either self-closing or not.  Check for both
+    # and remove unnecessary ones for efficiency later.
     textsubs = {
-      '<JXML-renderheader><\/JXML-renderheader>' => header_string,
-      '<JXML-renderfooter><\/JXML-renderfooter>' => footer_string
+      '<JXML-renderheader></JXML-renderheader>' => header_string,
+      '<JXML-renderfooter></JXML-renderfooter>' => footer_string,
+      '<JXML-renderheader/>' => header_string,
+      '<JXML-renderfooter/>' => footer_string,
     }
 
     textsubs.keys.each do |s|
@@ -384,6 +442,7 @@ class ContentItem < ActiveRecord::Base
       jxml_string.gsub!(/#{s}/, textsubs[s])
     end
 
+    logger.info("\n\n\nJXML STRING IS:\n\n#{jxml_string}")
     jxml_string
   end
 
