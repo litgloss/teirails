@@ -8,7 +8,16 @@
 <% if !@litglosses.empty? -%>
   <ul>
     <% @litglosses.each do |l| -%>
-      <li><%= l.term -%> => <%= l.explanation -%></li>
+      <li>
+	<%= l.term -%> => <%= l.explanation -%>
+	<% if l.content_item_id != @content_item.id -%>
+	  (attached to parent)
+	<% else -%>
+	  (attached to self)
+	<% end -%>
+      </li>
     <% end -%>
   </ul>
 <% end -%>
+
+<%= link_to "Back to content item", content_item_path(@content_item) -%>

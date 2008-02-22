@@ -49,11 +49,15 @@ class ImagesController < ApplicationController
     @imageable_type = params[:imageable_type]
     @imageable_id = params[:imageable_id]
 
-    @images = Image.find(:all, :conditions => {
-                           :parent_id => nil,
-                           :imageable_type => @imageable_type,
-                           :imageable_id => @imageable_id
-                         })
+    if @imageable_type.eql?("content_item")
+      @images = ContentItem.find(@imageable_id).images
+    else
+      @images = Image.find(:all, :conditions => {
+                             :parent_id => nil,
+                             :imageable_type => @imageable_type,
+                             :imageable_id => @imageable_id
+                           })
+    end
   end
 
   def edit

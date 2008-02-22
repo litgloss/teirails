@@ -4,7 +4,7 @@ module ContentItemHelper
     results = []
 
     if content_item.private_clone?
-      results << link_to("private clone", content_item_clone_path(content_item, content_item))
+      results << link_to("private clone", content_item_clone_path(content_item.parent, content_item))
     else
       if content_item.published?
         results << "published"
@@ -74,6 +74,9 @@ module ContentItemHelper
 
       links << link_to("versions", 
                        content_item_versions_path(content_item))
+      links << link_to("litglosses", 
+                       content_item_litglosses_path(content_item))
+
     end
 
     if current_user.can_act_as?("editor") &&

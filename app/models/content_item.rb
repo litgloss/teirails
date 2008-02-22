@@ -38,7 +38,7 @@ class ContentItem < ActiveRecord::Base
     ref = XPath.first( element, 'ancestor::ref' )
     return !ref.nil?
   end
-  
+
   def insert_temporary_ref_tags_for_string_match(xml_object, text_to_match,
                                                  match_count = 0)
 
@@ -191,8 +191,10 @@ class ContentItem < ActiveRecord::Base
   def related_to?(content_item)
     if self.parent_id == content_item.id ||
         self.id == content_item.parent_id
+      logger.info("It is related.")
       return true
     else
+      logger.info("It is NOT related.")
       return false
     end
   end
@@ -221,16 +223,90 @@ class ContentItem < ActiveRecord::Base
   # true if this operation succeeded, or raises an exception
   # and returns nil otherwise.  Pull only works if items are 
   # related to one another as parent and child, since it 
-  # doesn't make sense to do this otherwise.
+  # doesn't make sense to do this otherwise.  The pull
+  # operation checks to see if the current item has any litglosses
+  # or images associated with it.  If it does, it copies these 
+  # items to the parent.  Depending on the permissions of the 
+  # user, this may or may not make them lose write permission
+  # to this associated object.
   def pull!(content_item)
-    if self.related_to?(content_item)
+    if !self.related_to?(content_item)
       raise Exception.new("ContentItem objects need to be related " + 
                           "for pull to work.")
       return
     else
       self.tei_data = content_item.tei_data
+      
+      # Synchronize images and litglosses.  If we are the parent,
+      # change these objects to reference our own space.  If we are
+      # the child we don't do anything, since the methods for
+      # grabbing images associated with this item are overriden
+      # to include objects associated with the parent (for read
+      # access only).
+      if content_item.private_clone?
+        logger.info("going to copy props to parent.")
+        Litgloss.find(:all, :conditions => {
+                        :content_item_id => content_item.id
+                      }).each do |l|
+
+          l.content_item_id = self.id
+          l.save
+        end
+
+        Image.find(:all, :conditions => {
+                     :imageable_type => "content_item",
+                     :imageable_id => content_item.id
+                   }).each do |i|
+          i.imageable_id = self.id
+          i.save
+        end
+      end
+
       self.save
     end
+  end
+
+  # Returns all images associated with this item or its parent.
+  def images
+    imgs = []
+
+    if self.private_clone?
+      self.parent.images.each do |i|
+        imgs << i
+      end
+    end
+
+    Image.find(:all, :conditions => {
+                 :imageable_id => self.id,
+                 :imageable_type => "content_item",
+                 :parent_id => nil
+               }).each do |i|
+      imgs << i
+    end
+
+    imgs
+  end
+
+  # Returns all litglosses associated with this item or its parent.
+  def litglosses
+    lgs = []
+
+    if !self.parent_id.nil?
+      logger.info("I'm a clone.")
+      Litgloss.find(:all, :conditions => {
+                      :content_item_id => self.parent.id
+                    }).each do |l|
+        lgs << l
+      end
+    end
+
+    Litgloss.find(:all, :conditions => {
+                    :content_item_id => self.id
+                  }).each do |l|
+      lgs << l
+    end
+
+    lgs
   end
 
   # Given an array of content items, removes those marked as

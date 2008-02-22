@@ -8,12 +8,12 @@ class ClonesController < ApplicationController
   def update
     case params[:from]
     when "parent"
-      @clone.tei_data = @content_item.tei_data
-      @clone.save
+      @clone.pull!(@content_item)
+
       flash[:notice] = "Pulled TEI data from master."
     when "clone"
-      @content_item.tei_data = @clone.tei_data
-      @content_item.save
+      @content_item.pull!(@clone)
+
       flash[:notice] = "Pulled TEI data from clone."
     else
       flash[:error] = "Invalid value for content origin."
