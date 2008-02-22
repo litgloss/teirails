@@ -4,7 +4,7 @@ module ContentItemHelper
     results = []
 
     if content_item.private_clone?
-      results << "private clone"
+      results << link_to("private clone", content_item_clone_path(content_item, content_item))
     else
       if content_item.published?
         results << "published"
@@ -86,7 +86,8 @@ module ContentItemHelper
                        :confirm => "Are you sure?",
                        :method => :delete)
     end
-
+    
+    
     links.join(" | ")
   end
   

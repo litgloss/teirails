@@ -1,0 +1,14 @@
+<h1>Litglosses</h1>
+
+<p>
+  There are <%= @litglosses.size -%> litglosses for this
+  content item.
+</p>
+
+<% if !@litglosses.empty? -%>
+  <ul>
+    <% @litglosses.each do |l| -%>
+      <li><%= l.term -%> => <%= l.explanation -%></li>
+    <% end -%>
+  </ul>
+<% end -%>

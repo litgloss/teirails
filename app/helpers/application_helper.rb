@@ -1,5 +1,10 @@
 module ApplicationHelper
 
+
+  def form_end_tag
+    "</form>"
+  end
+
   # Changes all underscores to spaces in a word.
   def underscores_to_spaces(term)
     return term.gsub(/_/, ' ')

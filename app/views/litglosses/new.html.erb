@@ -1,0 +1,14 @@
+<h1>Create New Litgloss</h1>
+
+<p>
+  Type the explanation that you want to appear on this term on mouseover below.  This gloss will be applied to the term that you specified in your clone of the content item with title, "<%= @content_item.title -%>."
+</p>
+
+<%= error_messages_for :litgloss %>
+
+<% form_for :litgloss, :url => content_item_litglosses_path(@content_item), :html => { :method => :post } do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+<%= submit_tag 'Create Litgloss' %><br />
+<% end -%>

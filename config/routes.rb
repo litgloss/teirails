@@ -23,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
 
     content_item.resources :clones
 
+    content_item.resources :litglosses
+
     content_item.resources :versions, :member => {
       :revert_to => :post
     }

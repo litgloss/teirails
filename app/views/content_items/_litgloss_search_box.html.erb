@@ -1,0 +1,14 @@
+<% if logged_in? &&
+       @content_item.private_clone? &&
+       @content_item.creator == current_user       
+     -%>
+  
+  <%= form_tag content_item_url, 
+      :method => :get -%>
+
+  <%= label_tag("gloss term", :term_to_annotate) -%>
+  <%= text_field_tag :term_to_annotate, nil, :size => 10 -%>
+
+  <%= form_end_tag -%>
+
+<% end -%>

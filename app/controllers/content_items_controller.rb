@@ -148,10 +148,29 @@ class ContentItemsController < ApplicationController
   end
 
   def show
+
     respond_to do |format|
       format.html {
-        render :inline => @content_item.tei_data_to_xhtml
+        tei_data = @content_item.tei_data
+
+        if params[:term_to_annotate]
+          tei_data = 
+            @content_item.
+            insert_temporary_ref_tags_for_string_match(@content_item.doc, 
+                                                       params[:term_to_annotate])
+
+          if params[:term_to_annotate] && 
+              !tei_data.eql?(@content_item.tei_data)
+            @message = "Annotation markup mode: Phrases in the document " + 
+              "matching the term that you specified have been highlighted " + 
+              "in red.  Click on the term that you want to mark to add an " + 
+              "annotation."
+          end
+        end
+
+        render :inline => @content_item.tei_data_to_xhtml(tei_data)
       }
+
       format.xml { render :xml => @content_item.tei_data }
     end
   end

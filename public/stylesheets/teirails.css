@@ -264,6 +264,41 @@ br {
 
 #content_item_right_box {
     float: right;
-    width: 250px;
+    width: 100px;
     text-align: right;
 }
+
+#gloss_search_box {
+    float: left;
+    width: 250px;
+}
+
+#gloss_search_box label {
+    width: 100px;
+    padding: 0px;
+    color: #444444;
+    font-size: .95em;
+}
+
+#gloss_search_box input {
+    float: left;
+    width: 100px;
+}
+
+
+/* For document markup mode, makes new litglosses stand out. */
+a.newlitgloss {
+    color: red;
+}
+
+/* Links using overlib */
+a.litgloss, a.litgloss:visited {
+    color: #000000;
+}
+
+#infomessage {
+    background-color: #d2a3a3;
+    border-style: solid;
+    padding: 10px;
+}
+

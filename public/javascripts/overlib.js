@@ -36,8 +36,8 @@ registerCommands('donothing,inarray,caparray,sticky,background,noclose,caption,l
 // Settings you want everywhere are set here. All of this can also be
 // changed on your html page or through an overLIB call.
 ////////
-if (typeof ol_fgcolor=='undefined') var ol_fgcolor="#CCCCFF";
-if (typeof ol_bgcolor=='undefined') var ol_bgcolor="#333399";
+if (typeof ol_fgcolor=='undefined') var ol_fgcolor="#ffffcc";
+if (typeof ol_bgcolor=='undefined') var ol_bgcolor="#666666";
 if (typeof ol_textcolor=='undefined') var ol_textcolor="#000000";
 if (typeof ol_capcolor=='undefined') var ol_capcolor="#FFFFFF";
 if (typeof ol_closecolor=='undefined') var ol_closecolor="#9999FF";
@@ -74,7 +74,7 @@ if (typeof ol_padxr=='undefined') var ol_padxr=1;
 if (typeof ol_padyt=='undefined') var ol_padyt=1;
 if (typeof ol_padyb=='undefined') var ol_padyb=1;
 if (typeof ol_fullhtml=='undefined') var ol_fullhtml=0;
-if (typeof ol_vpos=='undefined') var ol_vpos=BELOW;
+if (typeof ol_vpos=='undefined') var ol_vpos=ABOVE;
 if (typeof ol_aboveheight=='undefined') var ol_aboveheight=0;
 if (typeof ol_capicon=='undefined') var ol_capicon="";
 if (typeof ol_frame=='undefined') var ol_frame=self;

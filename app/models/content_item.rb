@@ -15,6 +15,8 @@ class ContentItem < ActiveRecord::Base
 
   has_one :system_page, :dependent => :destroy
 
+  has_many :litglosses
+
   # Constant to prepend to temporary files that we create.
   TempFilePrefix = 'teirails'
 
@@ -23,20 +25,140 @@ class ContentItem < ActiveRecord::Base
   # the TEI data to "jxml" (Justin XML), which retains special tags
   # that we replace with ERB.  Then we render the ERB file, which
   # finally results in a string that can be passed back to the user.
-  def tei_data_to_xhtml
-    jxml_string = tei_to_jxml_string
-    #logger.info("BEFORE litglosify\n#{jxml_string}")
-
+  def tei_data_to_xhtml(tei_data)
+    jxml_string = tei_to_jxml_string(tei_data)
     litglosified_string = litglosify(jxml_string)
-
-    #logger.info("AFTER litglosify\n#{litglosified_string}")
-
     result = jxml_to_erb_string(litglosified_string)
-
-    #logger.info("AFTER jxml_to_erb_string\n#{result}")
-
     result
   end
+
+  # Returns boolean value representing whether or not this node 
+  # has ancestors which are reference tags.
+  def xml_element_has_reference_ancestors?(element)
+    ref = XPath.first( element, 'ancestor::ref' )
+    return !ref.nil?
+  end
+  
+  def insert_temporary_ref_tags_for_string_match(xml_object, text_to_match,
+                                                 match_count = 0)
+
+    escaped_term_regexp = Regexp.escape(text_to_match)
+
+    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/i)
+
+    XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
+      if !xml_element_has_reference_ancestors?(text_element)
+
+        # Broken into two patterns because pattern (1) is used the
+        # majority of the time and it is less processor-intensive.
+        if scanning_regexp.match(text_element.value)
+
+          regexp_with_backreferences = 
+            Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/mi)
+
+          if text_element.value =~ regexp_with_backreferences
+            
+            text_before_term = $1
+            term_match = $2
+            text_after_term = $3
+
+            # Build new tag.
+            ref_tag = Element.new('ref')
+            ref_tag.add_attribute('type', 'newlitgloss')
+
+            encoded_term = ERB::Util.url_encode(text_to_match)
+
+            target_url = "/content_items/#{self.id}/litglosses/new" + 
+              "?term=#{encoded_term}&" +
+              "count=#{match_count}"
+
+            ref_tag.add_attribute('target', target_url)
+            
+            ref_tag.text = term_match
+            
+            text_element.value = text_before_term.to_s
+            text_element.next_sibling = ref_tag
+            ref_tag.next_sibling = Text.new(text_after_term.to_s)
+            
+            match_count += 1
+
+            # Recursive call allows this algorithm to handle cases where
+            # text_after_term contains another match for this
+            # annotation.
+            insert_temporary_ref_tags_for_string_match(xml_object, 
+                                                       text_to_match,
+                                                       match_count)
+          end
+        end
+      end
+    end
+
+    xml_object
+  end
+
+  # Creates an "ref" element in the document that will 
+  # appear as "glossed" text.
+  def create_glossed_link(xml_object, litgloss, match_count = 0)
+    escaped_term_regexp = Regexp.escape(litgloss.term)
+
+    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/i)
+
+    XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
+      if !xml_element_has_reference_ancestors?(text_element)
+
+        # Broken into two patterns because pattern (1) is used the
+        # majority of the time and it is less processor-intensive.
+        if scanning_regexp.match(text_element.value)
+
+          regexp_with_backreferences = 
+            Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/mi)
+
+          if text_element.value =~ regexp_with_backreferences
+            
+            if match_count == litgloss.count
+              # Create the link
+              text_before_term = $1
+              term_match = $2
+              text_after_term = $3
+              
+              # Build new tag.
+              ref_tag = Element.new('ref')
+              ref_tag.add_attribute('type', 'litgloss')
+              
+              target_url = "/content_items/#{self.id}/litglosses/" + 
+                litgloss.id.to_s
+              
+              ref_tag.add_attribute('target', target_url)
+              
+              ref_tag.text = term_match
+              
+              text_element.value = text_before_term.to_s
+              text_element.next_sibling = ref_tag
+              ref_tag.next_sibling = Text.new(text_after_term.to_s)
+              return xml_object
+            else
+              # Keep matching recursively until we find
+              # the occurrence that we want to mark.
+              match_count += 1
+              
+              # Recursive call allows this algorithm to handle cases where
+              # text_after_term contains another match for this
+              # annotation.
+              create_glossed_link(xml_object, 
+                                  litgloss,
+                                  match_count)
+            end
+          end
+        end
+      end
+    end
+
+    # Shouldn't get here, since we should always match on something,
+    # unless the document changed... but just in case, this should be
+    # an unmodified document object.
+    xml_object
+  end
+
 
   # Creates a clone of this content item in the workspace 
   # of the user specified.  Will not work if the content item
@@ -296,7 +418,7 @@ class ContentItem < ActiveRecord::Base
     
     content_items
   end
-  
+
   # When given a string of valid xhtml content, parses all href elements
   # of type "litgloss" and re-writes them to use overlib.  This is kind 
   # of hack-ish, but so are these types of "annotations," really.  They
@@ -313,28 +435,56 @@ class ContentItem < ActiveRecord::Base
       if !href.attributes.get_attribute('type').nil? &&
           href.attributes.get_attribute('type').value.eql?('litgloss')
 
-        # Construct the javascript tag.
-        e = Element.new('a', nil, {:raw => :all})
+        href.attributes.get_attribute('href').value =~ /litglosses\/(\d+)$/
         
-        e.add_attribute('href', "/annotations/show/something")
+        litgloss_id = $1
+        
+        if !litgloss_id.nil?
+          if Litgloss.find(litgloss_id)
+        
+            litgloss = Litgloss.find(litgloss_id)
 
-        onmouseover_value = 'return overlib("' + 
-          href.attributes.get_attribute('href').value + '");'
+            # Construct the javascript tag.
+            e = Element.new('a', nil, {:raw => :all})
+        
+            show_litgloss_url = "/content_items/#{self.id}/litglosses/" + 
+              "#{litgloss.id}"
 
-        e.add_attribute('onmouseover', onmouseover_value)
-        e.add_attribute('onmouseout', 'return nd();')
+            e.add_attribute('href', show_litgloss_url)
+        
+            if !href.attributes.get_attribute('text').nil?
+              onmouseover_value = 'return overlib("' + 
+                href.attributes.get_attribute('type').value + '");'
+            else
+              onmouseover_value = 'return overlib("' + 
+                ERB::Util.html_escape(litgloss.explanation) + 
+                '");'
 
-        logger.info("\n\nwe made element #{e}\n\n")
+            end
+            
+            e.add_attribute('onmouseover', onmouseover_value)
+            e.add_attribute('onmouseout', 'return nd();')
 
-        href.parent.insert_before( href, e)
+            e.add_attribute('class', "litgloss")
 
-        # Just taking the text of the old node may be a problem
-        # if there is formatting contained in child nodes.
-        e.text = href.text
+            href.parent.insert_before( href, e)
 
-        href.remove
+            # Just taking the text of the old node may be a problem
+            # if there is formatting contained in child nodes.
+            e.text = href.text
+            
+            href.remove
+          else
+            logger.info("Couldn't find litgloss with id #{litgloss.id} in content item id #{self.id}.")
+          end
+        else
+          logger.info("Found nil litgloss id in content item #{self.id}.")
+        end
+
+      elsif !href.attributes.get_attribute('type').nil? &&
+          href.attributes.get_attribute('type').value.eql?('newlitgloss')
+        href.attributes['class'] = "newlitgloss"
       end
-      
     end
 
     new_doc.to_s
@@ -438,23 +588,19 @@ class ContentItem < ActiveRecord::Base
     }
 
     textsubs.keys.each do |s|
-      logger.info("doing gsub of #{s} with #{textsubs[s]}.")
       jxml_string.gsub!(/#{s}/, textsubs[s])
     end
 
-    logger.info("\n\n\nJXML STRING IS:\n\n#{jxml_string}")
     jxml_string
   end
 
   # Returns the contentof this object wih TEI replaced with XHTML.
-  def tei_to_jxml_string
+  def tei_to_jxml_string(tei_data)
     xslt_file = "#{RAILS_ROOT}/tei/xhtml/tei.xsl"
-
-    xslt_doc = self.tei_data
 
     tmpfile = Tempfile.new(TempFilePrefix + "_tei_")
 
-    tmpfile.puts self.tei_data
+    tmpfile.puts tei_data
     tmpfile.flush
 
     err_tmpfile = Tempfile.new(TempFilePrefix + "_tei_err_")

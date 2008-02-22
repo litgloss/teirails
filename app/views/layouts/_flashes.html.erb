@@ -1,3 +1,9 @@
+<% if @message -%>
+  <div id="infomessage">
+    <%= @message -%>
+  </div>
+<% end -%>
+
 <% if flash[:error] -%>
   <div id="errorBox">
     <p>
