@@ -167,8 +167,10 @@ class ContentItemsController < ApplicationController
               "annotation."
           end
         end
+        
+        rendered_text = @content_item.tei_data_to_xhtml(tei_data)
 
-        render :inline => @content_item.tei_data_to_xhtml(tei_data)
+        render :inline => rendered_text
       }
 
       format.xml { render :xml => @content_item.tei_data }

@@ -16,7 +16,11 @@ class ContentItem < ActiveRecord::Base
 
   has_one :system_page, :dependent => :destroy
 
-  has_many :litglosses
+  has_many :litglosses, :dependent => :destroy
+
+  before_destroy { |record| 
+    ContentItem.destroy_all "parent_id = #{record.id}"
+  }
 
   # Constant to prepend to temporary files that we create.
   TempFilePrefix = 'teirails'
@@ -31,6 +35,33 @@ class ContentItem < ActiveRecord::Base
     litglosified_string = litglosify(jxml_string)
     result = jxml_to_erb_string(litglosified_string)
     result
+  end
+  
+  # Removes a litgloss id tag from an XML string.
+  def delete_litgloss_tag_by_id(litgloss_id)
+    xml_object = doc
+    XPath.each(xml_object,
+               "/TEI/text/body//ref") do |e|
+      if !e.attributes['target'].nil? &&
+          e.attributes['type'].eql?('litgloss') &&
+          e.attributes['target'] =~ /\/#{litgloss_id}$/
+
+        e.children.each{ |c| e.parent.insert_after(e, c) }
+        e.remove
+      end
+    end
+    
+    return xml_object
+  end
+
+  def delete_litgloss_tag_by_id!(litgloss_id)
+    self.tei_data = delete_litgloss_tag_by_id(litgloss_id).to_s
+    self.save
+  end
+  
+  def delete_litgloss!(litgloss)
+    self.tei_data = delete_litgloss_tag_by_id(litgloss.id.to_s).to_s
+    self.save
   end
 
   # Returns boolean value representing whether or not this node 
@@ -174,8 +205,7 @@ class ContentItem < ActiveRecord::Base
           
           encoded_term = ERB::Util.url_encode(term_match)
           
-          target_url = "/content_items/#{self.id}/litglosses/" + 
-            litgloss.id.to_s
+          target_url = litgloss.path
           
           ref_tag.add_attribute('target', target_url)
           
@@ -550,7 +580,7 @@ class ContentItem < ActiveRecord::Base
         litgloss_id = $1
         
         if !litgloss_id.nil?
-          if Litgloss.find(litgloss_id)
+          if Litgloss.find_by_id(litgloss_id)
         
             litgloss = Litgloss.find(litgloss_id)
 
@@ -585,7 +615,7 @@ class ContentItem < ActiveRecord::Base
             
             href.remove
           else
-            logger.info("Couldn't find litgloss with id #{litgloss.id} in content item id #{self.id}.")
+            logger.info("Couldn't find litgloss with id #{litgloss_id} in content item id #{self.id}.")
           end
         else
           logger.info("Found nil litgloss id in content item #{self.id}.")

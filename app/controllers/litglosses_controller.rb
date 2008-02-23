@@ -1,7 +1,7 @@
 class LitglossesController < ApplicationController
   before_filter :get_content_item
 
-  append_before_filter :get_litgloss, :only => [:edit, :show, :update]
+  append_before_filter :get_litgloss, :only => [:edit, :show, :update, :destroy]
 
   def edit
     
@@ -47,6 +47,20 @@ class LitglossesController < ApplicationController
 
   def show
     
+  end
+
+
+  def destroy
+    # Get rid of tags in document.    
+    @content_item.delete_litgloss!(@litgloss)
+
+    if @litgloss.destroy
+      flash[:notice] = "Litgloss deleted."
+    else
+      flash[:error] = "Unable to delete litgloss."
+    end
+    
+    redirect_to content_item_path(@content_item)
   end
 
   protected

@@ -7,6 +7,10 @@
 
 <p>
 <% if logged_in? && @litgloss.writable_by?(current_user) -%>
-  <%= link_to 'Edit litgloss', edit_content_item_litgloss_path(@content_item, @litgloss) -%>
+  <%= link_to 'Edit litgloss', edit_content_item_litgloss_path(@content_item, @litgloss) -%> |
+  <%= link_to 'Delete Litgloss', content_item_litgloss_path,
+	    :confirm => "Are you sure?",
+            :method => :delete -%>
+
 <% end -%>
 </p>

@@ -5,4 +5,9 @@ class Litgloss < ActiveRecord::Base
   def writable_by?(user)
     return self.content_item.writable_by?(user)
   end
+
+  # Returns the relative path to this litgloss.
+  def path
+    return "/litglosses/#{self.id}"
+  end
 end
