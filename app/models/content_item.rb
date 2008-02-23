@@ -39,12 +39,61 @@ class ContentItem < ActiveRecord::Base
     return !ref.nil?
   end
 
+
+  # Breaks the input string into chunks occurring 
+  # before an specific occurrence of a term in a string,
+  # the occurrance searched for, and that occurring 
+  # after this occurrence.  Returns an array of these
+  # string portions.  The third parameters is an 
+  # integer representing the occurrence to match in this
+  # string.  It is 0-based!
+  def tokenize_on_occurrence(string, term, count)
+    old_string = string
+    
+    pre_string = ""
+    match = ""
+    post_string = ""
+    
+    regexp_escaped_term = Regexp.escape(term)
+
+    # Return nil if there aren't enough matches of the
+    # string of the specified term to tokenize.
+    if string.scan(/#{regexp_escaped_term}/m).size < count
+      return nil
+    end
+
+    match_count = 0
+    string.scan(/(.*?)(\b)(#{regexp_escaped_term})(\b)/m) do 
+      |pre, pre_boundary, match, post_boundary|
+    
+      if match_count < count
+        pre_string += pre + pre_boundary + match + post_boundary
+      elsif count == match_count
+        pre_string += pre + pre_boundary
+        match = match
+        post_string = post_boundary
+      else
+        post_string += pre + pre_boundary + match + post_boundary
+      end
+
+      match_count += 1
+    end
+
+    term_beginning = Regexp.escape(pre_string + match + post_string)
+    
+    remaining_text = string.match(/#{term_beginning}(.*)$/m)
+    
+    post_string += $1
+    
+    [pre_string, match, post_string]
+  end
+
   def insert_temporary_ref_tags_for_string_match(xml_object, text_to_match,
                                                  match_count = 0)
 
     escaped_term_regexp = Regexp.escape(text_to_match)
 
-    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/i)
+    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/)
 
     XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
       if !xml_element_has_reference_ancestors?(text_element)
@@ -54,7 +103,7 @@ class ContentItem < ActiveRecord::Base
         if scanning_regexp.match(text_element.value)
 
           regexp_with_backreferences = 
-            Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/mi)
+            Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/m)
 
           if text_element.value =~ regexp_with_backreferences
             
@@ -98,65 +147,62 @@ class ContentItem < ActiveRecord::Base
 
   # Creates an "ref" element in the document that will 
   # appear as "glossed" text.
-  def create_glossed_link(xml_object, litgloss, match_count = 0)
+  def create_glossed_link(xml_object, litgloss)
     escaped_term_regexp = Regexp.escape(litgloss.term)
 
-    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/i)
+    scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/m)
+
+    match_count = 0
 
     XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
+      logger.info("gloss: txt == #{text_element.value}")
+
       if !xml_element_has_reference_ancestors?(text_element)
 
-        # Broken into two patterns because pattern (1) is used the
-        # majority of the time and it is less processor-intensive.
-        if scanning_regexp.match(text_element.value)
+        logger.info("gloss: has no ref ancs.")
 
-          regexp_with_backreferences = 
-            Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/mi)
 
-          if text_element.value =~ regexp_with_backreferences
-            
-            if match_count == litgloss.count
-              # Create the link
-              text_before_term = $1
-              term_match = $2
-              text_after_term = $3
-              
-              # Build new tag.
-              ref_tag = Element.new('ref')
-              ref_tag.add_attribute('type', 'litgloss')
-              
-              target_url = "/content_items/#{self.id}/litglosses/" + 
-                litgloss.id.to_s
-              
-              ref_tag.add_attribute('target', target_url)
-              
-              ref_tag.text = term_match
-              
-              text_element.value = text_before_term.to_s
-              text_element.next_sibling = ref_tag
-              ref_tag.next_sibling = Text.new(text_after_term.to_s)
-              return xml_object
-            else
-              # Keep matching recursively until we find
-              # the occurrence that we want to mark.
-              match_count += 1
-              
-              # Recursive call allows this algorithm to handle cases where
-              # text_after_term contains another match for this
-              # annotation.
-              create_glossed_link(xml_object, 
-                                  litgloss,
-                                  match_count)
-            end
-          end
+        logger.info("gloss: lg count == #{litgloss.count} teclass = #{text_element.class}")
+ 
+        logger.info("gloss: has matches: #{text_element.value.scan(scanning_regexp).size}")
+
+        if text_element.value.scan(scanning_regexp).size + match_count >
+            litgloss.count
+
+          logger.info("gloss: ok count, doing text reconstruction")
+          logger.info("gloss: text == #{text_element.class}")
+          
+          res = tokenize_on_occurrence(text_element.value, litgloss.term,
+                                 litgloss.count - match_count)
+
+          logger.info("res val == #{res}")
+          text_before_term = res[0]
+          term_match = res[1]
+          text_after_term = res[2]
+          
+          # Build new tag.
+          ref_tag = Element.new('ref')
+          ref_tag.add_attribute('type', 'litgloss')
+          
+          encoded_term = ERB::Util.url_encode(term_match)
+          
+          target_url = "/content_items/#{self.id}/litglosses/" + 
+            litgloss.id.to_s
+          
+          ref_tag.add_attribute('target', target_url)
+          
+          ref_tag.text = term_match
+          
+          text_element.value = text_before_term.to_s
+          text_element.next_sibling = ref_tag
+          ref_tag.next_sibling = Text.new(text_after_term.to_s)
+
+          return xml_object
+        else
+          match_count += text_element.value.scan(scanning_regexp).size
         end
       end
     end
-
-    # Shouldn't get here, since we should always match on something,
-    # unless the document changed... but just in case, this should be
-    # an unmodified document object.
-    xml_object
   end
 
 
