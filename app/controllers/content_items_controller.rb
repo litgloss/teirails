@@ -188,8 +188,6 @@ class ContentItemsController < ApplicationController
     if params[:content_item][:tei_data].class == 
         ActionController::UploadedStringIO.new.class
 
-      oblog("in update meth")
-
       tei_data = params[:content_item][:tei_data].read
     
       if !validate_tei(tei_data)
@@ -306,8 +304,6 @@ class ContentItemsController < ApplicationController
   def validate_tei(tei_string)
     has_errors = false
 
-    logger.info("\n\nGOT string to val: #{tei_string}\n\n")
-
     begin
       res = validate_tei_document(tei_string)
     rescue XML::Parser::ParseError
@@ -329,7 +325,6 @@ class ContentItemsController < ApplicationController
   # Sets properties for content item, including system page
   # and published.
   def set_content_item_properties!(content_item)
-    oblog("set prop ct item")
     content_item.published = params[:content_item][:published]
     content_item.protected = params[:content_item][:protected]
     content_item.creator = current_user
@@ -342,10 +337,7 @@ class ContentItemsController < ApplicationController
       redirect_to edit_content_item_path(@content_item)
       return
     end
-
     
-    oblog("SHOULD BE SAVING MSG")
-
     content_item.save!
 
     return content_item

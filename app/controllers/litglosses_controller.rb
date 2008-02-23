@@ -1,9 +1,21 @@
 class LitglossesController < ApplicationController
   before_filter :get_content_item
 
-  append_before_filter :get_litgloss, :only => [:edit, :show]
+  append_before_filter :get_litgloss, :only => [:edit, :show, :update]
 
   def edit
+    
+  end
+
+  
+  def update
+    if @litgloss.update_attributes(params[:litgloss])
+      flash[:notice] = 'Litgloss details were successfully updated.'
+      redirect_to content_item_litgloss_path
+    else
+      flash[:error] = 'Failed to update litgloss properties.'
+      redirect_to content_item_litgloss_path
+    end
   end
 
   def new

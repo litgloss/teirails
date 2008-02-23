@@ -283,6 +283,8 @@ br {
 #gloss_search_box input {
     float: left;
     width: 100px;
+    font-size: .95em;
+    height: 12px;
 }
 
 

@@ -6,6 +6,7 @@ require 'rexml/document'
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
   self.non_versioned_columns << 'published'
+  self.non_versioned_columns << 'protected'
 
   include REXML
 
@@ -155,23 +156,10 @@ class ContentItem < ActiveRecord::Base
     match_count = 0
 
     XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
-      logger.info("gloss: txt == #{text_element.value}")
-
       if !xml_element_has_reference_ancestors?(text_element)
-
-        logger.info("gloss: has no ref ancs.")
-
-
-        logger.info("gloss: lg count == #{litgloss.count} teclass = #{text_element.class}")
- 
-        logger.info("gloss: has matches: #{text_element.value.scan(scanning_regexp).size}")
-
         if text_element.value.scan(scanning_regexp).size + match_count >
             litgloss.count
 
-          logger.info("gloss: ok count, doing text reconstruction")
-          logger.info("gloss: text == #{text_element.class}")
-          
           res = tokenize_on_occurrence(text_element.value, litgloss.term,
                                  litgloss.count - match_count)
 

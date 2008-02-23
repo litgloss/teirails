@@ -4,3 +4,9 @@
 
 
 <%= link_to "Back to content item", content_item_path(@content_item) -%>
+
+<p>
+<% if logged_in? && @litgloss.writable_by?(current_user) -%>
+  <%= link_to 'Edit litgloss', edit_content_item_litgloss_path(@content_item, @litgloss) -%>
+<% end -%>
+</p>

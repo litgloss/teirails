@@ -3,7 +3,7 @@ module VersionHelper
     links = []
 
     links << link_to("Show", content_item_version_path(content_item, 
-                                                       content_item_version))
+                                                       content_item_version.version))
     links << link_to("XML", formatted_content_item_version_path(content_item, 
                                                                 content_item_version,
                                                                 'xml'))

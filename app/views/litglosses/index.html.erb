@@ -9,7 +9,7 @@
   <ul>
     <% @litglosses.each do |l| -%>
       <li>
-	<%= l.term -%> => <%= l.explanation -%>
+	<%= link_to l.term, content_item_litgloss_path(@content_item, l) -%> => <%= l.explanation -%>
 	<% if l.content_item_id != @content_item.id -%>
 	  (attached to parent)
 	<% else -%>

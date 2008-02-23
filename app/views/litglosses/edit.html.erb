@@ -1,0 +1,12 @@
+<h1>Edit Litgloss</h1>
+
+<%= error_messages_for :litgloss %>
+
+<% form_for :litgloss, :url => content_item_litgloss_path, :html => { :method => :put } do |f| -%>
+
+  <%= render :partial => 'form', :locals => { :f => f } -%>
+
+  <%= submit_tag 'Update Litgloss' %><br />
+<% end -%>
+
+<p><%= link_to 'Skip save changes and go to show litgloss', content_item_litgloss_path %></p>
