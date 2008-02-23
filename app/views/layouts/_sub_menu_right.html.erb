@@ -1,0 +1,5 @@
+<div id="submenu_right">
+  <% if request.path_parameters['controller'].eql?("content_items") && request.path_parameters['action'].eql?("show") -%>
+    <%= link_to "TEI", formatted_content_item_path(@content_item, 'xml') -%>
+  <% end -%>
+</div>

@@ -3,9 +3,13 @@ class ContentItemsController < ApplicationController
 
   layout "layouts/application", :except => [:annotatable, :show]
 
-  before_filter :find_content_item, :only => [:edit, :show, :annotatable, 
+  before_filter :find_content_item, :only => [:edit, :show, 
+                                              :annotatable, 
                                               :update]
 
+  methods_ok_without_login = [ :index, :search, :show, :by_language, :by_author, :by_title ]
+
+  append_before_filter :login_required, :except => methods_ok_without_login
 
   def search
     # If search term is empty, redirect back with error.
@@ -145,6 +149,7 @@ class ContentItemsController < ApplicationController
   end
 
   def edit
+    block_if_not_writable_by(current_user, @content_item)
   end
 
   def show

@@ -30,4 +30,38 @@ class Image < ActiveRecord::Base
     image.copy_attributes_from_parent
   end
 
+  def readable_by?(user)
+    return case 
+             
+           when self.imageable_class.eql?("content_item")
+             
+             ContentItem.find(self.imageable_id).readable_by?(user)
+             
+           when self.imageable_class.eql?("profile")
+             
+             Profile.find(self.imageable_id).readable_by?(user)
+
+           else
+             false
+
+           end
+  end
+
+  def writable_by?(user)
+    return case 
+             
+           when self.imageable_class.eql?("content_item")
+             
+             ContentItem.find(self.imageable_id).writable_by?(user)
+             
+           when self.imageable_class.eql?("profile")
+             
+             Profile.find(self.imageable_id).writable_by?(user)
+
+           else
+             false
+
+           end
+  end
+
 end

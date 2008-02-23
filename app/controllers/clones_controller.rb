@@ -4,6 +4,8 @@ class ClonesController < ApplicationController
 
   append_before_filter :get_clone, :only => [:show, :update]
 
+  append_before_filter :login_required
+
   # Does a "pull" from one content item to another.
   def update
     case params[:from]

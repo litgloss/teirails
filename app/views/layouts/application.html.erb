@@ -19,14 +19,18 @@
 
   <div id="mainContent">
 
-  <%= render_partial "layouts/sub_menu" -%>
+    <% if !generate_sub_menu_items.empty? -%>
 
-  <%= render_partial "layouts/flashes" -%>
+    <%= render_partial "layouts/sub_menu_components" -%>
+    
+    <% end -%>
+
+    <%= render_partial "layouts/flashes" -%>
 
 
-  <%= yield -%>
+    <%= yield -%>
 
+    
+    <%= render_partial "layouts/footer" %>
   
-  <%= render_partial "layouts/footer" %>
-
-  <%= render_partial "layouts/body_end" %>
+    <%= render_partial "layouts/body_end" %>

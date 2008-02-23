@@ -3,6 +3,7 @@ class ImagesController < ApplicationController
 
   before_filter :login_required, :only => [ :new, :create, :edit,
                                             :update, :destroy ]
+
   imageable_classes = ['Profile', 'Content']
 
   def update

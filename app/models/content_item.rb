@@ -654,7 +654,7 @@ class ContentItem < ActiveRecord::Base
 
            else
              false
-
+             
            end
   end
 
@@ -710,7 +710,7 @@ class ContentItem < ActiveRecord::Base
       "\n" +
       '<%= render_partial "layouts/main_menu" %>' + "\n" +
       '<div id="mainContent">' + "\n" +
-      '<%= render_partial "layouts/sub_menu" -%>' + "\n" +
+      '<%= render_partial "layouts/sub_menu_components" -%>' + "\n" +
       '<%= render_partial "layouts/flashes" -%>'
 
     footer_string = "\n" +

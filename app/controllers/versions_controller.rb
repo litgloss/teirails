@@ -1,6 +1,8 @@
 class VersionsController < ApplicationController
   before_filter :get_content_item
 
+  append_before_filter :login_required
+
   def index
     @versions = @content_item.versions
   end

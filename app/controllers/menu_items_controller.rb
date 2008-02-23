@@ -3,6 +3,8 @@ class MenuItemsController < ApplicationController
                                            :move_higher, :move_lower,
                                            :move_to_top, :move_to_bottom]
 
+  append_before_filter :login_required, :except => [:show]
+
   def index
     @menu_items = MenuItem.find(:all, :order => :position)
   end

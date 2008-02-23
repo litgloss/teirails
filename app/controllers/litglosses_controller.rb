@@ -3,6 +3,8 @@ class LitglossesController < ApplicationController
 
   append_before_filter :get_litgloss, :only => [:edit, :show, :update, :destroy]
 
+  append_before_filter :login_required, :except => [:show, :index]
+
   def edit
     
   end
