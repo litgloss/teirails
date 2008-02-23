@@ -3,6 +3,7 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include TeiHelper
 
   helper :all # include all helpers, all the time
 
@@ -14,4 +15,30 @@ class ApplicationController < ActionController::Base
   def oblog(msg)
     logger.info("\n\n\n#{msg.upcase}\n\n\n")
   end
+
+  # Checks whether a TEI string is valid XML and whether
+  # or not it is valid according to a TEI DTD.  If document
+  # has problems, set the flash[:error] variable to a useful
+  # message and return false.  Else, return true.
+  def validate_tei(tei_string)
+    has_errors = false
+
+    begin
+      res = validate_tei_document(tei_string)
+    rescue XML::Parser::ParseError
+      flash[:error] = "Document does not contain valid XML." + 
+        "  Please correct and try uploading again."
+
+
+      has_errors = true
+    rescue DTDValidationFailedError
+      flash[:error] = "Document failed to validate against "  +
+        "a schema for TEI Lite.  Please fix and try uploading again."
+      
+      has_errors = true
+    end
+
+    return !has_errors
+  end
+
 end

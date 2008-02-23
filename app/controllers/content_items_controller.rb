@@ -209,7 +209,7 @@ class ContentItemsController < ApplicationController
     tei_data = params[:content_item][:tei_data].read
 
     if !validate_tei(tei_data)
-      flash[:notice] = "Data failed TEI validation, unable to save."
+      flash[:error] = "Data failed TEI validation, unable to save."
       redirect_to new_content_item_path
     else
       @content_item.tei_data = tei_data
@@ -297,30 +297,6 @@ class ContentItemsController < ApplicationController
     @content_item = ContentItem.find(params[:id])    
   end
 
-  # Checks whether a TEI string is valid XML and whether
-  # or not it is valid according to a TEI DTD.  If document
-  # has problems, set the flash[:error] variable to a useful
-  # message and return false.  Else, return true.
-  def validate_tei(tei_string)
-    has_errors = false
-
-    begin
-      res = validate_tei_document(tei_string)
-    rescue XML::Parser::ParseError
-      flash[:error] = "Document does not contain valid XML." + 
-        "  Please correct and try uploading again."
-
-
-      has_errors = true
-    rescue DTDValidationFailedError
-      flash[:error] = "Document failed to validate against "  +
-        "a schema for TEI Lite.  Please fix and try uploading again."
-
-      has_errors = true
-    end
-
-    return !has_errors
-  end
 
   # Sets properties for content item, including system page
   # and published.

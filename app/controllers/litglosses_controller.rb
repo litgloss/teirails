@@ -6,7 +6,6 @@ class LitglossesController < ApplicationController
   def edit
     
   end
-
   
   def update
     if @litgloss.update_attributes(params[:litgloss])
@@ -33,13 +32,17 @@ class LitglossesController < ApplicationController
 
     @litgloss.save
 
-    @content_item.tei_data = 
+    tei_data = 
       @content_item.create_glossed_link(@content_item.doc, @litgloss).to_s
 
-    @content_item.save
-    
-    flash[:notice] = "Litgloss saved."
-    redirect_to content_item_path(@content_item)
+    if validate_tei(tei_data)
+      @content_item.tei_data = tei_data
+      flash[:notice] = "Litgloss saved."
+      @content_item.save
+      redirect_to content_item_path(@content_item)
+    else
+      redirect_to content_item_path(@content_item)
+    end
   end
 
   def show
