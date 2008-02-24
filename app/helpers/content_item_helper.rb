@@ -72,6 +72,10 @@ module ContentItemHelper
                        images_path(:imageable_type => "content_item", 
                                    :imageable_id => content_item.id))
 
+      links << link_to("audio", 
+                       audio_files_path(:audible_type => "content_item", 
+                                       :audible_id => content_item.id))
+
       links << link_to("versions", 
                        content_item_versions_path(content_item))
       links << link_to("litglosses", 

@@ -1,0 +1,23 @@
+<h1>Edit audio file properties</h1>
+
+<p>You are editing the properties for <%=h @audio_file.filename %>.
+
+<% form_for(:image, :url => { :action => 'update', :id => @audio_file }, :html => { :multipart => true }) do |f| -%>
+	<p><label for="audio_file_name">Name</label><br />
+	<%= text_field 'audio_file', 'name'  %></p>
+
+	<p><label for="audio_file_description">Description</label><br />
+	<%= text_field 'audio_file', 'description'  %></p>
+  <p>
+    <%= submit_tag 'Save' %>
+  </p>
+<% end -%>
+
+<p>
+<%= link_to 'Show', :action => 'show', :id => @audio_file %> |
+<%= link_to 'Back to audio file list', :action => :list, :id => @audio_file %>
+</p>
+
+<p>
+<%= link_to "Back to #{@associated_object.class.to_phrase}", :controller => @associated_object.class.table_name, :action => :show, :id => @associated_object.id %>
+</p>

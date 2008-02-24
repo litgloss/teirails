@@ -1,0 +1,24 @@
+<h1>Edit audio file properties</h1>
+
+<p>You are editing the properties for <%=h @audio_file.filename %>.
+
+<p>Edit any of the fields that you wish to change for this audio_file below. Not selecting a new audio_file will leave the old audio_file in place.</p>
+
+<%= error_messages_for :audio_file %>
+
+<% form_for(:audio_file, :url => audio_file_path, :html => { :method => :put,
+	      :multipart => true } ) do |f| -%>
+
+<%= render :partial => 'form', :locals => { :f => f } -%>
+
+<p>
+  <%= submit_tag 'Modify Audio File' %>
+</p>
+
+<br />
+<% end -%>
+
+<p>
+  <%= link_to 'Go back to audio file view without saving',
+      audio_file_path -%>
+</p>

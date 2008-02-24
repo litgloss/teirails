@@ -2,7 +2,6 @@ class LitglossesController < ApplicationController
   before_filter :get_content_item
 
   append_before_filter :get_litgloss, :only => [:edit, :show, :update, :destroy]
-
   append_before_filter :login_required, :except => [:show, :index]
 
   def edit
@@ -48,7 +47,10 @@ class LitglossesController < ApplicationController
   end
 
   def show
-    
+    @audio_files = @litgloss.audio_files
+    @images = @litgloss.images.find(:all, :conditions => {
+                                      :parent_id => nil
+                                    })
   end
 
 

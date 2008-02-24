@@ -1,17 +1,15 @@
-class CreateImages < ActiveRecord::Migration
+class CreateAudioFiles < ActiveRecord::Migration
   def self.up
-    create_table :images do |t|
-      t.string  :imageable_type
-      t.integer :imageable_id
-      
+    create_table :audio_files do |t|
+      t.string  :audible_type
+      t.integer :audible_id
+
       t.integer :parent_id
       t.string :content_type
       t.string :filename
       t.string :thumbnail
       t.integer :size
-      t.integer :width
-      t.integer :height
-      
+
       t.string :title
       t.text :description
 
@@ -22,6 +20,6 @@ class CreateImages < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :images
+    drop_table :audio_files
   end
 end

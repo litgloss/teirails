@@ -1,0 +1,15 @@
+<%= f.label :title -%>
+<%= f.text_field :title %><br />
+
+<%= f.label :description -%>
+<%= f.text_area :description %><br />
+
+
+<p>
+  <%= f.label :uploaded_data, "Select an audio file" -%>
+  <%= f.file_field :uploaded_data %><br />
+</p>
+
+
+<%= f.hidden_field :audible_type, :value => @audible_type -%>
+<%= f.hidden_field :audible_id, :value => @audible_id -%>

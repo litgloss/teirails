@@ -26,20 +26,26 @@ module ImagesHelper
   def get_associated_object_show_link_from_type_and_id(obj_type, obj_id)
     controller = eval(obj_type.camelize).table_name.singularize
 
-    # Profiles are a nested route, add prefix for these.
-    if controller =~ /profile/
+    # Cases for different paths based on nested routes.
+    case controller
+    when /profile/
       controller = "user_" + controller
+    when /litgloss/
+      logger.info("gen litgloss link.")
+      controller = "content_item_litglosses"
+      litgloss = Litgloss.find(obj_id)
+      content_item = litgloss.content_item
+      link_to("litgloss", content_item_litgloss_path(content_item, 
+                                                     litgloss))
+    else
+      link_to("#{obj_type} id #{obj_id}", 
+              eval(controller + "_path(" + obj_id.to_s + ")"))
     end
-
-    link_to("#{obj_type} id #{obj_id}", 
-            eval(controller + "_path(" + obj_id.to_s + ")"))
   end
 
   # Returns the links that a user is able to use in
   # order to manage this object, if any.
   def get_management_links(image)
-    logger.info("got image obj: #{image.imageable_type}")
-
     links = []
     if image.imageable_type.eql?("content_item")
       if image.writable_by?(current_user)

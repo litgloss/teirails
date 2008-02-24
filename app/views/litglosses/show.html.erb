@@ -2,15 +2,50 @@
 
 <p><%= @litgloss.explanation -%></p>
 
+<h2>Images</h2>
 
-<%= link_to "Back to content item", content_item_path(@content_item) -%>
+<p>This object supports image uploads.  There are currently <%= @images.size -%> images associated with it.</p>
+
+<% if !@images.empty? -%>
+  <ul>
+    <% @images.each do |i| -%>
+      <li><%= link_to i.title, image_path(i) -%></li>
+    <% end -%>
+  </ul>
+<% end -%>
+
+<% if @content_item.writable_by?(current_user) -%>
+  <p>Would you like to <%= link_to "add one", new_image_path(:imageable_type => "litgloss", :imageable_id => @litgloss.id) -%>?</p>
+<% end -%>
+
+<h2>Audio Files</h2>
+
+<p>This object supports audio file uploads.  There are currently <%= @audio_files.size -%> audio files associated with it.</p>
+
+<% if !@audio_files.empty? -%>
+  <ul>
+    <% @audio_files.each do |af| -%>
+      <li><%= link_to af.title, audio_file_path(af) -%></li>
+    <% end -%>
+  </ul>
+<% end -%>
+
+<% if @content_item.writable_by?(current_user) -%>
+  <p>Would you like to <%= link_to "add one", new_audio_file_path(:audible_type => "litgloss", :audible_id => @litgloss.id) -%>?</p>
+<% end -%>
+
+
+<% if logged_in? && @litgloss.writable_by?(current_user) -%>
+  <h2>Manage Litgloss</h2>
+  
+  <p>Based on your permissions, you may <%= link_to 'edit', edit_content_item_litgloss_path(@content_item, @litgloss) -%> or 
+    <%= link_to 'delete', content_item_litgloss_path,
+	:confirm => "Are you sure?",
+        :method => :delete -%>
+    the current litgloss.</p>
+<% end -%>
+
 
 <p>
-<% if logged_in? && @litgloss.writable_by?(current_user) -%>
-  <%= link_to 'Edit litgloss', edit_content_item_litgloss_path(@content_item, @litgloss) -%> |
-  <%= link_to 'Delete Litgloss', content_item_litgloss_path,
-	    :confirm => "Are you sure?",
-            :method => :delete -%>
-
-<% end -%>
+  <%= link_to "Back to content item", content_item_path(@content_item) -%>
 </p>

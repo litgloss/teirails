@@ -1,0 +1,20 @@
+<h2>Audio Files</h2>
+
+<% if @audio_files != nil && @audio_files.size > 0 %>
+<ul>
+<% @audio_files.each do |af| %>
+
+<li><%=h af.name %>, <%=h af.description %> &nbsp; (<%= link_to 'Listen', af.public_filename, :popup => [ 'Audio Player', 'width=300, height=100' ] %> | <%= link_to 'Show details', :controller => :audio_files, :action => :show, :id => af %>)
+</li>
+
+<% end %>
+
+</ul>
+
+<% else %>
+
+<p>No audio files attached to object.</p>
+
+<% end %>
+
+<%= link_to 'Add a new audio file', :controller => :audio_files, :action => :new, :audible_type => @audible_type, :audible_id => @audible_id %>

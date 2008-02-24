@@ -39,8 +39,6 @@ class ImagesController < ApplicationController
   end
 
   def stream
-    # Put access filters here to make sure that user
-    # is able to view this image. XXX
     image = Image.find(params[:id])
     block_if_not_readable_by(current_user, image)
 

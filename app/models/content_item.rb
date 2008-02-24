@@ -12,18 +12,22 @@ class ContentItem < ActiveRecord::Base
 
   belongs_to :creator, :class_name => "User"
   
-  has_many :images, :as => :imageable
+  has_many :images, :as => :imageable, :dependent => :destroy
+  has_many :litglosses, :as => :audible, :dependent => :destroy
 
   has_one :system_page, :dependent => :destroy
 
-  has_many :litglosses, :dependent => :destroy
-
+  # Get rid of clones when a perent is destroyed.
   before_destroy { |record| 
     ContentItem.destroy_all "parent_id = #{record.id}"
   }
 
   # Constant to prepend to temporary files that we create.
   TempFilePrefix = 'teirails'
+
+  def ContentItem.to_phrase
+    "content item"
+  end
 
   # There are a couple of levels of rendering required to change TEI
   # into a format that can be viewed on the site.  First, we change
