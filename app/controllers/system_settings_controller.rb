@@ -1,4 +1,6 @@
 class SystemSettingsController < ApplicationController
+  append_before_filter :login_required, :except => [:show]
+
   def index
     @system_settings = SystemSetting.find(:all)
   end
@@ -43,5 +45,10 @@ class SystemSettingsController < ApplicationController
     if SystemSetting.find(params[:id]).destroy
       redirect_to system_settings_path
     end
+  end
+
+  private
+  def authorized?
+    current_user.can_act_as?("administrator")
   end
 end

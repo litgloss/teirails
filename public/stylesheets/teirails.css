@@ -123,19 +123,21 @@ body {
 
 #submenu_right {
     float: right;
-    width: 200px;
-    font-size: 1.2em;
-    padding-top: 13px;
-
+    width: 100px;
+    font-size: 1em;
+    padding-top: 14px;
 }
 
 #submenu_right a:visited {
     text-decoration: none;
     color: #000000;
+    padding: 3px;
 }
 
 #submenu_right a {
     text-decoration: none;
+    color: #000000;
+    padding: 3px;
 }
 
 #submenu_left a:link {

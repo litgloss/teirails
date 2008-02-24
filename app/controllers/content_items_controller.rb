@@ -7,7 +7,8 @@ class ContentItemsController < ApplicationController
                                               :annotatable, 
                                               :update]
 
-  methods_ok_without_login = [ :index, :search, :show, :by_language, :by_author, :by_title ]
+  methods_ok_without_login = [ :index, :search, :show, 
+                               :by_language, :by_author, :by_title ]
 
   append_before_filter :login_required, :except => methods_ok_without_login
 
@@ -71,7 +72,6 @@ class ContentItemsController < ApplicationController
   # Prints index of content items passed to us
   # sorted by title.
   def by_title
-
     # Return content item array sorted alphabetically 
     # according to title.
     
@@ -91,18 +91,23 @@ class ContentItemsController < ApplicationController
     case filter
     when "system"
       content_items = []
-      ContentItem.find(:all).each do |c|
-        if c.has_system_page
-          content_items << c
+
+      if current_user.can_act_as?("administrator")
+        ContentItem.find(:all).each do |c|
+          if c.has_system_page
+            content_items << c
+          end
         end
       end
       
       content_items = ContentItem.remove_cloned_content_items(content_items)
 
     when "unpublished"
-      content_items = ContentItem.find(:all, :conditions => {
-                                          :published => false
-                                        })
+      if current_user.can_act_as?("contributor")
+        content_items = ContentItem.find(:all, :conditions => {
+                                           :published => false
+                                         })
+      end
 
       content_items = ContentItem.remove_cloned_content_items(content_items)
       content_items = ContentItem.remove_system_content_items(content_items)
@@ -130,6 +135,10 @@ class ContentItemsController < ApplicationController
 
   # Display unpublished content items.
   def unpublished
+    if !current_user.can_act_as?("contributor")
+      redirect_to_block(current_user, nil)
+    end
+
     @title = "Unpublished Content Items"
     @content_items = get_content_items_with_filter("unpublished")
 
@@ -138,6 +147,11 @@ class ContentItemsController < ApplicationController
 
   # Display system content items.
   def system
+    if !current_user.can_act_as?("administrator")
+      redirect_to_block(current_user, nil)
+      return
+    end
+
     @title = "System Content Items"
     @content_items = get_content_items_with_filter("system")
 
@@ -145,6 +159,11 @@ class ContentItemsController < ApplicationController
   end
 
   def new
+    if !current_user.can_act_as?("editor")
+      redirect_to_block(current_user, nil)
+      return
+    end
+
     @content_item = ContentItem.new
   end
 
@@ -153,32 +172,36 @@ class ContentItemsController < ApplicationController
   end
 
   def show
+    if @content_item.readable_by?(current_user)
+      respond_to do |format|
+        format.html {
+          tei_data = @content_item.tei_data
 
-    respond_to do |format|
-      format.html {
-        tei_data = @content_item.tei_data
+          if params[:term_to_annotate]
+            tei_data = 
+              @content_item.
+              insert_temporary_ref_tags_for_string_match(@content_item.doc, 
+                                                         params[:term_to_annotate])
 
-        if params[:term_to_annotate]
-          tei_data = 
-            @content_item.
-            insert_temporary_ref_tags_for_string_match(@content_item.doc, 
-                                                       params[:term_to_annotate])
-
-          if params[:term_to_annotate] && 
-              !tei_data.eql?(@content_item.tei_data)
-            @message = "Annotation markup mode: Phrases in the document " + 
-              "matching the term that you specified have been highlighted " + 
-              "in red.  Click on the term that you want to mark to add an " + 
-              "annotation."
+            if params[:term_to_annotate] && 
+                !tei_data.eql?(@content_item.tei_data)
+              @message = "Annotation markup mode: Phrases in the document " + 
+                "matching the term that you specified have been highlighted " + 
+                "in red.  Click on the term that you want to mark to add an " + 
+                "annotation."
+            end
           end
-        end
-        
-        rendered_text = @content_item.tei_data_to_xhtml(tei_data)
+          
+          rendered_text = @content_item.tei_data_to_xhtml(tei_data)
 
-        render :inline => rendered_text
-      }
+          render :inline => rendered_text
+        }
 
-      format.xml { render :xml => @content_item.tei_data }
+        format.xml { render :xml => @content_item.tei_data }
+      end
+    else
+      flash[:error] = "You do not have permission to access this resource."
+      redirect_to login_path
     end
   end
 

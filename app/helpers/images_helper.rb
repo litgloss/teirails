@@ -38,37 +38,35 @@ module ImagesHelper
   # Returns the links that a user is able to use in
   # order to manage this object, if any.
   def get_management_links(image)
+    logger.info("got image obj: #{image.imageable_type}")
+
     links = []
-    case image.imageable_type
-    when "content_item"
-      if logged_in? 
-        if current_user.can_act_as?("editor")
-          links << link_to('Edit Image', edit_image_path(image))
-        end
+    if image.imageable_type.eql?("content_item")
+      if image.writable_by?(current_user)
+        links << link_to('Edit Image', edit_image_path(image))
+      end
         
-        if current_user.can_act_as?("administrator")
-          links << link_to('Delete Image', { 
-                             :action => "destroy",
-                             :id => image 
-                           },
-                           :confirm => "Are you sure?",
-                           :method => :delete)
-        end
+      if current_user.can_act_as?("administrator") ||
+        image.get_associated_object.writable_by?(current_user)
+        links << link_to('Delete Image', { 
+                           :action => "destroy",
+                           :id => image 
+                         },
+                         :confirm => "Are you sure?",
+                         :method => :delete)
       end
       
-    when "profile"
-      if logged_in?
-        if current_user == User.find(image.imageable_id) ||
+    elsif image.imageable_type.eql?("profile")
+      if current_user == User.find(image.imageable_id) ||
           current_user.can_act_as?("administrator")
-          links << link_to('Edit Image', edit_image_path(image))
-          links << link_to('Delete Image', { 
-                             :action => "destroy",
-                             :id => image 
-                           },
-                           :confirm => "Are you sure?",
-                           :method => :delete)
+        links << link_to('Edit Image', edit_image_path(image))
+        links << link_to('Delete Image', { 
+                           :action => "destroy",
+                           :id => image 
+                         },
+                         :confirm => "Are you sure?",
+                         :method => :delete)
         end
-      end
     end
 
     links.join(" | ")

@@ -639,6 +639,11 @@ class ContentItem < ActiveRecord::Base
              # pages right now.
              true
              
+           when !self.parent_id.nil?
+             # Clone case
+             user.can_act_as?("administrator") ||
+               user == self.creator
+
            when self.published? && !self.protected? then 
              true
              

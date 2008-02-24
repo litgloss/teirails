@@ -8,7 +8,8 @@ class ImagesController < ApplicationController
 
   def update
     @image = Image.find(params[:id])
-
+    block_if_not_writable_by(current_user, @image)
+    
     image_to_update = nil
     if !@image.parent.nil?
       image_to_update = @image.parent
@@ -33,12 +34,16 @@ class ImagesController < ApplicationController
     @imageable_id = params[:imageable_id]
 
     @image = Image.new
+
+    block_if_not_creatable_by(current_user, @image)
   end
 
   def stream
     # Put access filters here to make sure that user
     # is able to view this image. XXX
     image = Image.find(params[:id])
+    block_if_not_readable_by(current_user, image)
+
     content_type = image.content_type
 
     filename = image.public_filename
@@ -49,6 +54,11 @@ class ImagesController < ApplicationController
   def index
     @imageable_type = params[:imageable_type]
     @imageable_id = params[:imageable_id]
+
+    @associated_object = 
+      eval(@imageable_type.camelize).find(@imageable_id)
+
+    block_if_not_readable_by(current_user, @associated_object)
 
     if @imageable_type.eql?("content_item")
       @images = ContentItem.find(@imageable_id).images
@@ -63,10 +73,12 @@ class ImagesController < ApplicationController
 
   def edit
     @image = Image.find(params[:id])
+    block_if_not_writable_by(current_user, @image)
   end
 
   def show
     @image = Image.find(params[:id])
+    block_if_not_readable_by(current_user, @image)
 
     # If we aren't passed a parameter for "size",
     # display medium-sized image.
@@ -94,6 +106,8 @@ class ImagesController < ApplicationController
 
   def create
     @image = Image.new(params[:image])
+    block_if_not_creatable_by(current_user, @image)
+    
 
     @image.creator = current_user
 
@@ -107,6 +121,11 @@ class ImagesController < ApplicationController
 
   def destroy
     @image = Image.find(params[:id])
+    block_if_not_writable_by(current_user, @image)
+
+    imageable_type = @image.imageable_type
+    imageable_id = @image.imageable_id
+    associated_object = @image.get_associated_object
 
     p = nil
 
@@ -118,9 +137,18 @@ class ImagesController < ApplicationController
 
     if p.destroy
       flash[:notice] = 'Image deleted.'
-      redirect_to images_path
     else
       flash[:error] = 'Error deleting image.'
     end
+
+    case imageable_type
+    when "content_item"
+      redirect_to images_path(:imageable_type => "content_item", 
+                              :imageable_id => imageable_id)
+    when "profile"
+      redirect_to user_profile_path(associated_object)
+    end
+
+
   end
 end

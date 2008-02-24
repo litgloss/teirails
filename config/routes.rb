@@ -84,12 +84,6 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password', :controller => 
     'accounts', :action => 'edit'
 
-
-  map.resource :search, :controller => :search
-
-  # Might be a placeholder for a while.
-  map.resource :my_litgloss, :controller => :my_litgloss
-
   map.resource :search, :controller => :search
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.

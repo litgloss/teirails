@@ -1,4 +1,3 @@
-# Manages clone of a content item.
 class ClonesController < ApplicationController
   before_filter :get_content_item
 
@@ -8,6 +7,8 @@ class ClonesController < ApplicationController
 
   # Does a "pull" from one content item to another.
   def update
+    block_if_not_writable_by(current_user, @content_item)
+
     case params[:from]
     when "parent"
       @clone.pull!(@content_item)
@@ -27,6 +28,8 @@ class ClonesController < ApplicationController
   # Shows properties of this clone, and relationship
   # to parent content item.
   def show
+    block_if_not_readable_by(current_user, @content_item)
+    
     parent_prophash = {}
 
     parent_prophash["Parent Title"] = @content_item.title
@@ -50,17 +53,21 @@ class ClonesController < ApplicationController
 
   # Shows a list of all clones of the selected ContentItem.
   def index
+    if !current_user.can_act_as?("editor")
+      redirect_to_block(current_user, nil)
+      return
+    end
+
     @clones = @content_item.private_clones
-  end
-
-  # Shows message before creating clone, and form
-  # to commit this action.
-  def new
-
   end
 
   # Creates a clone of this document.
   def create
+    if !current_user.can_act_as?("contributor")
+      redirect_to_block(current_user, nil)
+      return
+    end
+
     @clone = @content_item.private_clone(current_user)
 
     if !@clone.nil?
@@ -70,10 +77,6 @@ class ClonesController < ApplicationController
       flash[:error] = "Unable to create clone for this object."
       redirect_to content_item_path(@content_item)
     end
-  end
-
-  def destroy
-    
   end
 
   protected

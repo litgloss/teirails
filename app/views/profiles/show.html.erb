@@ -22,7 +22,7 @@
     <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %>.</p>
   <% end -%>
 
-  <p><%= link_to 'Edit your profile?', edit_user_profile_path -%></p>
+
 
   <% if !@cloned_content_items.empty? -%>
     <h2>Cloned Documents</h2>
@@ -43,5 +43,14 @@
     </ul>
   <% end -%>
 
-  
+
+  <h2>User Role</h2>
+
+  <p>You are registered as a <%= @user.role.name -%> in <%= SystemSetting.get("site_name") -%>.</p>
+
+  <h2>Edit Profile</h2>
+  <p>
+    Would you like to <%= link_to 'edit your profile', edit_user_profile_path -%>
+    or <%= link_to 'your image', edit_image_path(@image) -%>?
+  </p>
 <% end -%>

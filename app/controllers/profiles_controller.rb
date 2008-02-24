@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_filter :get_user
+  append_before_filter :login_required, :except => :show
 
   def show
     @profile = @user.profile
@@ -13,10 +14,12 @@ class ProfilesController < ApplicationController
 
   def edit
     @profile = @user.profile
+    block_if_not_writable_by(current_user, @profile)
   end
 
   def update
     @profile = @user.profile
+    block_if_not_writable_by(current_user, @profile)
 
     if @profile.update_attributes(params[:profile])
       flash[:notice] = 'Profile details were successfully updated.'

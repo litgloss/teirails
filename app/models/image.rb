@@ -26,6 +26,11 @@ class Image < ActiveRecord::Base
     end
   end
 
+  # Returns the object associated with this image.
+  def get_associated_object
+    eval(self.imageable_type.camelize).find(self.imageable_id)
+  end
+
   after_attachment_saved do |image|
     image.copy_attributes_from_parent
   end
@@ -50,11 +55,11 @@ class Image < ActiveRecord::Base
   def writable_by?(user)
     return case 
              
-           when self.imageable_class.eql?("content_item")
+           when self.imageable_type.eql?("content_item")
              
              ContentItem.find(self.imageable_id).writable_by?(user)
              
-           when self.imageable_class.eql?("profile")
+           when self.imageable_type.eql?("profile")
              
              Profile.find(self.imageable_id).writable_by?(user)
 
@@ -62,6 +67,10 @@ class Image < ActiveRecord::Base
              false
 
            end
+  end
+
+  def creatable_by?(user)
+    writable_by?(user)
   end
 
 end

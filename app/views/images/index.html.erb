@@ -15,7 +15,7 @@
 
 <%= show_image_thumbnails -%>
 
-<% if logged_in? && current_user.can_act_as?("editor") -%>
+<% if logged_in? && @associated_object.writable_by?(current_user) -%>
   <p>
     <%= link_to 'Add an image to the current object',
 	 new_image_path(:imageable_type => @imageable_type,
