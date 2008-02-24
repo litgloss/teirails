@@ -50,7 +50,10 @@
 
   <h2>Edit Profile</h2>
   <p>
-    Would you like to <%= link_to 'edit your profile', edit_user_profile_path -%>
-    or <%= link_to 'your image', edit_image_path(@image) -%>?
+    Would you like to <%= link_to 'edit your profile', edit_user_profile_path -%>?
+    <% if !@image.nil? -%>
+      You may also 
+      <%= link_to 'edit your image', edit_image_path(@image) -%>.
+    <% end -%>
   </p>
 <% end -%>
