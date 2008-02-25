@@ -1,12 +1,9 @@
-<h1>View audio file details</h1>
+<h1>Audio File Details for "<%=h printable_name(@audio_file) %>"</h1>
+
+<p>This resource was created on <%=h @audio_file.created_at %>.</p>
 
 <p>
-  <%=h printable_name(@audio_file) %>
-  It was created on <%=h @audio_file.created_at %>.
-</p>
-
-<p>
-  Would you like to <%= link_to 'Listen', stream_audio_file_path, :popup => [ 'Audio Player', 'width=300, height=100' ] %> to the file?
+  Would you like to <%= link_to 'listen', stream_audio_file_path, :popup => [ 'Audio Player', 'width=300, height=100' ] %> to this file?
 </p>
 
 <h2>Description</h2>

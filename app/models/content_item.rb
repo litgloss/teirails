@@ -673,6 +673,9 @@ class ContentItem < ActiveRecord::Base
   end
 
   def writable_by?(user)
+    if user.class == Symbol || user.nil?
+      return false
+    end
     
     return case 
        

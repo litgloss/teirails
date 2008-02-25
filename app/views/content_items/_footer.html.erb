@@ -1,21 +1,17 @@
+<div id="content_item_footer">
 
+  <div id="content_item_left_box">
+    <%= get_footer_options(@content_item) -%>
 
-<% if logged_in? -%>
-  <div id="content_item_footer">
-
-    <div id="content_item_left_box">
-      <%= get_footer_options(@content_item) -%>
-
-
-    </div>
-
-    <div id="gloss_search_box">
-      <%= render_partial "content_items/litgloss_search_box" -%> <br />
-    </div>
-    
-    <div id="content_item_right_box">
-      <%= get_content_item_type(@content_item) -%>
-    </div>
 
   </div>
-<% end -%>
+
+  <div id="gloss_search_box">
+    <%= render_partial "content_items/litgloss_search_box" -%> <br />
+  </div>
+  
+  <div id="content_item_right_box">
+    <%= get_content_item_type(@content_item) -%>
+  </div>
+
+</div>

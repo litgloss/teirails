@@ -1,7 +1,7 @@
 class AudioFilesController < ApplicationController
   include ActionController::Streaming
 
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :login_required, :except => [:index, :show, :stream]
 
   # Streams this file as a sequence of bytes to the client.
   def stream
@@ -18,8 +18,6 @@ class AudioFilesController < ApplicationController
   end
 
   def index
-
-
     if !params[:audible_type] ||
         !params[:audible_id] ||
         !AudioFile.audible_class_string?( params[:audible_type].camelize )
@@ -103,7 +101,7 @@ class AudioFilesController < ApplicationController
 
     if @audio_file.update_attributes(params[:audio_file])
       flash[:notice] = 'Audio file was successfully updated.'
-      redirect_to audio_files_path(@audio_file)
+      redirect_to audio_file_path(@audio_file)
     else
       render edit_audio_file_path(@audio_file)
     end
