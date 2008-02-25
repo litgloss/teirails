@@ -16,3 +16,6 @@
 [submodule "vendor/plugins/simple_http_auth"]
 	path = vendor/plugins/simple_http_auth
 	url = git://git.hcoop.net/git/leitgebj/simple_http_auth.git
+[submodule "vendor/plugins/acts_as_state_machine"]
+	path = vendor/plugins/acts_as_state_machine
+	url = git://git.hcoop.net/git/leitgebj/acts_as_state_machine.git
