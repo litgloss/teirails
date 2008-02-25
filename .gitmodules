@@ -1,0 +1,18 @@
+[submodule "vendor/plugins/acts_as_list"]
+	path = vendor/plugins/acts_as_list
+	url = git://git.hcoop.net/git/leitgebj/acts-as-list.git
+[submodule "vendor/plugins/acts_as_annotea_server"]
+	path = vendor/plugins/acts_as_annotea_server
+	url = git://git.hcoop.net/git/leitgebj/acts_as_annotea_server.git
+[submodule "vendor/plugins/acts_as_versioned"]
+	path = vendor/plugins/acts_as_versioned
+	url = git://git.hcoop.net/git/leitgebj/acts_as_versioned.git
+[submodule "vendor/plugins/attachment_fu"]
+	path = vendor/plugins/attachment_fu
+	url = git://git.hcoop.net/git/leitgebj/attachment_fu.git
+[submodule "vendor/plugins/restful_authentication"]
+	path = vendor/plugins/restful_authentication
+	url = git://git.hcoop.net/git/leitgebj/restful_authentication.git
+[submodule "vendor/plugins/simple_http_auth"]
+	path = vendor/plugins/simple_http_auth
+	url = git://git.hcoop.net/git/leitgebj/simple_http_auth.git
