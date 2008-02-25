@@ -509,16 +509,18 @@ class ContentItem < ActiveRecord::Base
 
   # Accepts a 
   def set_system_page_value(value)
+    logger.info("Got val of #{value} (type == #{value.class}) for systme page.")
+
     case value
-    when 0 || "0"
+    when "0"
       # Delete a system page if we have one.
       if !self.system_page.nil?
         s = self.system_page
         s.destroy
       end
-    when 1 || "1"
+    when "1"
       if self.system_page.nil?
-        self.system_page = SystemPage.new
+        self.set_as_system_content!
       end
     end
   end

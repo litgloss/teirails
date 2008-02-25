@@ -1,5 +1,7 @@
 <h1>Content Items by Title</h1>
 
+<p>There are <%= @content_items.size -%> items matching your search criteria.</p>
+
 <ul>
 <% @content_items.each do |ci| -%>
   <li><%= link_to get_title(ci), content_item_path(ci) -%> by <%= get_authors(ci) -%></li>

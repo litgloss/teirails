@@ -1,5 +1,6 @@
 <h1>Content Items by Language</h1>
 
+<p>There are <%= @content_item_ary.size -%> items matching your search criteria.</p>
 
 <% @content_item_ary.each do |ci_lang_group| -%>
   <h2><%= ci_lang_group[0] -%></h2>
@@ -10,5 +11,4 @@
     <li><%= link_to get_title(ci), content_item_path(ci) -%> by <%= get_authors(ci) -%></li>
   <% end -%>
   </ul>
-
 <% end -%>

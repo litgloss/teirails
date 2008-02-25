@@ -1,7 +1,24 @@
 <h1>Menu Item "<%= @menu_item.name -%>"</h1>
 
-<p>Visible: <%= @menu_item.visible -%></p>
+<% if @menu_item.system_pages.empty? -%>
+  <p>
+    This menu item is empty.  If you are an administrator on this
+    site, you may want to create some system content items and add sub
+    items to it.
+  </p>
+<% end -%>
 
-<p>If you recently created this menu item and didn't expect to see this page, you probably want to assign one or more content items to it.</p>
+<% if logged_in? && current_user.can_act_as?("administrator") -%>
+  <h2>Menu Editing Options</h2>
+
+  <ul>
+    <li><%= link_to('Manage child pages of this menu item', menu_item_manage_system_pages_path(@menu_item)) %></li>
+  
+    <li><%= link_to('Edit this menu item', edit_menu_item_path) -%></li>
+    <li><%= link_to('Delete this menu item', menu_item_path,
+                     :confirm => "Are you sure?",
+                     :method => :delete) -%> this menu option.</li>
+  </ul>
+<% end -%>
 
 <p>Return to <%= link_to 'menu item index', menu_items_path -%>.</p>

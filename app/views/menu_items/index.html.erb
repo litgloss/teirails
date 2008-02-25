@@ -9,15 +9,7 @@
   <ul>
     <% @menu_items.each do |m| -%>
       <li id="item_<%= m.id -%>"><%= m.name -%> 
-	(<%= link_to 'show', 
-	    menu_item_path(m) -%>, 
-	<%= link_to 'edit', edit_menu_item_path(m) -%>,
-	<%= link_to 'delete', menu_item_path(m),
-	    :confirm => "Are you sure?",
-            :method => :delete -%>, 
-	<%= link_to 'manage child page order', 
-	    menu_item_manage_system_pages_path(m) -%>,
-	<%= get_movement_links( m ) -%>)
+	(<%= get_index_item_options(m) -%>)
       </li>
     <% end -%>
   </ul>

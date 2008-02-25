@@ -1,5 +1,11 @@
 <h1>Select Menu Item</h1>
 
+<p>This page allows you to set the menu item for the system content item with title "<%= @content_item.title -%>."</p>
+
+<% if @content_item.system_page.menu_item.nil? -%>
+<p>This content item is currently not associated with any menu item.</p>
+<% end -%>
+
 <p>Choose the menu item with which this content item should be associated.  Any selection removes existing association, if one exists.</p>
 
 <ul>

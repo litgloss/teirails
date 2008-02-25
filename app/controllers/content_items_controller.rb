@@ -341,7 +341,7 @@ class ContentItemsController < ApplicationController
         content_item.protected = params[:content_item][:protected]
       end
       
-      if (logged_in? && current_user.role == UserRole.find_by_name("administrator"))
+      if (logged_in? && current_user.can_act_as?("administrator"))
         content_item.
           set_system_page_value(params[:content_item][:has_system_page])
       end

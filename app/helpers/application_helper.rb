@@ -40,19 +40,21 @@ module ApplicationHelper
       id_string = element.id
     end
 
-    if element.first?
+    if element.first? && !element.last?
       # Add link to move object to beginning or higher
       links << move_lower_link(element, restful_part, id_string)
       links << move_to_bottom_link(element, restful_part, id_string)
-    elsif element.last?
+    elsif element.last? && !element.first?
       links << move_higher_link(element, restful_part, id_string)
       links << move_to_top_link(element, restful_part, id_string)
     else
-      # Add links for top, bottom, higher, lower
-      links << move_higher_link(element, restful_part, id_string)
-      links << move_lower_link(element, restful_part, id_string)
-      links << move_to_bottom_link(element, restful_part, id_string)
-      links << move_to_top_link(element, restful_part, id_string)
+      if !(element.first? && element.last?)
+        # Add links for top, bottom, higher, lower
+        links << move_higher_link(element, restful_part, id_string)
+        links << move_lower_link(element, restful_part, id_string)
+        links << move_to_bottom_link(element, restful_part, id_string)
+        links << move_to_top_link(element, restful_part, id_string)
+      end
     end
 
     links.join(", ")
