@@ -1,6 +1,6 @@
 [submodule "vendor/plugins/acts_as_list"]
 	path = vendor/plugins/acts_as_list
-	url = git://git.hcoop.net/git/leitgebj/acts-as-list.git
+	url = git://git.hcoop.net/git/leitgebj/acts_as_list.git
 [submodule "vendor/plugins/acts_as_annotea_server"]
 	path = vendor/plugins/acts_as_annotea_server
 	url = git://git.hcoop.net/git/leitgebj/acts_as_annotea_server.git
