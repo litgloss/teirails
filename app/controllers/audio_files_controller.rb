@@ -1,15 +1,13 @@
 class AudioFilesController < ApplicationController
   include ActionController::Streaming
 
-  before_filter :login_required, :except => [:list, :show]
-
-  verify :method => :post, :only => [ :destroy, :create, :update, 
-                                      :set_as_featured], :redirect_to => 
-    { :action => :list }
+  before_filter :login_required, :except => [:index, :show]
 
   # Streams this file as a sequence of bytes to the client.
   def stream
     audio_file = AudioFile.find(params[:id])
+    block_if_not_readable_by(current_user, audio_file)
+
     block_if_not_readable_by(current_user, audio_file)
 
     content_type = audio_file.content_type
@@ -20,7 +18,7 @@ class AudioFilesController < ApplicationController
   end
 
   def index
-    # XXX blocking code here.
+
 
     if !params[:audible_type] ||
         !params[:audible_id] ||
@@ -28,7 +26,6 @@ class AudioFilesController < ApplicationController
       flash[:error] = "Invalid input parameters, event logged."
       redirect_to search_path
     else
-      oblog("good path")
       @audio_files = AudioFile.find(:all, :conditions => { 
                                       :audible_type => params[:audible_type],
                                       :audible_id => params[:audible_id] }
@@ -36,7 +33,8 @@ class AudioFilesController < ApplicationController
       
       @associated_object = eval(params[:audible_type].camelize).
         find(params[:audible_id])
-      oblog("associated objecT: #{@associated_object}")
+
+      block_if_not_readable_by(current_user, @associated_object)
     end
   end
 
@@ -44,7 +42,9 @@ class AudioFilesController < ApplicationController
     @audio_file = AudioFile.find(params[:id])
     block_if_not_readable_by(current_user, @audio_file)
 
+
     @associated_object = @audio_file.heard_object
+    logger.info("associated object id == #{@associated_object.id}")
   end
   
   def new
@@ -103,9 +103,9 @@ class AudioFilesController < ApplicationController
 
     if @audio_file.update_attributes(params[:audio_file])
       flash[:notice] = 'Audio file was successfully updated.'
-      redirect_to :action => 'list', :id => @audio_file
+      redirect_to audio_files_path(@audio_file)
     else
-      render :action => 'edit'
+      render edit_audio_file_path(@audio_file)
     end
   end
 
@@ -113,12 +113,25 @@ class AudioFilesController < ApplicationController
     @audio_file = AudioFile.find(params[:id])
     block_if_not_writable_by(current_user, @audio_file)
 
-    old_audio_file = @audio_file
+    audible_type = @audio_file.audible_type
+    audible_id = @audio_file.audible_id
+    associated_object = @audio_file.heard_object
 
-    @audio_file.destroy
+    if @audio_file.destroy
+      logger.info("OK, redirecting.")
+      flash[:notice] = 'Audio file deleted.'
+    else
+      flash[:error] = 'Error deleting audio file.'
+    end
 
-    flash[:notice] = "Audio file deleted."
-    redirect_to :action => :list, :audible_type => 
-      old_audio_file.audible_type, :audible_id => old_audio_file.audible_id
+
+    case audible_type
+    when "content_item"
+      redirect_to audio_files_path(:audible_type => "content_item", 
+                                   :audible_id => audible_id)
+    when "litgloss"
+      redirect_to audio_files_path(:audible_type => "litgloss", 
+                                   :audible_id => audible_id)
+    end
   end
 end

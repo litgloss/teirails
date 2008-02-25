@@ -27,7 +27,7 @@
 
 <% if @associated_object.class == ContentItem -%>
   <p>
-    <%= link_to "Back to #{@associated_object.class.to_phrase}", content_item_path(@content_item) %>
+    <%= link_to "Back to #{@associated_object.class.to_phrase}", content_item_path(@associated_object) %>
   </p>
 <% elsif @associated_object.class == Litgloss -%>
   <p>

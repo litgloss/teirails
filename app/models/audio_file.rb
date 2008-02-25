@@ -6,7 +6,7 @@ class AudioFile < ActiveRecord::Base
   has_attachment :storage => :file_system,
   :content_type => ['audio/mpeg', 'audio/x-ms-wma',
                     'audio/vnd.rn-realaudio', 'audio/x-wav',
-                    'audio/ogg',
+                    'application/ogg',
                     'video/quicktime'],
 
   :size => 0.byte..20.megabytes,

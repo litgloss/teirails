@@ -26,8 +26,10 @@ module AudioFilesHelper
 		:popup => [ 'Audio Player', 'width=300, height=100' ])
 
     if logged_in? && audio_file.writable_by?(current_user)
-      options << link_to('Delete', {:action => :destroy, :id => audio_file}, :method => 
-                         :post, :confirm => "Are you sure?")
+      options << link_to('Delete', audio_file_path(audio_file),
+                         :confirm => "Are you sure?",
+                         :method => :delete)
+
       options << link_to('Edit', :action => :edit, :id => audio_file)
     end
     

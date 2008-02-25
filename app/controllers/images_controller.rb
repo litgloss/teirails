@@ -143,6 +143,10 @@ class ImagesController < ApplicationController
     when "content_item"
       redirect_to images_path(:imageable_type => "content_item", 
                               :imageable_id => imageable_id)
+    when "litgloss"
+      redirect_to images_path(:imageable_type => "litgloss", 
+                              :imageable_id => imageable_id)
+
     when "profile"
       redirect_to user_profile_path(associated_object)
     end
