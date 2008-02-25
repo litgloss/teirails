@@ -1,3 +1,5 @@
+<%= error_messages_for :content_item %>
+
 <h1>Edit Content Item</h1>
 
 <p>You have chosen to edit the TEI Lite contents of a document.  You may <%= link_to 'download the current contents of this file in xml', formatted_content_item_path(@content_item, :xml) -%>, change them in your favorite editor, and then save the revised file to the system using the form below.</p>
@@ -6,8 +8,6 @@
   Current content item type: 
   <strong><%= get_content_item_type(@content_item) -%></strong>.
 </p>
-
-<%= error_messages_for :content_item %>
 
 <% form_for :content_item, :url => content_item_path, :html => { :method => :put, :multipart => true } do |f| -%>
 

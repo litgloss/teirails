@@ -1,14 +1,15 @@
 <%= f.label(:tei_data, "Select file") -%>
 <%= f.file_field :tei_data  %><br />
 
-<%= f.label(:published) -%>
-<%= f.check_box(:published) -%><br />
+<% if !@content_item.private_clone? -%>
+  <%= f.label(:published) -%>
+  <%= f.check_box(:published) -%><br />
 
-<%= f.label(:protected) -%>
-<%= f.check_box(:protected) -%><br />
+  <%= f.label(:protected) -%>
+  <%= f.check_box(:protected) -%><br />
 
-
-<% if current_user.can_act_as?("administrator") -%>
-  <%= label(:system, "System content item") -%>
-  <%= f.check_box( :has_system_page) -%><br />
+  <% if current_user.can_act_as?("administrator") -%>
+    <%= label(:system, "System content item") -%>
+    <%= f.check_box( :has_system_page) -%><br />
+  <% end -%>
 <% end -%>

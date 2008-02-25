@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
     :purge     => :delete
   } do |user|
     user.resource :profile
+    user.resource :account
   end
 
   map.resources :content_items, :member => {
@@ -84,9 +85,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.reset_password '/reset_password/:id', :controller => 
     'passwords', :action => 'edit'
-
-  map.change_password '/change_password', :controller => 
-    'accounts', :action => 'edit'
 
   map.resource :search, :controller => :search
 

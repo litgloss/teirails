@@ -8,6 +8,8 @@ class ContentItem < ActiveRecord::Base
   self.non_versioned_columns << 'published'
   self.non_versioned_columns << 'protected'
 
+  include TeiHelper
+
   include REXML
 
   belongs_to :creator, :class_name => "User"
@@ -28,6 +30,7 @@ class ContentItem < ActiveRecord::Base
   def ContentItem.to_phrase
     "content item"
   end
+
 
   # There are a couple of levels of rendering required to change TEI
   # into a format that can be viewed on the site.  First, we change
@@ -305,14 +308,13 @@ class ContentItem < ActiveRecord::Base
     else
       self.tei_data = content_item.tei_data
       
-      # Synchronize images and litglosses.  If we are the parent,
-      # change these objects to reference our own space.  If we are
-      # the child we don't do anything, since the methods for
-      # grabbing images associated with this item are overriden
-      # to include objects associated with the parent (for read
-      # access only).
+      # Synchronize images, audio files and litglosses.  If we are the
+      # parent, change these objects to reference our own space.  If
+      # we are the child we don't do anything, since the methods for
+      # grabbing images associated with this item are overriden to
+      # include objects associated with the parent (for read access
+      # only).
       if content_item.private_clone?
-        logger.info("going to copy props to parent.")
         Litgloss.find(:all, :conditions => {
                         :content_item_id => content_item.id
                       }).each do |l|
@@ -321,6 +323,15 @@ class ContentItem < ActiveRecord::Base
           l.save
         end
 
+        AudioFile.find(:all, :conditions => {
+                         :audible_type => "content_item",
+                         :audible_id => content_item.id
+                       }).each do |af|
+          
+          af.audible_id = self.id
+          af.save
+        end
+        
         Image.find(:all, :conditions => {
                      :imageable_type => "content_item",
                      :imageable_id => content_item.id
@@ -498,24 +509,16 @@ class ContentItem < ActiveRecord::Base
 
   # Accepts a 
   def set_system_page_value(value)
-    # Filter input before eval, even though RoR is too dumb to care
-    # about this.
-    if !value =~ /0|1/
-      raise Exception.new("Bad value (#{value}) in input field for system page.")
-      return
-    end
-
-    if (!eval(value).zero?)
-      # Ignore if we already have a non-nil system page,
-      # otherwise create one.
-      if self.system_page.nil?
-        self.system_page = SystemPage.new
-      end
-    else
+    case value
+    when 0 || "0"
       # Delete a system page if we have one.
       if !self.system_page.nil?
         s = self.system_page
         s.destroy
+      end
+    when 1 || "1"
+      if self.system_page.nil?
+        self.system_page = SystemPage.new
       end
     end
   end
@@ -764,6 +767,17 @@ class ContentItem < ActiveRecord::Base
       return "<html><body><h1>Whoops!</h1><pre>#{errors}</pre></body></html>"
     else
       return text
+    end
+  end
+
+  protected
+  def validate
+    begin
+      res = validate_tei_document(self.tei_data)
+    rescue DTDValidationError => dtd_ve
+      dtd_ve.errors.each do |e|
+        errors.add('tei_data', e)
+      end
     end
   end
 

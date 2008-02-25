@@ -4,10 +4,14 @@ class VersionsController < ApplicationController
   append_before_filter :login_required
 
   def index
+    block_if_not_readable_by(current_user, @content_item)
+
     @versions = @content_item.versions
   end
 
   def show
+    block_if_not_readable_by(current_user, @content_item)
+
     # Get the requested version of this content item.
     @content_item.revert_to(params[:id])
 
@@ -21,6 +25,8 @@ class VersionsController < ApplicationController
 
   # Reverts a content item to a previous version.
   def revert_to
+    block_if_not_writable_by(current_user, @content_item)
+
     target_revision = params[:id]
     
     if @content_item.revert_to!(target_revision)

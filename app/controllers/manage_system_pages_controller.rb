@@ -1,5 +1,7 @@
 # Allows user to re-arrange order of pages under a menu item.
 class ManageSystemPagesController < ApplicationController
+  append_before_filter :login_required
+
   before_filter :get_menu_item
 
   append_before_filter :get_system_page, :only => 
@@ -53,5 +55,10 @@ class ManageSystemPagesController < ApplicationController
 
   def get_menu_item
     @menu_item = MenuItem.find(params[:menu_item_id])
+  end
+
+  private
+  def authorized?
+    current_user.can_act_as?("administrator")
   end
 end

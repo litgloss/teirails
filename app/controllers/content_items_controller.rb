@@ -1,6 +1,4 @@
 class ContentItemsController < ApplicationController
-  include TeiHelper
-
   layout "layouts/application", :except => [:annotatable, :show]
 
   before_filter :find_content_item, :only => [:edit, :show, 
@@ -211,46 +209,48 @@ class ContentItemsController < ApplicationController
     render :xml => @content_item.tei_data
   end
 
-  # Updates the tei_data property of this model, as long
-  # as the string given to us conforms to the TEI DTD.
   def update
+    block_if_not_writable_by(current_user, @content_item)
+
     # Save tei_data if it was provided.
     if params[:content_item][:tei_data].class == 
         ActionController::UploadedStringIO.new.class
-
-      tei_data = params[:content_item][:tei_data].read
-    
-      if !validate_tei(tei_data)
-        flash[:error] = "TEI validation failed."
-        redirect_to edit_content_item_path(@content_item)
-        return
-      else
-        @content_item.tei_data = tei_data
-      end
+      @content_item.tei_data = params[:content_item][:tei_data].read
     end
 
-    @content_item = set_content_item_properties!(@content_item)    
-    redirect_to content_item_path(@content_item)
+    @content_item = set_content_item_properties(@content_item)
+    
+    if @content_item.save
+      flash[:notice] = "New content item data saved."
+      redirect_to content_item_path
+    else
+      render :action => :edit
+    end
   end
 
   def create
+    if !current_user.can_act_as?("editor")
+      redirect_to_block(current_user, nil)
+      return
+    end
+
     @content_item = ContentItem.new
 
-    tei_data = params[:content_item][:tei_data].read
+    @content_item.tei_data = params[:content_item][:tei_data].read
+    @content_item = set_content_item_properties(@content_item)
 
-    if !validate_tei(tei_data)
-      flash[:error] = "Data failed TEI validation, unable to save."
-      redirect_to new_content_item_path
-    else
-      @content_item.tei_data = tei_data
-      @content_item = set_content_item_properties!(@content_item)
-
-      flash[:notice] = 'Content item was successfully created.'
+    if @content_item.save
+      flash[:notice] = "New content item data saved."
       redirect_to content_item_path(@content_item)
+    else
+      render :action => :new
     end
   end
 
   def destroy
+    @content_item = ContentItem.find(params[:id])
+    block_if_not_writable_by(current_user, @content_item)
+
     clone = ContentItem.find(params[:id]).private_clone?
 
     if ContentItem.find(params[:id]).destroy
@@ -330,21 +330,22 @@ class ContentItemsController < ApplicationController
 
   # Sets properties for content item, including system page
   # and published.
-  def set_content_item_properties!(content_item)
-    content_item.published = params[:content_item][:published]
-    content_item.protected = params[:content_item][:protected]
+  def set_content_item_properties(content_item)
     content_item.creator = current_user
 
-    begin
-      content_item.
-        set_system_page_value(params[:content_item][:has_system_page])
-    rescue Exception => e
-      flash[:error] = "Exception: #{e}"
-      redirect_to edit_content_item_path(@content_item)
-      return
+    # These options don't make sense for private clones!
+    if !content_item.private_clone?
+      
+      if current_user.role == UserRole.find_by_name("editor")
+        content_item.published = params[:content_item][:published]
+        content_item.protected = params[:content_item][:protected]
+      end
+      
+      if (logged_in? && current_user.role == UserRole.find_by_name("administrator"))
+        content_item.
+          set_system_page_value(params[:content_item][:has_system_page])
+      end
     end
-    
-    content_item.save!
 
     return content_item
   end

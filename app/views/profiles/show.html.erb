@@ -53,7 +53,8 @@
     Would you like to <%= link_to 'edit your profile', edit_user_profile_path -%>?
     <% if !@image.nil? -%>
       You may also 
-      <%= link_to 'edit your image', edit_image_path(@image) -%>.
+      <%= link_to 'edit your image', edit_image_path(@image) -%> or 
+      <%= link_to 'change your password', edit_user_account_path -%>.
     <% end -%>
   </p>
 <% end -%>
