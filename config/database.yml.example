@@ -1,0 +1,26 @@
+# MySQL is recommended for best functioning.  You'll have to create
+# these databases before running rake db:migrate for the first time.
+
+development:
+  adapter: mysql
+  host: localhost
+  database: teirails_development
+  username: tei
+  password: tei
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql
+  database: localhost
+  database: teirails_test
+  username: tei
+  password: tei
+
+production:
+  adapter: mysql
+  host: localhost
+  database: teirails_production
+  username: tei
+  password: tei
