@@ -1,7 +1,6 @@
-<h1>New audio file</h1>
-
-
 <%= error_messages_for :audio_file %>
+
+<h1>New audio file</h1>
 
 <% form_for(:audio_file, :url => audio_files_path, :method => :put,
             :html => { :multipart => true }) do |f| -%>

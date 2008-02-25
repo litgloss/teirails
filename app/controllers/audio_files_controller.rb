@@ -70,8 +70,6 @@ class AudioFilesController < ApplicationController
   end
   
   def create
-    # XXX Permission filtering here.
-
     # Check to make sure that this is an audible object.
     if params[:audio_file][:audible_type] &&
         params[:audio_file][:audible_id] &&
@@ -84,8 +82,7 @@ class AudioFilesController < ApplicationController
       flash[:notice] = 'Audio file was successfully saved.'
       redirect_to audio_file_path(@audio_file)
     else
-      flash[:error] = 'Error creating audio file, event logged.'
-      redirect_to search_path
+      render :action => :new
     end
   end
 

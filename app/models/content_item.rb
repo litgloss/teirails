@@ -578,8 +578,8 @@ class ContentItem < ActiveRecord::Base
 
     new_doc = Document.new(xhtml_content)
 
-    # Attribute search in XPath doesn't seem to work with namespaces... bug in REXML library?
-    # Will work around for now.
+    # Attribute search in XPath doesn't seem to work with
+    # namespaces... bug in REXML library?  Will work around for now.
     XPath.each( new_doc.root, '/html/body//a' ) do |href|
       if !href.attributes.get_attribute('type').nil? &&
           href.attributes.get_attribute('type').value.eql?('litgloss')
@@ -600,15 +600,30 @@ class ContentItem < ActiveRecord::Base
               "#{litgloss.id}"
 
             e.add_attribute('href', show_litgloss_url)
-        
-            if !href.attributes.get_attribute('text').nil?
-              onmouseover_value = 'return overlib("' + 
-                href.attributes.get_attribute('type').value + '");'
-            else
+
+            # Do an imagegloss if we have images, otherwise
+            # just show text.
+            if litgloss.images.empty? ||
+                !litgloss.imagegloss?
+
               onmouseover_value = 'return overlib("' + 
                 ERB::Util.html_escape(litgloss.explanation) + 
                 '");'
+            else
+              image = 
+                litgloss.images.find(:first,
+                                     :conditions => {
+                                       :thumbnail => "small"
+                                     })
 
+              onmouseover_value = 'return overlib(' + 
+                "''," + 
+                "BACKGROUND," +
+                "'/images/#{image.id}/stream'," +
+                "FGCOLOR," + "''," +
+                "WIDTH," + image.width.to_s + "," +
+                "HEIGHT," + image.height.to_s +
+                ');'
             end
             
             e.add_attribute('onmouseover', onmouseover_value)

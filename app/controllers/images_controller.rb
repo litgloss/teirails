@@ -113,7 +113,7 @@ class ImagesController < ApplicationController
       flash[:notice] = 'Image was successfully created.'
       redirect_to image_path(@image)
     else
-      render new_image_path
+      render :action => :new
     end
   end
 

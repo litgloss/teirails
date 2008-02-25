@@ -1,6 +1,6 @@
-<h1>Upload an Image</h1>
-
 <%= error_messages_for :image %>
+
+<h1>Upload an Image</h1>
 
 <% form_for(:image, :url => images_path, :method => :put,
             :html => { :multipart => true }) do |f| -%>
