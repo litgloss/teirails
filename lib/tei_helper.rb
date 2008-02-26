@@ -1,4 +1,4 @@
-require 'xml/libxml'
+require 'xml/libxml_so'
 
 # Contains methods which use xml/libxml in order
 # to glean useful information about a TEI document.
