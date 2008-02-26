@@ -39,14 +39,22 @@ class ImagesController < ApplicationController
   end
 
   def stream
-    image = Image.find(params[:id])
-    block_if_not_readable_by(current_user, image)
+    if Image.find_by_id(params[:id])
+      image = Image.find(params[:id])
 
-    content_type = image.content_type
+      block_if_not_readable_by(current_user, image)
 
-    filename = image.public_filename
+      content_type = image.content_type
 
-    send_file filename, :type => content_type, :disposition => 'inline'
+      filename = image.public_filename
+
+      send_file filename, :type => content_type, :disposition => 'inline'
+    else
+      # Stream "not found" image instead.
+      filename = RAILS_ROOT + "/public/images/image_not_found.png"
+      
+      send_file filename, :type => 'image/png', :disposition => 'inline'
+    end
   end
 
   def index
