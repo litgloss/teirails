@@ -15,7 +15,7 @@
 
 <% @annotations.each do |a| %>
 
- <r:Description r:about="http://<%= HOSTNAME %>/annotations.xml/<%= a.id %>">
+ <r:Description r:about="http://<%= SystemSetting.get("hostname") %>/annotations.xml/<%= a.id %>">
   <r:type r:resource="<%= a.get_type %>"/>
   <a:annotates r:resource="<%= a.annotates %>"/>
   <d:title><%= a.get_tag_value('title') %></d:title>
@@ -25,7 +25,7 @@
   <d:creator><%= a.get_tag_value('creator') %></d:creator>
   <a:created><%= a.get_tag_value('created') %></a:created>
   <d:date><%= a.get_tag_value('date') %></d:date>
-  <a:body r:resource="http://<%= HOSTNAME %>/annotations/<%= a.id %>/body.xml"/>
+  <a:body r:resource="http://<%= SystemSetting.get("hostname") %>/annotations/<%= a.id %>/body.xml"/>
  </r:Description>
 
 <% end %>

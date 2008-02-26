@@ -72,12 +72,13 @@ class UsersController < ApplicationController
 
     if logged_in? && !current_user.active?
       current_user.activate!
+
       flash[:notice] = "Signup complete!"
     else
       flash[:error] = "Sorry, we couldn't activate your account."
     end
 
-    redirect_back_or_default('/')
+    redirect_to content_items_path
   end
 
   def suspend
