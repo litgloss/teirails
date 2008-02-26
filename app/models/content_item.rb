@@ -657,7 +657,9 @@ class ContentItem < ActiveRecord::Base
   def readable_by?(user)
     
     return case 
-       
+           when user.class == Symbol
+             self.published?
+
            when self.has_system_page && self.published?
              # We don't care about "protected" property on system
              # pages right now.
@@ -680,7 +682,6 @@ class ContentItem < ActiveRecord::Base
              
            when !self.published?
              user.can_act_as?("editor")
-
            else
              false
              
