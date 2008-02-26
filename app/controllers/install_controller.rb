@@ -17,6 +17,8 @@ class InstallController < ApplicationController
     @user.role = UserRole.find_by_name("administrator")
 
     if @user.save!
+      @user.activate!
+
       # No activation required for initial admin user.
       self.current_user = @user
       
