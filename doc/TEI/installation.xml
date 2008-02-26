@@ -54,7 +54,7 @@
 	<p>First, TEI Rails has only been tested on Linux, and there
 	has been no attempt to port it to other platforms.  On your linux system,
 	then, make sure that you have the following programs installed:
-	</p>
+
 
 	<list type="ordered">
 	  <item>
@@ -62,15 +62,87 @@
 	    somewhere in your path, but if you have installed libxml2 and xsltproc this should
 	    already be done for you.
 	  </item>
-
+	  
 	  <item>
 	    Ruby
 	  </item>
 	  
 	  <item>
-	    
+	    The program may work with SQL Lite, which is included on
+	    most systems.  MySQL tends to work better, though, and it
+	    isn't much more effort to set up, so this is recommended.
 	  </item>
 	</list>
+	</p>
+
+	<p>
+	  There are also several Ruby Gems required.  Before
+	  installing them, it is a good idea to make sure that your
+	  ruby package manager, gem, is up to date.  Run "sudo gem
+	  update --system" to make sure.
+
+	  <list type="ordered">
+	    <item>
+	      mysql
+	    </item>
+	    
+	    <item>
+	      libxml-ruby
+	    </item>
+
+	    <item>
+	      rails (>= 2.0)
+	    </item>
+	    
+	    <item>
+	      mongrel is not required but recommended
+	    </item>
+	  </list>
+	</p>
+
+	<p>
+	  After installing these gems, make sure that the rest of the
+	  gems on your system are up-to-date with the command "sudo gem
+	  update".
+	</p>
+
+      </div>
+
+      <div n="Installing">
+	<head>Installing</head>
+	
+	<p>
+	  Once the necessary dependencies are installed, installing
+	  TEI Rails can be as simple as following the instructions on
+	  the download page, setting up a database and modifying the
+	  settings in conf/database.yml, running "rake db:migrate" and
+	  then "./script/server" to start the HTTP server.
+	</p>
+
+	<p>
+	  Depending on your needs, you may wish to install TEI Rails
+	  behind an Apache proxy, and use Capistrano for deployment.
+	  If you wish to use Capistrano, make sure to follow the
+	  instructions that can be easily found on the web for setting
+	  it up to use Git.
+	</p>
+
+	<p>
+	  If there are changes to the source that you wish to include
+	  after installation, the process will of course vary
+	  depending on whether you're running capistrano or just using
+	  a Git clone.  If you just downloaded a git clone, running
+	  the command "git pull" in your project directory will get
+	  your copy synchronized with the code in git "HEAD".
+	</p>
+
+	<p>
+	  Make sure that you run "rake db:migrate" after any updates
+	  pulled from the server in this way, in case there were
+	  database schema changes that need to be made.  Re-starting
+	  the server is also a good idea, especially if you're running
+	  in "production" mode.
+	</p>
       </div>
 
     </body>

@@ -52,6 +52,14 @@
       <p>
 	git clone git://git.hcoop.net/git/leitgebj/tei-rails.git TeiRails
       </p>
+
+      <p>
+	One caveat in this process is that Git support for
+	"submodules" was added late, so you need to make sure that the
+	git-submodule command works on your system, or else the
+	necessary plugins included with the project won't be
+	downloaded with the Git command above.
+      </p>
     </body>
   </text>
 </TEI>

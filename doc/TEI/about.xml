@@ -112,6 +112,13 @@
 	  with content items and "litglosses" (the document markup tag
 	  mentioned above).  
 	</p>
+
+	<p>
+	  Finally, TEI Rails checks all input against a DTD for TEI
+	  Lite, and it passes errors from the validator to the user.
+	  No data are saved in the system if a document is not
+	  well-formed and able to be validated against a DTD.
+	</p>
       </div>
 
       <div n="License">
