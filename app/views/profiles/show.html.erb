@@ -17,7 +17,7 @@
   <%= streamed_image_tag(@image) -%>
 <% end %>
 
-<% if @profile.user == current_user -%>
+<% if logged_in? && @profile.user == current_user -%>
   <% if @profile.image.nil? -%>
     <p>You don't have a photo set!  <%= link_to 'Add one', new_image_path({:imageable_type => :profile, :imageable_id => @profile}) %>.</p>
   <% end -%>
@@ -49,12 +49,23 @@
   <p>You are registered as a <%= @user.role.name -%> in <%= SystemSetting.get("site_name") -%>.</p>
 
   <h2>Edit Profile</h2>
-  <p>
-    Would you like to <%= link_to 'edit your profile', edit_user_profile_path -%>?
+  
+  <p>You may choose from the following options to modify your profile:</p>
+
+  <ul>
+    <li>
+      <%= link_to 'edit your profile details', edit_user_profile_path -%>
+    </li>
+
     <% if !@image.nil? -%>
-      You may also 
-      <%= link_to 'edit your image', edit_image_path(@image) -%> or 
-      <%= link_to 'change your password', edit_user_account_path -%>.
+      <li>
+	<%= link_to 'edit your profile image', edit_image_path(@image) -%>
+      </li>
     <% end -%>
-  </p>
+
+    <li>
+      <%= link_to 'change your password', edit_user_account_path -%>
+    </li>
+
+  </ul>
 <% end -%>
