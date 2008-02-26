@@ -50,6 +50,27 @@
 	  programs and libraries below before downloading and
 	  attempting to run the source code.
 	</p>
+
+	<p>First, TEI Rails has only been tested on Linux, and there
+	has been no attempt to port it to other platforms.  On your linux system,
+	then, make sure that you have the following programs installed:
+	</p>
+
+	<list type="ordered">
+	  <item>
+	    Libxml2 and libxslt must be installed.  The binary for xsltproc should be 
+	    somewhere in your path, but if you have installed libxml2 and xsltproc this should
+	    already be done for you.
+	  </item>
+
+	  <item>
+	    Ruby
+	  </item>
+	  
+	  <item>
+	    
+	  </item>
+	</list>
       </div>
 
     </body>

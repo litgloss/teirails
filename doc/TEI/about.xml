@@ -36,8 +36,12 @@
 	  TEI Rails is a content management system for documents
 	  encoded in TEI.  It is written in Ruby on Rails.
 	  Development funding for the project came from a grant from
-	  the National Endowment for the Humanities at the University
-	  at Buffalo.
+	  the National Endowment for the Humanities at the <ref
+	  target="http://www.buffalo.edu"> University at
+	  Buffalo</ref>.  The content management system is intended to
+	  run the <ref target="http://litgloss.buffalo.edu">Litgloss
+	  archive</ref>, which is a collection of texts in a variety
+	  of languages which are annotated for pedagogical purposes.
 	</p>
       </div>
 
