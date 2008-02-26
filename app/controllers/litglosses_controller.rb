@@ -19,6 +19,16 @@ class LitglossesController < ApplicationController
   end
 
   def new
+    # For some reason, older REXML instances ignore the raw flag
+    # on elements and convert them.  For that reason we might have 
+    # botched input parameters at this point.  Figure out if this
+    # is the case and fix it before we create the form for our new
+    # litgloss.
+    
+    if params['amp;count'.to_sym]
+      params[:count] = params['amp;count'.to_sym]
+    end
+
     @litgloss = Litgloss.new
   end
 
