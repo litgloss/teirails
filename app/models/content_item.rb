@@ -151,7 +151,7 @@ class ContentItem < ActiveRecord::Base
             text_after_term = $3
 
             # Build new tag.
-            ref_tag = Element.new('ref')
+            ref_tag = Element.new('ref', nil, {:raw => :all})
             ref_tag.add_attribute('type', 'newlitgloss')
 
             encoded_term = ERB::Util.url_encode(text_to_match)
