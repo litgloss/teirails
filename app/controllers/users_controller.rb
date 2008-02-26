@@ -61,7 +61,6 @@ class UsersController < ApplicationController
     else
       render :action => 'new'
     end
-    
   end
 
   def activate
