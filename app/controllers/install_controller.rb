@@ -19,6 +19,12 @@ class InstallController < ApplicationController
     @user.activate!
 
     if @user.save!
+
+      # Activate and save again to really change 
+      # state of this account.
+      @user.activate!
+      @user.save
+
       # No activation required for initial admin user.
       self.current_user = @user
       
