@@ -16,8 +16,6 @@ class InstallController < ApplicationController
     @user = User.new(params[:user])
     @user.role = UserRole.find_by_name("administrator")
 
-    @user.activate!
-
     if @user.save!
 
       # Activate and save again to really change 
