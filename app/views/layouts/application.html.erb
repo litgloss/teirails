@@ -21,14 +21,13 @@
 
     <% if !generate_sub_menu_items.empty? -%>
 
-    <%= render_partial "layouts/sub_menu_components" -%>
+      <%= render_partial "layouts/sub_menu_components" -%>
     
     <% end -%>
 
     <%= render_partial "layouts/flashes" -%>
 
     <%= yield -%>
-
     
     <%= render_partial "layouts/footer" %>
   

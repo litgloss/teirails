@@ -5,6 +5,7 @@ class UsersController < ApplicationController
                        :destroy, :purge, :update ]
 
   before_filter :admin_required, :only => protected_methods
+
   append_before_filter :login_required, :except => [:new, :create, :activate]
   
   append_before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, 
@@ -44,18 +45,23 @@ class UsersController < ApplicationController
     # uncomment at your own risk
     # reset_session
     @user = User.new(params[:user])
-    @user.save!
+
     
-    # Don't log in user who just signed up, since activation is
-    # required.  
-    # self.current_user = @user
+    if @user.save
+      # Don't log in user who just signed up, since activation is
+      # required.  
+      # self.current_user = @user
 
-    redirect_back_or_default('/')
-    flash[:notice] = "Thanks for signing up!  Please check your email account " +
-      "in a few minutes for an activation message."
+      logger.info("created user.")
 
-  rescue ActiveRecord::RecordInvalid
-    render :action => 'new'
+      flash[:notice] = "Thanks for signing up!  Please check your email " + 
+        "account in a few minutes for an activation message."
+
+      redirect_to content_items_path
+    else
+      render :action => 'new'
+    end
+    
   end
 
   def activate
