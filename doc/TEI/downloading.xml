@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+	<title>Downloading TEI Rails</title>
+
+	<author>Leitgeb, Justin S.</author>
+
+      </titleStmt>
+
+      <publicationStmt>
+	<publisher>Justin S. Leitgeb</publisher>
+	<pubPlace>Buffalo, NY</pubPlace>
+      </publicationStmt>
+
+      <sourceDesc>
+	<p>http://teirails.phq.org</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+
+  <text>
+    <front>
+      <titlePage>
+        <docTitle>
+          <titlePart>Downloading TEI Rails</titlePart>
+        </docTitle>
+      </titlePage>
+    </front>
+    
+    <body>
+      <p>
+	TEI Rails is stored in a <ref
+	target="http://git.or.cz">Git</ref> repository.  The repository
+	can be browsed over the web at <ref
+	target="http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary">
+	http://git.hcoop.net/?p=leitgebj/tei-rails.git;a=summary
+      </ref>.
+      </p>
+
+      <p>
+	Downloading the TEI Rails project is simple, but at the moment
+	no packaged distributions are available (this may change in
+	the future).  For now, follow the readily-available
+	instructions that you'll find on Google for installing a Git
+	client on your platform of choice.  Then, type a command like
+	the following, which will download all of the TEI Rails source
+	code to a directory called "TeiRails" on your workstation:
+      </p>
+
+      <p>
+	git clone git://git.hcoop.net/git/leitgebj/tei-rails.git TeiRails
+      </p>
+    </body>
+  </text>
+</TEI>

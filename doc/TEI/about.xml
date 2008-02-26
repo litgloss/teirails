@@ -46,18 +46,22 @@
 
 	<p>
 	  TEI Rails has a number of features which make storing and
-	  collaborating on documents easier.
+	  collaborating on documents encoded in TEI easier.  These
+	  features include support for document versioning, media file
+	  storage with associated documents, a workflow which
+	  facilitates collaboration, and advanced features for
+	  document annotation.
 	</p>
 
 	<p>
-	  First, the system supports document versioning.  The system
-	  stores all versions created of a particular document, and
+	  TEI Rails supports document versioning.  The system stores
+	  all versions created of a particular document, and
 	  authorized users may revert to previous versions at any
 	  time.
 	</p>
 	
 	<p>
-	  The system also supporst a hierarchy of users and workflow
+	  The system also supports a hierarchy of users and workflow
 	  for collaboration.  Without customization, the default
 	  hierarchy allows for classes of users considered to be
 	  system administrators, editors, contributors, and normal

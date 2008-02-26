@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+	<title>Installing TEI Rails</title>
+
+	<author>Leitgeb, Justin S.</author>
+
+      </titleStmt>
+
+      <publicationStmt>
+	<publisher>Justin S. Leitgeb</publisher>
+	<pubPlace>Buffalo, NY</pubPlace>
+      </publicationStmt>
+
+      <sourceDesc>
+	<p>http://teirails.phq.org</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+
+  <text>
+    <front>
+      <titlePage>
+        <docTitle>
+          <titlePart>Installing TEI Rails</titlePart>
+        </docTitle>
+      </titlePage>
+    </front>
+    
+    <body>
+      <div n="Intro">
+	<head>Introduction</head>
+	<p>
+	  Installing TEI Rails involves identifying and resolving
+	  dependencies on your system, downloading the source code,
+	  and deciding on and implementing a deployment strategy.
+	  This document will walk you through these steps.
+	</p>
+      </div>
+
+      <div n="Dependencies">
+	<head>Identifying and Resolving Dependencies</head>
+
+	<p>
+	  TEI Rails has a number of dependencies.  As there is still
+	  no method built-in of identifying and resolving these, the
+	  easiest way to prepare your system is to install the
+	  programs and libraries below before downloading and
+	  attempting to run the source code.
+	</p>
+      </div>
+
+    </body>
+  </text>
+</TEI>
