@@ -45,6 +45,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :system_settings
 
+  map.resource :install, :controller => 'install'
+
   map.resources :menu_items, :member => {
     :move_higher => :post,
     :move_lower => :post,

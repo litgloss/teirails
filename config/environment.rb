@@ -56,3 +56,6 @@ Rails::Initializer.run do |config|
 
   config.active_record.observers = :user_observer
 end
+
+## Local application configuration.
+eval(File.read('exception_notifier_configuration.rb'))

@@ -1,8 +1,13 @@
 <%= error_messages_for :user %>
 
-<h1>Create a user account</h1>
+<h1>Create an administrative user account</h1>
 
-<% form_for :user, :url => users_path do |f| -%>
+<p>This form allows you to create an account that will have
+administrator privileges in the system.  After creating this account,
+you will be logged in as administrator and re-directed to a page where
+you can edit some common system settings.</p>
+
+<% form_for :user, :url => install_path do |f| -%>
 <label for="login">Login</label>
 <%= f.text_field :login %><br />
 
@@ -16,4 +21,5 @@
 <%= f.password_field :password_confirmation %><br />
 
 <%= submit_tag 'Sign up' %><br />
+
 <% end -%>

@@ -14,6 +14,9 @@ class CreateSystemSettings < ActiveRecord::Migration
 
     SystemSetting.create :key => "site_name", :value => 
       "TeiRails", :label => "Primary name of site."
+
+    SystemSetting.create :key => "site_banner_image", :value => 
+      "Litgloss_banner.png", :label => "Name of banner .png file to use."
   end
 
   def self.down

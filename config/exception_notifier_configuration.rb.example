@@ -1,0 +1,9 @@
+# Configuration for the exception notifier.
+# Set these to your liking.
+ExceptionNotifier.exception_recipients = %w('someone@example.org')
+
+ExceptionNotifier.sender_address =
+  %("Application Error" <no-reply@example.org>)
+
+# defaults to "[ERROR] "
+ExceptionNotifier.email_prefix = "[TeiRails Exception] "

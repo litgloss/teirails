@@ -19,3 +19,6 @@
 [submodule "vendor/plugins/acts_as_state_machine"]
 	path = vendor/plugins/acts_as_state_machine
 	url = git://git.hcoop.net/git/leitgebj/acts_as_state_machine.git
+[submodule "vendor/plugins/exception_notification"]
+	path = vendor/plugins/exception_notification
+	url = git://git.hcoop.net/git/leitgebj/exception_notification.git
