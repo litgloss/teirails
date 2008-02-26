@@ -58,4 +58,6 @@ Rails::Initializer.run do |config|
 end
 
 ## Local application configuration.
-eval(File.read('exception_notifier_configuration.rb'))
+
+# Read in exception notifier configuration.
+eval(File.read("#{RAILS_ROOT}/config/exception_notifier_configuration.rb"))
