@@ -5,6 +5,10 @@ class SessionsController < ApplicationController
 
   # render new.rhtml
   def new
+    if User.find(:all).empty?
+      redirect_to '/'
+      return
+    end
   end
 
   def create

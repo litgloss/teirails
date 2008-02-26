@@ -72,7 +72,6 @@ class ApplicationController < ActionController::Base
     return
   end
 
-
   ####################################
   ### Start PRIVATE methods
   ####################################

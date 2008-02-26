@@ -24,12 +24,8 @@ class InstallController < ApplicationController
 
       redirect_to system_settings_path
     else
-      flash[:error] = "Save failed."
       render :action => :new
     end
-
-  rescue ActiveRecord::RecordInvalid
-    render :action => 'new'
   end
   
 
