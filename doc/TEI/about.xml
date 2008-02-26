@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+	<title>About TEI Rails</title>
+
+	<author>Leitgebj, Justin</author>
+
+      </titleStmt>
+
+      <publicationStmt>
+	<publisher>Justin S. Leitgeb</publisher>
+	<pubPlace>Buffalo, NY</pubPlace>
+      </publicationStmt>
+
+      <sourceDesc>
+	<p>http://teirails.phq.org</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+
+  <text>
+    <front>
+      <titlePage>
+        <docTitle>
+          <titlePart>About TEI Rails</titlePart>
+        </docTitle>
+      </titlePage>
+    </front>
+    
+    <body>
+      <div n="Intro">
+	<head>Introduction</head>
+	<p>
+	  TEI Rails is a content management system for documents
+	  encoded in TEI.  It is written in Ruby on Rails.
+	  Development funding for the project came from a grant from
+	  the National Endowment for the Humanities at the University
+	  at Buffalo.
+	</p>
+      </div>
+
+      <div n="Features">
+	<head>Features</head>
+
+	<p>
+	  TEI Rails has a number of features which make storing and
+	  collaborating on documents easier.
+	</p>
+
+	<p>
+	  First, the system supports document versioning.  The system
+	  stores all versions created of a particular document, and
+	  authorized users may revert to previous versions at any
+	  time.
+	</p>
+	
+	<p>
+	  The system also supporst a hierarchy of users and workflow
+	  for collaboration.  Without customization, the default
+	  hierarchy allows for classes of users considered to be
+	  system administrators, editors, contributors, and normal
+	  users.
+	</p>
+
+	<p>
+	  TEI Rails allows for users to collaborate on documents by
+	  creating private "clones" of those documents.  A clone is
+	  basically a shallow copy of a document into a private
+	  workspace of a user.  Once a user and editor are satisfied
+	  with her changes, an editor may pull from these local
+	  changes and modify the public content item.  This approach to 
+	  document workflow, which allows for "clusters" of document 
+	  clones around a central document object, allows for a secure 
+	  system while also providing a "sandbox" where users less familiar
+	  with TEI may try their changes safely.
+	</p>
+
+	<p>
+	  Multiple forms of "annotation" are supported.  TEI Rails
+	  supports many forms of document markup.  Of course,
+	  annotations may be made to a document according to the TEI
+	  guidelines for P5 and the TEI Lite DTD.  In addition to
+	  this, TEI Rails includes a web-based editor which
+	  automatically inserts "annotations" which show up on a
+	  rendered page with a javascript popup.  These are handy fo
+	  allowing users to add notes to a document with a particular
+	  knowledge of TEI or XML.
+	</p>
+
+	<p>
+	  TEI Rails also includes an Annotea server, which allows for
+	  collaboration on documents through XPointer references to
+	  any rendered document in the TEI Rails system.  This Annotea
+	  server was written as a Ruby on Rails plugin, and is shipped
+	  by default with TEI Rails installations.  It is also
+	  available by itself for simple inclusion in other Ruby on
+	  Rails applications.
+	</p>
+
+	<p>
+	  TEI Rails supports image and audio uploads to be associated
+	  with content items and "litglosses" (the document markup tag
+	  mentioned above).  
+	</p>
+      </div>
+
+      <div n="License">
+	<head>License</head>
+	
+	<p>
+	  All of the source code for TEI Rails is available under the
+	  GPLv3, which means that for most purposes it can be adapted
+	  and modified freely, and that the source code is available
+	  for download and distribution.
+	</p>
+      </div>
+
+      <div n="Author">
+	<head>Author</head>
+	<p>
+	  TEI Rails was written by Justin S. Leitgeb.  He may be
+	  contacted with questions or comments about the program at
+	  leitgebj AT hcoop DOT net.
+	</p>
+      </div>
+    </body>
+  </text>
+</TEI>

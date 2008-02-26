@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+	<title>What is Enlightenment?</title>
+
+	<author>Foucault, Michel</author>
+
+	<respStmt>
+	  <resp>Converted to TEI by</resp>
+	  <name>Justin S. Leitgeb</name>
+	</respStmt>
+      </titleStmt>
+
+      <publicationStmt>
+	<publisher>Unknown</publisher>
+	<pubPlace>France</pubPlace>
+      </publicationStmt>
+
+      <sourceDesc>
+	<p>www.foucault.info</p>
+      </sourceDesc>
+    </fileDesc>
+
+
+  </teiHeader>
+
+  <text>
+    <front>
+      <titlePage>
+        <docTitle>
+          <titlePart>What is Enlightenment?</titlePart>
+        </docTitle>
+      </titlePage>
+    </front>
+    
+    <body>
+      
+      <p>
+	Today when a periodical asks its readers a question, it
+	does so in order to collect opinions on some subject about
+	which everyone has an opinion already; there is not much
+	likelihood of learning anything new. In the eighteenth
+	century, editors preferred to question the public on
+	problems that did not yet have solutions. I don't know
+	whether or not that practice was more effective; it was
+	unquestionably more entertaining.
+      </p>
+
+
+
+    <p>In any event, in line with this custom, in November 1784 a
+    German periodical, Berlinische Monatschrift published a response
+    to the question: Was ist Aufklärung? And the respondent was
+    Kant.</p>
+
+
+    <table rend="boxed" rows="1" cols="2">
+      <row>
+	<cell>
+	  A minor text, perhaps. But it seems to me that it marks the
+	  discreet entrance into the history of thought of a question
+	  that modern philosophy has not been capable of answering,
+	  but that it has never managed to get rid of, either. And one
+	  that has been repeated in various forms for two centuries
+	  now. From Hegel through Nietzsche or Max Weber to Horkheimer
+	  or Habermas, hardly any philosophy has failed to confront
+	  this same question, directly or indirectly. What, then, is
+	  this event that is called the Aufklärung and that has
+	  determined, at least in part, what we are, what we think,
+	  and what we do today ? Let us imagine that the Berlinische
+	  Monatschrift still exists and that it is asking its readers
+	  the question: What is modern philosophy ?  Perhaps we could
+	  respond with an echo: modern philosophy is the philosophy
+	  that is attempting to answer the question raised so
+	  imprudently two centuries ago: Was ist Aufklärung?
+	</cell>
+	
+	<cell>
+	  <figure>
+	    <graphic url="http://teirails.phq.org/images/3/stream"/>
+	  </figure>
+	</cell>
+      </row>
+    </table>
+
+
+    
+    <p>Let us linger a few moments over Kant's text. It merits attention for several reasons.</p>
+
+    <list type="ordered">
+
+      <item>To this same question, Moses Mendelssohn had also replied
+      in the same journal, just two months earlier. But Kant had not
+      seen Mendelssohn's text when he wrote his. To be sure, the
+      encounter of the German philosophical movement with the new
+      development of Jewish culture does not date from this precise
+      moment. Mendelssohn had been at that crossroads for thirty years
+      or so, in company with Lessing. But up to this point it had been
+      a matter of making a place for Jewish culture within German
+      thought -- which Lessing had tried to do in Die Juden -- or else
+      of identifying problems common to Jewish thought and to German
+      philosophy; this is what Mendelssohn had done in his Phadon;
+      oder, Über die Unsterblichkeit der Seele. With the two texts
+      published in the Berlinische Monatschrift the German Aufklärung
+      and the Jewish Haskala recognize that they belong to the same
+      history; they are seeking to identify the common processes from
+      which they stem. And it is perhaps a way of announcing the
+      acceptance of a common destiny -- we now know to what drama that
+      was to lead.</item>
+
+      <item>But there is more. In itself and within the
+      Christian tradition, Kant's text poses a new problem.
+
+      <list type="bulleted">
+	<item>The present may be represented as belonging to a certain
+	era of the world, distinct from the others through some
+	inherent characteristics, or separated from the others by some
+	dramatic event. Thus, in Plato's Statesman the interlocutors
+	recognize that they belong to one of those revolutions of the
+	world in which the world is turning backwards, with all the
+	negative consequences that may ensue.</item>
+	
+
+	<item>The present may be interrogated in an attempt to
+	decipher in it the heralding signs of a forthcoming
+	event. Here we have the principle of a kind of historical
+	hermeneutics of which Augustine might provide an
+	example.</item>
+	  
+	<item>The present may also be analyzed as a point of
+	transition toward the dawning of a new world. That is what
+	Vico describes in the last chapter of La Scienza Nuova; what
+	he sees 'today' is 'a complete humanity ... spread abroad
+	through all nations, for a few great monarchs rule over this
+	world of peoples'; it is also 'Europe ... radiant with such
+	humanity that it abounds in all the good things that make for
+	the happiness of human life.'</item>
+      </list>
+
+      <p>Now the way Kant poses the question of Aufklärung is entirely
+      different: it is neither a world era to which one belongs, nor
+      an event whose signs are perceived, nor the dawning of an
+      accomplishment. Kant defines Aufklärung in an almost entirely
+      negative way, as an Ausgang, an 'exit,' a 'way out.' In his
+      other texts on history, Kant occasionally raises questions of
+      origin or defines the internal teleology of a historical
+      process. In the text on Aufklärung, he deals with the question
+      of contemporary reality alone. He is not seeking to understand
+      the present on the basis of a totality or of a future
+      achievement. He is looking for a difference: What difference
+      does today introduce with respect to yesterday ?</p>
+
+      </item>
+    </list>
+
+    </body>
+  </text>
+</TEI>

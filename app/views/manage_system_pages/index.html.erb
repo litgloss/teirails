@@ -5,7 +5,11 @@
 <% if !@system_pages.empty? -%>
   <ul>
     <% @system_pages.each do |sp| -%>
-      <li>Page ID <%= sp.id -%> (<%= get_movement_links( sp ) -%>)</li>
+      <li>Page ID <%= sp.id -%> 
+	<%= if !get_movement_links( sp ).empty? -%>
+	  (<%= get_movement_links( sp ) -%>)
+	<% end -%>
+      </li>
     <% end -%>
   </ul>
 <% end -%>
