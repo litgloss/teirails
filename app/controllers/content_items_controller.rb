@@ -336,7 +336,7 @@ class ContentItemsController < ApplicationController
     # These options don't make sense for private clones!
     if !content_item.private_clone?
       
-      if current_user.role == UserRole.find_by_name("editor")
+      if current_user.can_act_as?("editor")
         content_item.published = params[:content_item][:published]
         content_item.protected = params[:content_item][:protected]
       end
