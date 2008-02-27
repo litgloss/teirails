@@ -606,9 +606,10 @@ class ContentItem < ActiveRecord::Base
             if litgloss.images.empty? ||
                 !litgloss.imagegloss?
 
-              onmouseover_value = 'return overlib("' + 
-                ERB::Util.html_escape(litgloss.explanation) + 
-                '");'
+              onmouseover_value = 'return overlib(' + 
+                'unescape("' + 
+                litgloss.url_encoded_explanation + 
+                '"));'
             else
               image = 
                 litgloss.images.find(:first,

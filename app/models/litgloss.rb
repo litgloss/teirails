@@ -21,4 +21,8 @@ class Litgloss < ActiveRecord::Base
   def path
     return "/litglosses/#{self.id}"
   end
+
+  def url_encoded_explanation
+    ERB::Util.url_encode(self.explanation)
+  end
 end
