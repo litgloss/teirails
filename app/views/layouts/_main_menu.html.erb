@@ -3,7 +3,8 @@
 
     <%= generate_system_menu_items -%>
 
-    <li><%= make_menu_link(:content_items, :content_items_path, 'Content Items') %></li>
+    <li>
+      <%= make_menu_link(:content_items, :content_items_path, SystemSetting.get("content_item_tab_name") ) %></li>
     
     <% if logged_in? %>
       <% if current_user.can_act_as?("editor") -%>
