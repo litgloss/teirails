@@ -23,22 +23,6 @@ Free Software Foundation, Inc.,
 
 /* main layout */
 
-body.simple {
-   color: #000000;
-   /* Allow local TeiRails background color to override these defaults.
-    *  background-color: #FFFFFF; 
-    *  margin: 10pt;
-    */
-}
-
-body{
-   color: #000000;
-   background-color: #FFFFFF;
-   margin: 0;
-   padding:0;
-   /* font-size: 0.8em; */
-}
-
 body.pagetable {
    color: #000000;
    background-color: #FFFFFF;
@@ -505,6 +489,7 @@ div.docDate {
 }
 div.docTitle {
     font-weight: bold;
+    clear: left;
 }
 div.docAuthor {
     font-style: italic;

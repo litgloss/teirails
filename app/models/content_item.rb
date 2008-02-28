@@ -37,10 +37,20 @@ class ContentItem < ActiveRecord::Base
   # the TEI data to "jxml" (Justin XML), which retains special tags
   # that we replace with ERB.  Then we render the ERB file, which
   # finally results in a string that can be passed back to the user.
-  def tei_data_to_xhtml(tei_data)
+  def tei_data_to_xhtml(tei_data, request)
     jxml_string = tei_to_jxml_string(tei_data)
+    logger.info("REQUEST from user agent: #{request.user_agent.downcase}")
+
     litglosified_string = litglosify(jxml_string)
+
+    # Modify output for brain-dead browsers.
+    if request.user_agent.downcase =~ /msie/
+      litglosified_string = 
+        modify_litglossed_output_for_garbage_browsers(litglosified_string)
+    end
+
     result = jxml_to_erb_string(litglosified_string)
+
     result
   end
   
@@ -653,6 +663,17 @@ class ContentItem < ActiveRecord::Base
     end
 
     new_doc.to_s
+  end
+
+
+  # Makes overlib script tag self-closing to fix the bug described
+  # here:
+  # http://webbugtrack.blogspot.com/ \
+  #          2007/08/bug-153-self-closing-script-tag-issues.html
+  def modify_litglossed_output_for_garbage_browsers(litglossed_output)
+    litglossed_output.sub!(/<script type='text\/javascript' src='\/javascripts\/overlib.js'\/>/, "<script type='text/javascript' src='/javascripts/overlib.js'></script>")
+
+    litglossed_output
   end
 
   def readable_by?(user)

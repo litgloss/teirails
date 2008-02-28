@@ -190,7 +190,7 @@ class ContentItemsController < ApplicationController
             end
           end
           
-          rendered_text = @content_item.tei_data_to_xhtml(tei_data)
+          rendered_text = @content_item.tei_data_to_xhtml(tei_data, request)
 
           render :inline => rendered_text
         }

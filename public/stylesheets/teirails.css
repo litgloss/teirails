@@ -3,19 +3,19 @@ body {
     padding: 30px 60px 0px 60px;
     font-family: ArialMT, Arial, sans-serif;
     font-size: 13px;
-    line-height: 18px;
+    /* line-height: 18px; */
     background-color: #f5f5f5;
 }
 
 #header {
     padding: 20px;
-    margin-bottom: 20px;
+    float: left;
+    clear: both;
+    min-width: 600px;
 }
 
 #header_options {
-   position: absolute;
-   margin-left: 150px;
-   margin-top: 20px;
+   float: right;
 }
 
 #header_options ul li:after {
@@ -45,7 +45,7 @@ body {
 }
 
 #mainlogo {
-    margin-bottom: 60px;
+    float: left;
 }
 
 #mainlogo img {
@@ -65,8 +65,16 @@ body {
     color: #000000;
 }
 
+#wrapper {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
 #main-navigation {
     font-size: 1.2em;
+    clear: both;
 }
 
 #main-navigation li {
@@ -98,12 +106,11 @@ body {
 /* End IE5-Mac hack */
 
 #submenu {
-    margin-bottom: 60px;
+    /* No special display attributes. */
 }
 
 #submenu_left {
     float: left;
-    width: 400px;
 }
 
 #submenu_left ul {
@@ -122,7 +129,7 @@ body {
 
 #submenu_right {
     float: right;
-    width: 100px;
+    text-align: right;
     font-size: 1em;
     padding-top: 14px;
 }
@@ -147,9 +154,11 @@ body {
 #headernav {
     clear: both;
     padding: 0 0 26px 0em;
+    height: 0px;
     margin: 0;
     list-style: none;
     line-height: 1.74em;
+    min-width: 740px;
 }
 
 #headernav li {
@@ -181,6 +190,12 @@ body {
     border: 2px solid #CCC;
     padding: 0px 20px 20px 20px;
     background-color: #ffffff;
+    min-width: 600px;
+}
+
+#mainContent h1 {
+    margin-top: 12px;
+    clear: left;
 }
 
 #locationPath {
@@ -244,7 +259,7 @@ label,input {
 	margin-bottom: 10px;
 }
 
-label {
+form label {
     text-align: left;
     width: 150px;
     padding-right: 20px;
@@ -284,30 +299,28 @@ br {
 
 #content_item_left_box {
     float: left;
-    width: 375px;
 }
 
 #content_item_right_box {
     float: right;
-    width: 200px;
     text-align: right;
 }
 
 #gloss_search_box {
     float: left;
-    width: 250px;
+    margin-left: 100px;
+    margin-right: auto;
 }
 
 #gloss_search_box label {
-    width: 100px;
     padding: 0px;
+    width: 80px;
     color: #444444;
     font-size: .95em;
 }
 
 #gloss_search_box input {
     float: left;
-    width: 100px;
     font-size: .95em;
     height: 12px;
 }
