@@ -107,6 +107,7 @@ body {
 
 #submenu {
     /* No special display attributes. */
+    clear: both;
 }
 
 #submenu_left {
@@ -214,6 +215,7 @@ ul.thumbnailImages li {
 }
 
 #errorBox {
+    clear: both;
     width: 400px;
     border: 2px solid #760404;
     padding: 10px 10px 10px 10px;
@@ -223,6 +225,7 @@ ul.thumbnailImages li {
 }
 
 #noticeBox {
+    clear: both;
     width: 400px;
     border: 2px solid #003f0d;
     color: #003f0d;
@@ -337,6 +340,7 @@ a.litgloss, a.litgloss:visited {
 }
 
 #infomessage {
+    clear: both;
     background-color: #d2a3a3;
     border-style: solid;
     padding: 10px;

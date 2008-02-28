@@ -627,11 +627,14 @@ class ContentItem < ActiveRecord::Base
                                        :thumbnail => "small"
                                      })
 
+              image_url = "/images/#{image.id}/stream"
+
               onmouseover_value = 'return overlib(' + 
-                "''," + 
-                "BACKGROUND," +
-                "'/images/#{image.id}/stream'," +
-                "FGCOLOR," + "''," +
+                '"",' + 
+                'BACKGROUND,' +
+                'unescape("' +
+                ERB::Util.url_encode(image_url) +
+                '"),FGCOLOR,' + '"",' +
                 "WIDTH," + image.width.to_s + "," +
                 "HEIGHT," + image.height.to_s +
                 ');'
