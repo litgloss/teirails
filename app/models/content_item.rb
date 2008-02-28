@@ -39,7 +39,6 @@ class ContentItem < ActiveRecord::Base
   # finally results in a string that can be passed back to the user.
   def tei_data_to_xhtml(tei_data, request)
     jxml_string = tei_to_jxml_string(tei_data)
-    logger.info("REQUEST from user agent: #{request.user_agent.downcase}")
 
     litglosified_string = litglosify(jxml_string)
 
@@ -58,7 +57,7 @@ class ContentItem < ActiveRecord::Base
   def delete_litgloss_tag_by_id(litgloss_id)
     xml_object = doc
     XPath.each(xml_object,
-               "/TEI/text/body//ref") do |e|
+               "/TEI/text//ref") do |e|
       if !e.attributes['target'].nil? &&
           e.attributes['type'].eql?('litgloss') &&
           e.attributes['target'] =~ /\/#{litgloss_id}$/
@@ -144,13 +143,12 @@ class ContentItem < ActiveRecord::Base
 
     scanning_regexp = Regexp.new(/\b#{escaped_term_regexp}\b/)
 
-    XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
+    XPath.each( xml_object, '/TEI/text//text()') do |text_element|
       if !xml_element_has_reference_ancestors?(text_element)
 
         # Broken into two patterns because pattern (1) is used the
         # majority of the time and it is less processor-intensive.
         if scanning_regexp.match(text_element.value)
-
           regexp_with_backreferences = 
             Regexp.new(/^(.*?\b)(#{escaped_term_regexp})(\b.*)$/m)
 
@@ -203,7 +201,7 @@ class ContentItem < ActiveRecord::Base
 
     match_count = 0
 
-    XPath.each( xml_object, '/TEI/text/body//text()') do |text_element|
+    XPath.each( xml_object, '/TEI/text//text()') do |text_element|
       if !xml_element_has_reference_ancestors?(text_element)
         if text_element.value.scan(scanning_regexp).size + match_count >
             litgloss.count
@@ -563,7 +561,6 @@ class ContentItem < ActiveRecord::Base
         end
 
       when :bodies
-        logger.info("\n\nDoing body scan.\n\n")
         ContentItem.find(:all).each do |c|
           if c.body.to_s =~ /#{search_term}/i
             if !content_items.include?(c)
