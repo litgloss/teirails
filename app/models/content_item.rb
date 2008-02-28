@@ -14,14 +14,40 @@ class ContentItem < ActiveRecord::Base
 
   belongs_to :creator, :class_name => "User"
   
-  has_many :images, :as => :imageable, :dependent => :destroy
-  has_many :litglosses, :as => :audible, :dependent => :destroy
+  has_many :images, :as => :imageable
+
+  has_many :audio_files, :as => :audible
+
+  has_many :litglosses
 
   has_one :system_page, :dependent => :destroy
 
-  # Get rid of clones when a perent is destroyed.
+  # Get rid of clones when a perent is destroyed, and all associated
+  # media objects.  Don't do this with a normal "dependent => destroy"
+  # statement since that would also delete items associated with
+  # parent because of the general select method for these objects that
+  # we've overridden.
   before_destroy { |record| 
     ContentItem.destroy_all "parent_id = #{record.id}"
+    Litgloss.find(:all, :conditions => {
+                    :content_item_id => record.id
+                  }).each do |lg|
+      lg.destroy
+    end
+
+    AudioFile.find(:all, :conditions => {
+                     :audible_id => record.id,
+                     :audible_type => "content_item"
+                   }).each do |af|
+      af.destroy
+    end
+
+    Image.find(:all, :conditions => {
+                 :imageable_id => record.id,
+                 :imageable_type => "content_item"
+               }).each do |i|
+      i.destroy
+    end
   }
 
   # Constant to prepend to temporary files that we create.
@@ -374,12 +400,31 @@ class ContentItem < ActiveRecord::Base
     imgs
   end
 
+  def audio_files
+    afs = []
+
+    if self.private_clone?
+      self.parent.audio_files.each do |a|
+        afs << a
+      end
+    end
+
+    AudioFile.find(:all, :conditions => {
+                     :audible_id => self.id,
+                     :audible_type => "content_item",
+                     :parent_id => nil
+                   }).each do |a|
+      afs << a
+    end
+
+    afs
+  end
+
   # Returns all litglosses associated with this item or its parent.
   def litglosses
     lgs = []
 
     if !self.parent_id.nil?
-      logger.info("I'm a clone.")
       Litgloss.find(:all, :conditions => {
                       :content_item_id => self.parent.id
                     }).each do |l|
