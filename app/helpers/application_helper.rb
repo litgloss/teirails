@@ -1,5 +1,17 @@
 module ApplicationHelper
 
+  # include_ie_stylesheet_if_necessary: Includes an
+  # Internet-Explorer-specific CSS file if the user is on MS/IE.  It
+  # is incredible to think about how much developer time Microsoft has
+  # wasted due to shoddy adherence to standards.  But, I guess that
+  # this is what happens when profit continually trumps the desire to
+  # create useful tools.
+  def include_ie_stylesheet_if_necessary
+    # Modify output for brain-dead browsers.
+    if request.user_agent.downcase =~ /msie/
+      return stylesheet_link_tag("ie_hacks")
+    end
+  end
 
   def form_end_tag
     "</form>"

@@ -1,0 +1,9 @@
+/*
+ * ie_hacks.css - only included if user is running MS/IE.
+ * include hacks specific to that platform here.
+ */
+
+#submenu_left {
+    margin-top: 10px;
+    margin-left: -50px;
+}

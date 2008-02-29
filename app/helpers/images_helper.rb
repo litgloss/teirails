@@ -31,14 +31,22 @@ module ImagesHelper
     when /profile/
       controller = "user_" + controller
     when /litgloss/
-      logger.info("gen litgloss link.")
       controller = "content_item_litglosses"
       litgloss = Litgloss.find(obj_id)
       content_item = litgloss.content_item
       link_to("litgloss", content_item_litgloss_path(content_item, 
                                                      litgloss))
+    when /content_item/
+      obj = eval(obj_type.camelize).find(obj_id)
+      if obj.title.nil?
+        title = "Unknown title"
+      else
+        title = obj.title
+      end
+      link_to("Content item, \"" + title + '"', 
+              eval(controller + "_path(" + obj_id.to_s + ")"))
     else
-      link_to("#{obj_type} id #{obj_id}", 
+      link_to("#{obj_type.humanize.downcase} id #{obj_id}", 
               eval(controller + "_path(" + obj_id.to_s + ")"))
     end
   end

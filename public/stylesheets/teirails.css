@@ -108,6 +108,7 @@ body {
 #submenu {
     /* No special display attributes. */
     clear: both;
+    display: inline;
 }
 
 #submenu_left {
