@@ -13,12 +13,10 @@ class ContentItemsController < ApplicationController
   def search
     # If search term is empty, redirect back with error.
     if params[:term].empty?
-      flash[:error] = "Search term empty."
+      flash[:error] = "Search term empty, please try again."
       has_errors = true
-    end
-
     # If there are invalid characters in term, send error.
-    if !(params[:term] =~ /^[a-zA-Z0-9 ]+$/)
+    elsif !(params[:term] =~ /^[a-zA-Z0-9 ]+$/)
       flash[:error] = "Search string can only contain alphanumeric " +
         "characters and spaces, please try again."
       has_errors = true
