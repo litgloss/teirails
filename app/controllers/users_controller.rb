@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
   # Protect these actions behind an admin login
 
-  protected_methods = [ :suspend, :unsuspend, 
-                       :destroy, :purge, :update ]
+  before_filter :login_required, :except => [:new, :create, :activate]
 
-  before_filter :admin_required, :only => protected_methods
-
-  append_before_filter :login_required, :except => [:new, :create, :activate]
+  protected_methods = [ :suspend, :unsuspend, :edit,
+                        :destroy, :purge, :update ]
+  
+  append_before_filter :admin_required, :only => protected_methods
   
   append_before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, 
-                                             :purge, :edit]
-  
+                                             :purge, :edit, :update]
 
   def index
     @users = User.find(:all)
@@ -22,8 +21,6 @@ class UsersController < ApplicationController
   # Commits changes to user model.  Currently only works 
   # for user role management.
   def update
-    @user = User.find(params[:id])
-    
     if @user.role != UserRole.find(params[:user][:role_id])
       @user.role = UserRole.find(params[:user][:role_id])
       @user.save

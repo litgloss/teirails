@@ -21,6 +21,10 @@ class Image < ActiveRecord::Base
     if !self.parent.nil?
       self.imageable_type = self.parent.imageable_type
       self.imageable_id = self.parent.imageable_id
+
+      self.title = self.parent.title
+      self.description = self.parent.description
+
       self.user_id = self.parent.user_id
       self.save!
     end
@@ -70,6 +74,10 @@ class Image < ActiveRecord::Base
   end
 
   def creatable_by?(user)
+    writable_by?(user)
+  end
+
+  def destroyable_by?(user)
     writable_by?(user)
   end
 

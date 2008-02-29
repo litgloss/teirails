@@ -17,7 +17,7 @@ class VersionsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        render :inline => @content_item.tei_data_to_xhtml(@content_item.tei_data)
+        render :inline => @content_item.tei_data_to_xhtml(@content_item.tei_data, request)
       }
       format.xml { render :xml => @content_item.tei_data }
     end

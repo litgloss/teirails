@@ -65,17 +65,16 @@ class ClonesController < ApplicationController
   def create
     if !current_user.can_act_as?("contributor")
       redirect_to_block(current_user, nil)
-      return
-    end
-
-    @clone = @content_item.private_clone(current_user)
-
-    if !@clone.nil?
-      flash[:notice] = "Clone created."
-      redirect_to content_item_clone_path(@content_item, @clone)
     else
-      flash[:error] = "Unable to create clone for this object."
-      redirect_to content_item_path(@content_item)
+      @clone = @content_item.private_clone(current_user)
+
+      if !@clone.nil?
+        flash[:notice] = "Clone created."
+        redirect_to content_item_clone_path(@content_item, @clone)
+      else
+        flash[:error] = "Unable to create clone for this object."
+        redirect_to content_item_path(@content_item)
+      end
     end
   end
 

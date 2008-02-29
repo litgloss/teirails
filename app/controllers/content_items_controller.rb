@@ -145,22 +145,20 @@ class ContentItemsController < ApplicationController
   def system
     if !current_user.can_act_as?("administrator")
       redirect_to_block(current_user, nil)
-      return
+    else
+      @title = "System Content Items"
+      @content_items = get_content_items_with_filter("system")
+
+      render :template => "content_items/index"
     end
-
-    @title = "System Content Items"
-    @content_items = get_content_items_with_filter("system")
-
-    render :template => "content_items/index"
   end
 
   def new
     if !current_user.can_act_as?("editor")
       redirect_to_block(current_user, nil)
-      return
+    else
+      @content_item = ContentItem.new
     end
-
-    @content_item = ContentItem.new
   end
 
   def edit
@@ -201,6 +199,7 @@ class ContentItemsController < ApplicationController
     end
   end
 
+  # Returns the XML data of this object for annotation with Annotea.
   def annotatable
     headers["Content-Type"] = "application/xhtml+xml"
 
@@ -229,19 +228,18 @@ class ContentItemsController < ApplicationController
   def create
     if !current_user.can_act_as?("editor")
       redirect_to_block(current_user, nil)
-      return
-    end
-
-    @content_item = ContentItem.new
-
-    @content_item.tei_data = params[:content_item][:tei_data].read
-    @content_item = set_content_item_properties(@content_item)
-
-    if @content_item.save
-      flash[:notice] = "New content item data saved."
-      redirect_to content_item_path(@content_item)
     else
-      render :action => :new
+      @content_item = ContentItem.new
+
+      @content_item.tei_data = params[:content_item][:tei_data].read
+      @content_item = set_content_item_properties(@content_item)
+
+      if @content_item.save
+        flash[:notice] = "New content item data saved."
+        redirect_to content_item_path(@content_item)
+      else
+        render :action => :new
+      end
     end
   end
 

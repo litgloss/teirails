@@ -5,10 +5,12 @@ class LitglossesController < ApplicationController
   append_before_filter :login_required, :except => [:show, :index]
 
   def edit
-    
+    block_if_not_writable_by(current_user, @content_item)    
   end
   
   def update
+    block_if_not_writable_by(current_user, @content_item)
+
     if @litgloss.update_attributes(params[:litgloss])
       flash[:notice] = 'Litgloss details were successfully updated.'
       redirect_to content_item_litgloss_path
@@ -19,6 +21,8 @@ class LitglossesController < ApplicationController
   end
 
   def new
+    block_if_not_writable_by(current_user, @content_item)
+
     # For some reason, older REXML instances ignore the raw flag
     # on elements and convert them.  For that reason we might have 
     # botched input parameters at this point.  Figure out if this
@@ -33,10 +37,14 @@ class LitglossesController < ApplicationController
   end
 
   def index
+    block_if_not_readable_by(current_user, @content_item)
+
     @litglosses = @content_item.litglosses
   end
 
   def create
+    block_if_not_writable_by(current_user, @content_item)
+
     @litgloss = Litgloss.new(params[:litgloss])
     @litgloss.creator = current_user
     @litgloss.content_item = @content_item
@@ -57,6 +65,8 @@ class LitglossesController < ApplicationController
   end
 
   def show
+    block_if_not_readable_by(current_user, @content_item)
+
     @audio_files = @litgloss.audio_files
     @images = @litgloss.images.find(:all, :conditions => {
                                       :parent_id => nil
@@ -65,6 +75,8 @@ class LitglossesController < ApplicationController
 
 
   def destroy
+    block_if_not_writable_by(current_user, @content_item)
+
     # Get rid of tags in document.    
     @content_item.delete_litgloss!(@litgloss)
 

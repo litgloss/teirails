@@ -19,7 +19,7 @@ module ImagesHelper
       controller = "user_" + controller
     end
 
-    link_to("#{image.imageable_type} id #{image.imageable_id}", 
+    link_to("#{image.imageable_type.humanize.downcase} id #{image.imageable_id}", 
             eval(controller + "_path(" + image.imageable_id.to_s + ")"))
   end
 
@@ -30,6 +30,11 @@ module ImagesHelper
     case controller
     when /profile/
       controller = "user_" + controller
+      profile = Profile.find(obj_id)
+
+      user = profile.user
+      link_to("user profile", user_profile_path(user))
+                                                
     when /litgloss/
       controller = "content_item_litglosses"
       litgloss = Litgloss.find(obj_id)

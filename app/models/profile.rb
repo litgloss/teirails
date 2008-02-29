@@ -3,7 +3,9 @@ class Profile < ActiveRecord::Base
   has_one :image, :as => :imageable
 
   def readable_by?(user)
-    # No protection!
+    # No protection on default object, but there are no methods to
+    # view personal information -- just the description and image 
+    # are considered public information in this table.
     true
   end
 

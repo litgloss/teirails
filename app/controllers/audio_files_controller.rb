@@ -6,14 +6,11 @@ class AudioFilesController < ApplicationController
   # Streams this file as a sequence of bytes to the client.
   def stream
     audio_file = AudioFile.find(params[:id])
-    block_if_not_readable_by(current_user, audio_file)
 
     block_if_not_readable_by(current_user, audio_file)
 
     content_type = audio_file.content_type
-
     filename = audio_file.public_filename
-
     send_file filename, :type => content_type, :disposition => 'inline'
   end
 
@@ -24,14 +21,11 @@ class AudioFilesController < ApplicationController
       flash[:error] = "Invalid input parameters, event logged."
       redirect_to search_path
     else
-      @audio_files = AudioFile.find(:all, :conditions => { 
-                                      :audible_type => params[:audible_type],
-                                      :audible_id => params[:audible_id] }
-                                    )
-      
       @associated_object = eval(params[:audible_type].camelize).
         find(params[:audible_id])
 
+      @audio_files = @associated_object.audio_files
+      
       block_if_not_readable_by(current_user, @associated_object)
     end
   end
@@ -89,6 +83,7 @@ class AudioFilesController < ApplicationController
   def edit
     @audio_file = AudioFile.find(params[:id])
     block_if_not_writable_by(current_user, @audio_file)
+
     @associated_object = @audio_file.heard_object
   end
 

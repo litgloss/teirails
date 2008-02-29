@@ -1,0 +1,14 @@
+<h1>Set a new password</h1>
+
+<% form_tag password_path, :method => :put, :id => params[:id] do %>
+
+  <%= label_tag("New Password", :password) -%>
+  <%= password_field_tag :password %><br />
+
+  <%= label_tag("New Password Confirmation", :password_confirmation) -%>
+  <%= password_field_tag :password_confirmation %><br />
+
+  <p class="form">
+    <%= submit_tag "Reset Your Password" %>
+  </p>
+<% end %>

@@ -1,6 +1,9 @@
-# Allows users to associate a system page with a menu item.
+# Allows users to associate a system page with a menu item.  Only
+# administrators should have access to these methods.
 class MenuItemSelectionsController < ApplicationController
-  before_filter :find_menu_item, :only => [:update]
+  before_filter :login_required
+  
+  append_before_filter :find_menu_item, :only => [:update]
   append_before_filter :find_content_item
 
   def index
@@ -27,5 +30,10 @@ class MenuItemSelectionsController < ApplicationController
 
   def find_content_item
     @content_item = ContentItem.find(params[:content_item_id])
+  end
+
+  private
+  def authorized?
+    current_user.can_act_as?("administrator")
   end
 end

@@ -1,3 +1,6 @@
+# AccountsController: Allow users to change their passwords.  This
+# controller is constructed so that only the currently logged-in user
+# can change her password.
 class AccountsController < ApplicationController
   before_filter :find_user
   append_before_filter :login_required

@@ -1,8 +1,7 @@
 class ImagesController < ApplicationController
   include ActionController::Streaming
 
-  before_filter :login_required, :only => [ :new, :create, :edit,
-                                            :update, :destroy ]
+  before_filter :login_required, :except => [:show, :index]
 
   imageable_classes = ['Profile', 'ContentItem']
 
@@ -33,7 +32,8 @@ class ImagesController < ApplicationController
     @imageable_type = params[:imageable_type]
     @imageable_id = params[:imageable_id]
 
-    @image = Image.new
+    @image = Image.new(:imageable_type => @imageable_type,
+                       :imageable_id => @imageable_id)
 
     block_if_not_creatable_by(current_user, @image)
   end
@@ -113,7 +113,6 @@ class ImagesController < ApplicationController
   def create
     @image = Image.new(params[:image])
     block_if_not_creatable_by(current_user, @image)
-    
 
     @image.creator = current_user
 

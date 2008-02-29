@@ -1,5 +1,5 @@
 class SystemSettingsController < ApplicationController
-  append_before_filter :login_required, :except => [:show]
+  append_before_filter :login_required
 
   def index
     @system_settings = SystemSetting.find(:all)
