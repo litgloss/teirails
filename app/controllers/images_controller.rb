@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
   include ActionController::Streaming
 
-  before_filter :login_required, :except => [:show, :index]
+  before_filter :login_required, :except => [:show, :index, :stream]
 
   imageable_classes = ['Profile', 'ContentItem']
 
