@@ -1,31 +1,31 @@
 # Allows users to associate a system page with a menu item.  Only
 # administrators should have access to these methods.
-class MenuItemSelectionsController < ApplicationController
+class GroupLinksController < ApplicationController
   before_filter :login_required
   
-  append_before_filter :find_menu_item, :only => [:update]
+  append_before_filter :find_content_item_group, :only => [:update]
   append_before_filter :find_content_item
 
   def index
   end
 
   def update
-    sp = @content_item.system_page
+    gl = GroupLink.find(params[:id])
     
-    sp.menu_item = @menu_item
+    gl.group = @content_item_group
 
-    if sp.save
-      flash[:notice] = "New menu page set for content item."
+    if gl.save
+      flash[:notice] = "New group set for content item."
     else
-      flash[:error] = "Failed to save menu item for content item."
+      flash[:error] = "Failed to save group for content item."
     end
 
     redirect_to content_item_path(@content_item)
   end
 
   protected
-  def find_menu_item
-    @menu_item = MenuItem.find(params[:id])
+  def find_content_item_group
+    @content_item_group = ContentItemGroup.find(params[:id])
   end
 
   def find_content_item

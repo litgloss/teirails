@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
     :search => :get
 
   } do |content_item|
-    content_item.resources :menu_item_selections
+    content_item.resources :group_links
 
     content_item.resources :clones
 
@@ -47,13 +47,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :install, :controller => 'install'
 
-  map.resources :menu_items, :member => {
+  map.resources :content_item_groups, :member => {
     :move_higher => :post,
     :move_lower => :post,
     :move_to_top => :post,
     :move_to_bottom => :post
-  } do |menu_item|
-    menu_item.resources :manage_system_pages, :member => {
+  } do |content_item_group|
+    content_item_group.resources :manage_system_pages, :member => {
       :move_higher => :post,
       :move_lower => :post,
       :move_to_top => :post,

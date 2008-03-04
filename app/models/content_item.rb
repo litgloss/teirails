@@ -20,7 +20,8 @@ class ContentItem < ActiveRecord::Base
 
   has_many :litglosses
 
-  has_one :system_page, :dependent => :destroy
+  has_many :content_item_group_links, :dependent => :destroy
+  has_many :groups, :through => :content_item_group_links
 
   # Get rid of clones when a perent is destroyed, and all associated
   # media objects.  Don't do this with a normal "dependent => destroy"
