@@ -54,11 +54,21 @@
       </p>
 
       <p>
-	One caveat in this process is that Git support for
-	"submodules" was added late, so you need to make sure that the
-	git-submodule command works on your system, or else the
-	necessary plugins included with the project won't be
-	downloaded with the Git command above.
+	Now you need to download the submodules (plugins) that we're using.  Change to the project directory (TeiRails) if you used the command above, and enter the following two commands:
+      </p>
+
+      <p>
+	git-submodule init
+      </p>
+
+      <p>
+	git-submodule update
+      </p>
+
+      <p>
+	If these commands didn't work, you probably have an old
+	version of git on your system that doesn't include
+	git-submodule.
       </p>
     </body>
   </text>
