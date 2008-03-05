@@ -1,28 +1,58 @@
 class ContentItemGroupLinksController < ApplicationController
   before_filter :login_required
   
-  append_before_filter :find_content_item_group_link, :only => [:update]
+  append_before_filter :find_content_item_group_link, :only => [:update, :destroy]
   append_before_filter :find_content_item_group
 
   def index
-    # Populate this variable with possible content items to add to this 
-    @unassociated_valid_content_items = nil
-    
-    @unassociated_valid_content_items = ContentItem.find(:all, :conditions => { 
-                                                           :system => @content_item_group.system
+    block_if_not_writable_by(current_user, @content_item_group)
+
+    # Populate this variable with possible content items to add to
+    # this item.
+    @unassociated_valid_content_items = ContentItem.find(:all,
+                                                         :conditions => { 
+                                                           :system => 
+                                                           @content_item_group.system 
                                                          })
 
     @content_item_group.content_items.each do |ci|
-      @unassociated_valid_content_items.remove(ci)
+      @unassociated_valid_content_items.delete(ci)
+    end
+  end
+
+  # Associate this content item with the content item group.
+  def create
+    block_if_not_writable_by(current_user, @content_item_group)
+
+    @content_item = ContentItem.find(params[:content_item][:id])
+    @content_item_group.content_items << @content_item
+    if @content_item_group.save
+      flash[:notice] = "Content item associated with group."
+      redirect_to content_item_group_links_path(@content_item_group)
+    else
+      flash[:error] = "Failed to save content item with group."
+      render :index
+    end
+  end
+
+  def destroy
+    block_if_not_writable_by(current_user, @content_item_group)
+
+    if @content_item_group_link.destroy
+      flash[:notice] = "Link to content item deleted from group."
+      redirect_to content_item_group_links_path
+    else
+      flash[:error] = "Unable to destroy group link."
+      render :index
     end
   end
 
   def update
-    gl = GroupLink.find(params[:id])
-    
-    gl.group = @content_item_group
+    block_if_not_writable_by(current_user, @content_item_group)
 
-    if gl.save
+    @content_item_group_link.group = @content_item_group
+
+    if @content_item_group_link.save
       flash[:notice] = "New group set for content item."
     else
       flash[:error] = "Failed to save group for content item."
@@ -37,12 +67,14 @@ class ContentItemGroupLinksController < ApplicationController
   end
 
   def find_content_item_group_link
-    @content_item = ContentItemGroupLink.find(params[:id])
+    @content_item_group_link = ContentItemGroupLink.find(params[:id])
   end
 
   private
-  # XXX need more robust permission checking.
+  # Prohibit users less than editor for using any of these methods, restrict
+  # action to administrators in individual methods where actions on system
+  # groups is attempted.
   def authorized?
-    return true
+    @current_user.can_act_as?("editor")
   end
 end

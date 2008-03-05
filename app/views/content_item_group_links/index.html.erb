@@ -2,5 +2,37 @@
 
 <p>This page allows you to view current content items associated with the group "<%= @content_item_group.name -%>."</p>
 
-<p>There are currently <%= @content_item_group.content_items.size -%> items in this content item group.  You may add a content item to this group with the form below:</p>
 
+<% if !@content_item_group.content_items.empty? -%>
+  <ul>
+  <% @content_item_group.content_item_group_links.each do |cl| -%>
+    <li>
+      <%= cl.content_item.title -%>
+      (<%= link_to('Delete this content item group link', 
+		  content_item_group_link_path(@content_item_group, cl),
+                  :confirm => "Are you sure?", :method => :delete)
+          -%>)
+    </li>
+  <% end -%>
+  </ul>
+<% end -%>
+
+
+<p>There are currently <%= @content_item_group.content_items.size -%> items in this content item group.</p>  
+
+<% if !@unassociated_valid_content_items.empty? -%>
+  <p>
+    You may add a content item to this group with the form below:
+  </p>
+
+  <p>
+    <%= render_partial "select_non_associated_items_form" -%>
+  </p>
+
+<% else -%>
+  <p>
+    There are no valid unassociated content items that you are able to
+    associate with this group.
+  </p>
+
+<% end -%>

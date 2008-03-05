@@ -6,7 +6,19 @@ class ContentItemGroupsController < ApplicationController
   append_before_filter :login_required, :except => [:show]
 
   def index
-    @content_item_groups = ContentItemGroup.find(:all, :order => :position)
+    if params[:type] == "system" &&
+        current_user.can_act_as?("administrator")
+      @content_item_groups = ContentItemGroup.find(:all, :order => :position, 
+                                                   :conditions => {
+                                                     :system => true
+                                                   })
+    else
+      @content_item_groups = ContentItemGroup.find(:all, :order => :position,
+                                                   :conditions => {
+                                                     :system => false
+                                                   })
+    end
+
   end
 
   def new
@@ -31,7 +43,7 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group.move_higher
     @content_item_group.save
     flash[:notice] = "Element moved higher."
-    redirect_to groups_path
+    redirect_to content_item_groups_path
   end
 
   # Moves this element in the list to a lower position.
@@ -39,30 +51,30 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group.move_lower
     @content_item_group.save
     flash[:notice] = "Element moved lower."
-    redirect_to groups_path
+    redirect_to content_item_groups_path
   end
 
   def move_to_top
     @content_item_group.move_to_top
     @content_item_group.save
     flash[:notice] = "Element moved to top."
-    redirect_to groups_path
+    redirect_to content_item_groups_path
   end
 
   def move_to_bottom
     @content_item_group.move_to_bottom
     @content_item_group.save
     flash[:notice] = "Element moved to bottom."
-    redirect_to groups_path
+    redirect_to content_item_groups_path
   end
 
   def destroy
     if @content_item_group.destroy
-      flash[:notice] = "group deleted."
-      redirect_to groups_path
+      flash[:notice] = "Content item group deleted."
+      redirect_to content_item_groups_path
     else
-      flash[:error] = "Unable to destroy group."
-      redirect_to groups_path
+      flash[:error] = "Unable to destroy content item group."
+      redirect_to content_item_groups_path
     end
   end
 

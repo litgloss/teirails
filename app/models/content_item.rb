@@ -5,6 +5,8 @@ require 'rexml/document'
 # some teiHeader elements.
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
+
+
   self.non_versioned_columns << 'published'
   self.non_versioned_columns << 'protected'
 
@@ -21,7 +23,7 @@ class ContentItem < ActiveRecord::Base
   has_many :litglosses
 
   has_many :content_item_group_links, :dependent => :destroy
-  has_many :groups, :through => :content_item_group_links, :class_name => "ContentItemGroup"
+  has_many :groups, :through => :content_item_group_links, :source => :content_item_group
 
   # Get rid of clones when a perent is destroyed, and all associated
   # media objects.  Don't do this with a normal "dependent => destroy"
@@ -456,17 +458,6 @@ class ContentItem < ActiveRecord::Base
     new_content_items
   end
 
-  # Sets this object as a "system" content piece, which means 
-  # that it is intended for use under a user-defined menu
-  # item, rather than in the general category of Content Items.
-  # In practice, Content Items which are "system" content are used
-  # for static site pages, like the "About" page.
-  def set_as_system_content!
-    s = SystemPage.new
-    self.system_page = s
-    self.save
-  end
-
   # Returns a XML::Document of this tei_data
   def doc
     REXML::Document.new(self.tei_data)
@@ -553,23 +544,6 @@ class ContentItem < ActiveRecord::Base
 
     self.tei_data = mydoc.to_s
     self.save
-  end
-
-  def set_system_page_value(value)
-    logger.info("Got val of #{value} (type == #{value.class}) for systme page.")
-
-    case value
-    when "0"
-      # Delete a system page if we have one.
-      if !self.system_page.nil?
-        s = self.system_page
-        s.destroy
-      end
-    when "1"
-      if self.system_page.nil?
-        self.set_as_system_content!
-      end
-    end
   end
 
   # Returns a set of content items matching this term

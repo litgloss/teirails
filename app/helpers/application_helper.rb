@@ -68,8 +68,12 @@ module ApplicationHelper
         links << move_to_top_link(element, restful_part, id_string)
       end
     end
-
-    links.join(", ")
+    
+    if !links.empty?
+      links.join(", ")
+    else
+      "no movement options"
+    end
   end
 
   # Makes a link in the main application menu.  Use a style to keep it
@@ -148,10 +152,10 @@ module ApplicationHelper
     cigs.each do |m|
       if current_controller.eql?("content_item_groups") &&
           params[:id].eql?(m.id.to_s) || 
-        current_controller.eql?("content_item_groups") &&
+        current_controller.eql?("content_items") &&
           current_action.eql?("show") &&
           ContentItem.find(params[:id]).system? &&
-          ContentItem.find(params[:id]).group == m
+          ContentItem.find(params[:id]).groups.include?(m)
         menu_item = link_to(m.name, content_item_group_path(m), :class => :curpage)
       else
         menu_item = link_to(m.name, content_item_group_path(m))
@@ -186,7 +190,7 @@ module ApplicationHelper
     # create submenu links instead of content item links.
     if !@content_item.nil? && @content_item.system? &&
         !@content_item.groups.empty?
-      links = get_menu_item_submenu_links(true)
+      links = get_content_item_group_submenu_links(true)
     else
       links << get_ci_submenu_by_author_link
       links << get_ci_submenu_by_language_link
@@ -196,25 +200,28 @@ module ApplicationHelper
     links
   end
 
-  def get_menu_item_submenu_links(content_item_selected = false)
+  def get_content_item_group_submenu_links(content_item_selected = false)
     links = []
 
-    mi = nil
+    cig = nil
 
     if content_item_selected
-      mi = @content_item.system_page.menu_item
+      # Default to choosing the first group on a content item
+      # for now.  Later add checking code so that we maintain state
+      # of the current group and pull up this continually. XXX
+      cig = @content_item.groups.find(:first)
     else
       if params[:id]
-        mi = MenuItem.find(params[:id])      
+        cig = ContentItemGroup.find(params[:id])      
       end
     end
 
-    if !mi.nil?
-      s_pgs = mi.system_pages.find(:all, :order => "position")
+    if !cig.nil?
+      s_pgs = cig.content_items.find(:all, :order => "position")
       cis = []
 
       s_pgs.each do |sp|
-        cis << sp.content_item
+        cis << sp
       end
 
       cis.each do |c|

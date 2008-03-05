@@ -338,8 +338,7 @@ class ContentItemsController < ApplicationController
       end
       
       if (logged_in? && current_user.can_act_as?("administrator"))
-        content_item.
-          set_system_page_value(params[:content_item][:has_system_page])
+        content_item.system = params[:content_item][:system]
       end
     end
 

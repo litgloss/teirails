@@ -35,12 +35,6 @@ module ContentItemHelper
         links << link_to("Versions", 
                          content_item_versions_path(content_item))
       end
-
-      if content_item.system? &&
-          current_user.can_act_as?("administrator")
-        links << link_to("Select Menu Item", 
-                         content_item_menu_item_selections_path(content_item))
-      end
     end
       
       if !links.empty?

@@ -1,0 +1,14 @@
+<%= form_tag content_item_group_links_url, 
+    :method => :post -%>
+
+  <%= label_tag("Select content item", :content_item) -%>
+  <%=  select("content_item", "id", @unassociated_valid_content_items.collect { |uvci| [ uvci.title, uvci.id ] }, {:prompt => 'Select Content Item'}) -%>
+  <br />
+
+  <p class="form">
+    <%= submit_tag 'Select content item to add to group' %>
+  </p>
+  
+  <br />
+
+</form>

@@ -1,15 +1,15 @@
 <h1>Manage Group Pages</h1>
 
-<p>There are <%= @content_items.size -%> system pages available for
+<p>There are <%= @content_item_group_links.size -%> system pages available for
 menu item "<%= link_to @content_item_group.name,
 content_item_group_path(@content_item_group) -%>".</p>
 
-<% if !@content_items.empty? -%>
+<% if !@content_item_group_links.empty? -%>
   <ul>
-    <% @content_items.each do |sp| -%>
-      <li><%= sp.content_item.title -%> 
-	<% if !get_movement_links( sp ).empty? -%>
-	  (<%= get_movement_links( sp ) -%>)
+    <% @content_item_group_links.each do |cigl| -%>
+      <li><%= cigl.content_item.title -%> 
+	<% if !get_movement_links( cigl ).empty? -%>
+	  (<%= get_movement_links( cigl ) -%>)
 	<% end -%>
       </li>
     <% end -%>

@@ -13,7 +13,7 @@ class ManagePositionsController < ApplicationController
     ]
 
   def index
-    @content_items = @content_item_group.content_items
+    @content_item_group_links = @content_item_group.content_item_group_links
   end
 
   # Moves this element in the list to a higher position.

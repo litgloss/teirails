@@ -1,4 +1,4 @@
-<h1>Menu Item "<%= @content_item_group.name -%>"</h1>
+<h1>Content Item Group "<%= @content_item_group.name -%>"</h1>
 
 <% if @content_item_group.system? -%>
   <p>
@@ -17,10 +17,16 @@
 		  content_item_group_links_path(@content_item_group)) %>
     </li>
   
-    <li><%= link_to('Edit this menu item', edit_content_item_group_path) -%></li>
-    <li><%= link_to('Delete this menu item', content_item_group_path,
-                    :confirm => "Are you sure?",
-                    :method => :delete) -%> this content item group</li>
+    <li>
+      <%= link_to('Edit this content item group',
+		  edit_content_item_group_path) -%>
+    </li>
+
+    <li>
+      <%= link_to('Delete this content item group', content_item_group_path,
+                    :confirm => "Are you sure?", :method => :delete)
+                    -%> this content item group
+    </li>
   </ul>
 <% end -%>
 
