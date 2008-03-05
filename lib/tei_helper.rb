@@ -1,4 +1,7 @@
-require 'xml/libxml_so'
+# Try to compensate for platform differences in libxml packaging.
+if !(require 'xml/libxml_so')
+  require 'xml/libxml'
+end
 
 # Contains methods which use xml/libxml in order
 # to glean useful information about a TEI document.
