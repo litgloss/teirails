@@ -10,7 +10,7 @@ your search criteria.</p>
 <div>
   <ul>
     <% @content_item_groups.each do |cig| -%>
-      <li id="item_<%= cig.id -%>"><%= cig.name -%> 
+      <li id="item_<%= cig.id -%>"><%= link_to cig.name, content_item_group_path(cig) -%> 
 	(<%= get_index_item_options(cig) -%>)
       </li>
     <% end -%>

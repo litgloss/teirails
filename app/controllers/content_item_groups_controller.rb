@@ -43,7 +43,7 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group.move_higher
     @content_item_group.save
     flash[:notice] = "Element moved higher."
-    redirect_to content_item_groups_path
+    redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
   end
 
   # Moves this element in the list to a lower position.
@@ -51,30 +51,30 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group.move_lower
     @content_item_group.save
     flash[:notice] = "Element moved lower."
-    redirect_to content_item_groups_path
+    redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
   end
 
   def move_to_top
     @content_item_group.move_to_top
     @content_item_group.save
     flash[:notice] = "Element moved to top."
-    redirect_to content_item_groups_path
+    redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
   end
 
   def move_to_bottom
     @content_item_group.move_to_bottom
     @content_item_group.save
     flash[:notice] = "Element moved to bottom."
-    redirect_to content_item_groups_path
+    redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
   end
 
   def destroy
     if @content_item_group.destroy
       flash[:notice] = "Content item group deleted."
-      redirect_to content_item_groups_path
+      redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
     else
       flash[:error] = "Unable to destroy content item group."
-      redirect_to content_item_groups_path
+      redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
     end
   end
 
@@ -93,12 +93,20 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group.save!
 
     flash[:notice] = "New content_item_group created with name #{@content_item_group.name}"
-    redirect_to content_item_groups_path
+    redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
   end
 
   protected
   def find_content_item_group
     @content_item_group = ContentItemGroup.find(params[:id])
+  end
+
+  def get_system_hash_for(content_item_group)
+    if content_item_group.system?
+      { :type => "system" }
+    else
+      { }
+    end
   end
 
 end

@@ -61,18 +61,21 @@ module ApplicationHelper
       links << move_to_top_link(element, restful_part, id_string)
     else
       if !(element.first? && element.last?)
-        # Add links for top, bottom, higher, lower
+        # Add links for top, bottom, higher, lower.  Skip the links to
+        # move higher and lower if this element is first or last.
+        
         links << move_higher_link(element, restful_part, id_string)
         links << move_lower_link(element, restful_part, id_string)
         links << move_to_bottom_link(element, restful_part, id_string)
         links << move_to_top_link(element, restful_part, id_string)
       end
     end
+
     
     if !links.empty?
       links.join(", ")
     else
-      "no movement options"
+      return "no movement options available"
     end
   end
 
@@ -109,19 +112,12 @@ module ApplicationHelper
     gsub_insert_span_tags(res, link_text)
   end
 
-  # Returns a list of <li></li> items for system sub menu.
   def generate_sub_menu_items
     current_controller = request.path_parameters['controller']
 
     links = []
 
-    # If we're working on the user-generated menu items, 
-    # figure out which object we're working on and pull in
-    # all relevant content items.
-    case current_controller
-    when "menu_items"
-      links = get_menu_item_submenu_links
-    when "content_items"
+    if current_controller =~ /^content_items$/
       links = get_content_item_submenu_links
     end
 
@@ -131,7 +127,7 @@ module ApplicationHelper
       links[i] = "<li>" + l + "</li>"
       i += 1
     end
-
+    
     links.join("\n")
   end
 
@@ -186,9 +182,7 @@ module ApplicationHelper
   def get_content_item_submenu_links
     links = []
 
-    # If this content item is a system page, run method to
-    # create submenu links instead of content item links.
-    if !@content_item.nil? && @content_item.system? &&
+    if !@content_item.nil? && 
         !@content_item.groups.empty?
       links = get_content_item_group_submenu_links(true)
     else

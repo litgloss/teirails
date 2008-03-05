@@ -8,7 +8,7 @@ module ContentItemGroupHelper
     movement_links = get_movement_links( group )
     
     if !movement_links.empty?
-      links << link_to(get_movement_links( group ))
+      links << get_movement_links( group )
     end
 
     links.join(", ")

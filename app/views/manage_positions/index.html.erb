@@ -1,7 +1,7 @@
 <h1>Manage Group Pages</h1>
 
-<p>There are <%= @content_item_group_links.size -%> system pages available for
-menu item "<%= link_to @content_item_group.name,
+<p>There are <%= @content_item_group_links.size -%> pages linked to
+content item group "<%= link_to @content_item_group.name,
 content_item_group_path(@content_item_group) -%>".</p>
 
 <% if !@content_item_group_links.empty? -%>
@@ -16,4 +16,7 @@ content_item_group_path(@content_item_group) -%>".</p>
   </ul>
 <% end -%>
 
-<p>Would you like to <%= link_to 'view system content items to add to this page', system_content_items_path -%>?</p>
+<p>
+  Would you like to 
+  <%= link_to 'view content items that may be associated with this group', content_item_group_links_path(@content_item_group) -%>?
+</p>

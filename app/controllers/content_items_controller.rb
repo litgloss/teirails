@@ -47,7 +47,8 @@ class ContentItemsController < ApplicationController
   # 
   def index
     cis = ContentItem.find(:all, :conditions => {
-                             :published => true
+                             :published => true,
+                             :hide_in_catalog => false
                            })
     
     @content_items = []
@@ -335,6 +336,7 @@ class ContentItemsController < ApplicationController
       if current_user.can_act_as?("editor")
         content_item.published = params[:content_item][:published]
         content_item.protected = params[:content_item][:protected]
+        content_item.hide_in_catalog = params[:content_item][:hide_in_catalog]
       end
       
       if (logged_in? && current_user.can_act_as?("administrator"))

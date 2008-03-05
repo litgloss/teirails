@@ -24,14 +24,20 @@ class ContentItemGroupLinksController < ApplicationController
   def create
     block_if_not_writable_by(current_user, @content_item_group)
 
-    @content_item = ContentItem.find(params[:content_item][:id])
-    @content_item_group.content_items << @content_item
-    if @content_item_group.save
-      flash[:notice] = "Content item associated with group."
+    if !params[:content_item][:id] ||
+        !ContentItem.find_by_id(params[:content_item][:id])
+      flash[:error] = "Must select a valid content item."
       redirect_to content_item_group_links_path(@content_item_group)
     else
-      flash[:error] = "Failed to save content item with group."
-      render :index
+      @content_item = ContentItem.find(params[:content_item][:id])
+      @content_item_group.content_items << @content_item
+      if @content_item_group.save
+        flash[:notice] = "Content item associated with group."
+        redirect_to content_item_group_links_path(@content_item_group)
+      else
+        flash[:error] = "Failed to save content item with group."
+        redirect_to content_item_group_links_path(@content_item_group)
+      end
     end
   end
 
@@ -75,6 +81,6 @@ class ContentItemGroupLinksController < ApplicationController
   # action to administrators in individual methods where actions on system
   # groups is attempted.
   def authorized?
-    @current_user.can_act_as?("editor")
+    current_user.can_act_as?("editor")
   end
 end

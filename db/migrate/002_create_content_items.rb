@@ -21,8 +21,10 @@ class CreateContentItems < ActiveRecord::Migration
       # item is public) show that it should be shown.  Probably most
       # useful when the item is a supplementary reading that should
       # only be shown in search results or as an associated reading
-      # with a primary text.
-      t.boolean :hide_in_catalog, :default => true
+      # with a primary text.  Note that this item will still show
+      # up in the catalog when its contents match a search term, unless
+      # it is protected or not published.
+      t.boolean :hide_in_catalog, :default => false
 
       # Allows for "clones" which are copes of content 
       # items strictly for modification in a local workspace
