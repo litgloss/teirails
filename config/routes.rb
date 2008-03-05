@@ -20,7 +20,7 @@ ActionController::Routing::Routes.draw do |map|
     :search => :get
 
   } do |content_item|
-    content_item.resources :group_links
+
 
     content_item.resources :clones
 
@@ -53,7 +53,9 @@ ActionController::Routing::Routes.draw do |map|
     :move_to_top => :post,
     :move_to_bottom => :post
   } do |content_item_group|
-    content_item_group.resources :manage_system_pages, :member => {
+    content_item_group.resources :links, :controller => "content_item_group_links"
+
+    content_item_group.resources :manage_positions, :member => {
       :move_higher => :post,
       :move_lower => :post,
       :move_to_top => :post,

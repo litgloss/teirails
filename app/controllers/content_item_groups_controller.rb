@@ -1,7 +1,7 @@
 class ContentItemGroupsController < ApplicationController
-  before_filter :find_group, :only => [:edit, :show, :update, :destroy,
-                                       :move_higher, :move_lower,
-                                       :move_to_top, :move_to_bottom]
+  before_filter :find_content_item_group, :only => [:edit, :show, :update, :destroy,
+                                                    :move_higher, :move_lower,
+                                                    :move_to_top, :move_to_bottom]
 
   append_before_filter :login_required, :except => [:show]
 
@@ -69,7 +69,7 @@ class ContentItemGroupsController < ApplicationController
   def update
     if @content_item_group.update_attributes(params[:content_item_group])
       flash[:notice] = 'Group details were successfully updated.'
-      redirect_to group_path(@content_item_group)
+      redirect_to content_item_group_path(@content_item_group)
     else
       flash[:error] = 'Failed to update group properties.'
       redirect_to content_item_group_path(@content_item_group)

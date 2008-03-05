@@ -1,12 +1,13 @@
-<h1>New Menu Item</h1>
+<h1>New Content Item Group</h1>
 
-<%= error_messages_for :menu_item %>
+<%= error_messages_for :content_item_group %>
 
-<% form_for :menu_item, :url => menu_items_path, :html => { :method => :post } do |f| -%>
+<% form_for :content_item_group, :url => content_item_groups_path, :html => { :method => :post } do |f| -%>
 
   <%= render :partial => 'form', :locals => { :f => f } -%>
 
-<%= submit_tag 'Create Menu Item' %><br />
+<%= submit_tag 'Create Content Item Group' %><br />
+
 <% end -%>
 
-<p>Click <%= link_to'here', menu_items_path -%> to go back to the menu item index without creating a new item.</p>
+<p>Click <%= link_to 'here', content_item_groups_path -%> to go back to the index of content item groups.

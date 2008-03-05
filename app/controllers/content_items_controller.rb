@@ -53,7 +53,7 @@ class ContentItemsController < ApplicationController
     @content_items = []
 
     cis.each do |c|
-      if !c.has_system_page
+      if !c.system?
         @content_items << c
       end
     end
@@ -90,7 +90,7 @@ class ContentItemsController < ApplicationController
 
       if current_user.can_act_as?("administrator")
         ContentItem.find(:all).each do |c|
-          if c.has_system_page
+          if c.system?
             content_items << c
           end
         end

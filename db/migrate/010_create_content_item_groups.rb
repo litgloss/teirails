@@ -12,6 +12,8 @@ class CreateContentItemGroups < ActiveRecord::Migration
       # a system content item group
       t.boolean :system, :default => false
 
+      t.boolean :visible, :default => true
+
       t.timestamps
     end
 

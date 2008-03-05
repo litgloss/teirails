@@ -1,24 +1,27 @@
-<h1>Menu Item "<%= @menu_item.name -%>"</h1>
+<h1>Menu Item "<%= @content_item_group.name -%>"</h1>
 
-<% if @menu_item.system_pages.empty? -%>
+<% if @content_item_group.system? -%>
   <p>
-    This menu item is empty.  If you are an administrator on this
-    site, you may want to create some system content items and add sub
-    items to it.
+    This content item group is empty.  If you are an administrator on
+    this site, you may want to create some system content items and
+    add sub items to it.
   </p>
 <% end -%>
 
 <% if logged_in? && current_user.can_act_as?("administrator") -%>
-  <h2>Menu Editing Options</h2>
+  <h2>Content Item Group Options</h2>
 
   <ul>
-    <li><%= link_to('Manage child pages of this menu item', menu_item_manage_system_pages_path(@menu_item)) %></li>
+    <li>
+      <%= link_to('Manage child pages of this content item group',
+		  content_item_group_links_path(@content_item_group)) %>
+    </li>
   
-    <li><%= link_to('Edit this menu item', edit_menu_item_path) -%></li>
-    <li><%= link_to('Delete this menu item', menu_item_path,
-                     :confirm => "Are you sure?",
-                     :method => :delete) -%> this menu option.</li>
+    <li><%= link_to('Edit this menu item', edit_content_item_group_path) -%></li>
+    <li><%= link_to('Delete this menu item', content_item_group_path,
+                    :confirm => "Are you sure?",
+                    :method => :delete) -%> this content item group</li>
   </ul>
 <% end -%>
 
-<p>Return to <%= link_to 'menu item index', menu_items_path -%>.</p>
+<p>Return to <%= link_to 'content item group index', content_item_groups_path -%>.</p>

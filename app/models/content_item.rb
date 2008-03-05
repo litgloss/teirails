@@ -21,7 +21,7 @@ class ContentItem < ActiveRecord::Base
   has_many :litglosses
 
   has_many :content_item_group_links, :dependent => :destroy
-  has_many :groups, :through => :content_item_group_links
+  has_many :groups, :through => :content_item_group_links, :class_name => "ContentItemGroup"
 
   # Get rid of clones when a perent is destroyed, and all associated
   # media objects.  Don't do this with a normal "dependent => destroy"
@@ -555,13 +555,6 @@ class ContentItem < ActiveRecord::Base
     self.save
   end
 
-  # Returns boolean value representing whether or not this
-  # item is a system page.
-  def has_system_page
-    !self.system_page.nil?
-  end
-
-  # Accepts a 
   def set_system_page_value(value)
     logger.info("Got val of #{value} (type == #{value.class}) for systme page.")
 
@@ -728,7 +721,7 @@ class ContentItem < ActiveRecord::Base
            when user.class == Symbol
              self.published?
 
-           when self.has_system_page && self.published?
+           when self.system? && self.published?
              # We don't care about "protected" property on system
              # pages right now.
              true
@@ -763,7 +756,7 @@ class ContentItem < ActiveRecord::Base
     
     return case 
        
-           when self.has_system_page
+           when self.system?
              user.can_act_as?("administrator")
              
            when self.private_clone?
@@ -782,7 +775,7 @@ class ContentItem < ActiveRecord::Base
     new_content_items = []
 
     content_items.each do |c|
-      if !c.has_system_page
+      if !c.system?
         new_content_items << c
       end
     end

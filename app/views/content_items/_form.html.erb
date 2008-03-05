@@ -9,7 +9,12 @@
   <%= f.check_box(:protected) -%><br />
 
   <% if current_user.can_act_as?("administrator") -%>
-    <%= label(:system, "System content item") -%>
-    <%= f.check_box( :has_system_page) -%><br />
+    <%= label(:system, "System") -%>
+    <%= f.check_box( :system) -%><br />
+  <% end -%>
+
+  <% if current_user.can_act_as?("editor") -%>
+    <%= label(:hide_in_catalog, "Hide in catalog") -%>
+    <%= f.check_box( :hide_in_catalog) -%><br />
   <% end -%>
 <% end -%>

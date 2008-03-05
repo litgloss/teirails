@@ -1,14 +1,14 @@
-<h1>Edit Menu Item</h1>
+<h1>Edit Content Item Group</h1>
 
-<p>You may change details for this menu item below.</p>
+<p>You may change details for this content item group below.</p>
 
-<%= error_messages_for :menu_item %>
+<%= error_messages_for :content_item_group %>
 
-<% form_for :menu_item, :url => menu_item_path, :html => { :method => :put } do |f| -%>
+<% form_for :content_item_group, :url => content_item_group_path, :html => { :method => :put } do |f| -%>
 
   <%= render :partial => 'form', :locals => { :f => f } -%>
 
-  <%= submit_tag 'Update Menu Item' %><br />
+  <%= submit_tag 'Update Content Item Group' %><br />
 <% end -%>
 
-<p><%= link_to 'Skip save changes and go to show menu item', menu_item_path %></p>
+<p><%= link_to 'Skip save changes and go to show content item group', content_item_group_path %></p>

@@ -43,8 +43,8 @@ module ApplicationHelper
     # something based on class name.
     restful_part = nil
     id_string = ""
-    if current_controller.eql?("manage_system_pages")
-      restful_part = "menu_item_manage_system_page_path"
+    if current_controller.eql?("content_item_group_links")
+      restful_part = "content_item_group_manage_content_item_positions_path"
       id_string = "#{element.menu_item.id}, #{element.id}"
     else
       restful_part = element.class.table_name.singularize +
@@ -89,11 +89,11 @@ module ApplicationHelper
            current_action.eql?("show")) ||
          (current_controller.eql?("content_items") &&
           current_action.eql?("show") &&
-          !ContentItem.find(params[:id]).has_system_page) ||
+          !ContentItem.find(params[:id]).system?) ||
          (current_controller.eql?("content_items") &&
           current_action.eql?("show") &&
-          ContentItem.find(params[:id]).has_system_page &&
-          ContentItem.find(params[:id]).system_page.menu_item.nil?
+          ContentItem.find(params[:id]).system? &&
+          ContentItem.find(params[:id]).groups.empty?
           )
          )
 
@@ -137,21 +137,24 @@ module ApplicationHelper
     current_controller = request.path_parameters['controller']
     current_action = request.path_parameters['action']
 
-    menu_items = MenuItem.find(:all, :conditions => { :visible => true },
-                               :order => "position")
+    cigs = ContentItemGroup.find(:all, :conditions => { 
+                                         :visible => true,
+                                         :system => true
+                                       },
+                                       :order => "position")
     
     res = []
 
-    menu_items.each do |m|
-      if current_controller.eql?("menu_items") &&
+    cigs.each do |m|
+      if current_controller.eql?("content_item_groups") &&
           params[:id].eql?(m.id.to_s) || 
-        current_controller.eql?("content_items") &&
+        current_controller.eql?("content_item_groups") &&
           current_action.eql?("show") &&
-          ContentItem.find(params[:id]).has_system_page &&
-          ContentItem.find(params[:id]).system_page.menu_item == m
-        menu_item = link_to(m.name, menu_item_path(m), :class => :curpage)
+          ContentItem.find(params[:id]).system? &&
+          ContentItem.find(params[:id]).group == m
+        menu_item = link_to(m.name, content_item_group_path(m), :class => :curpage)
       else
-        menu_item = link_to(m.name, menu_item_path(m))
+        menu_item = link_to(m.name, content_item_group_path(m))
       end
       
       menu_item = gsub_insert_span_tags(menu_item, m.name)
@@ -181,8 +184,8 @@ module ApplicationHelper
 
     # If this content item is a system page, run method to
     # create submenu links instead of content item links.
-    if !@content_item.nil? && @content_item.has_system_page &&
-        !@content_item.system_page.menu_item.nil?
+    if !@content_item.nil? && @content_item.system? &&
+        !@content_item.groups.empty?
       links = get_menu_item_submenu_links(true)
     else
       links << get_ci_submenu_by_author_link

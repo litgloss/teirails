@@ -1,10 +1,12 @@
-<h1>Manage System Pages</h1>
+<h1>Manage Group Pages</h1>
 
-<p>There are <%= @system_pages.size -%> system pages available for menu item "<%= link_to @menu_item.name, menu_item_path(@menu_item) -%>".</p>
+<p>There are <%= @content_items.size -%> system pages available for
+menu item "<%= link_to @content_item_group.name,
+content_item_group_path(@content_item_group) -%>".</p>
 
-<% if !@system_pages.empty? -%>
+<% if !@content_items.empty? -%>
   <ul>
-    <% @system_pages.each do |sp| -%>
+    <% @content_items.each do |sp| -%>
       <li><%= sp.content_item.title -%> 
 	<% if !get_movement_links( sp ).empty? -%>
 	  (<%= get_movement_links( sp ) -%>)

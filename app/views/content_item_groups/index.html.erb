@@ -1,15 +1,19 @@
-<h1>Menu Items</h1>
+<h1>Groups</h1>
 
-<p>There are currently <%= @menu_items.size -%> items available in the system menu.  Would you like to <%= link_to 'Add one', new_menu_item_path -%>?  
+<p>There are currently <%= @content_item_groups.size -%> items
+available in the system menu.</p>
 
-  <% if !@menu_items.empty? -%>
-    Current menu items are listed below:</p>
+<p>Would you like to <%= link_to 'Add one',
+new_content_item_group_path -%>?</p>
+
+  <% if !@content_item_groups.empty? -%>
+    Current groups matching your search criteria are listed below:</p>
 
 <div>
   <ul>
-    <% @menu_items.each do |m| -%>
-      <li id="item_<%= m.id -%>"><%= m.name -%> 
-	(<%= get_index_item_options(m) -%>)
+    <% @content_item_groups.each do |cig| -%>
+      <li id="item_<%= cig.id -%>"><%= cig.name -%> 
+	(<%= get_index_item_options(cig) -%>)
       </li>
     <% end -%>
   </ul>

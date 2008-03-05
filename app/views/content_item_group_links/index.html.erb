@@ -1,20 +1,6 @@
-<h1>Select Menu Item</h1>
+<h1>Group Content Items</h1>
 
-<p>This page allows you to set the menu item for the system content item with title "<%= @content_item.title -%>."</p>
+<p>This page allows you to view current content items associated with the group "<%= @content_item_group.name -%>."</p>
 
-<% if @content_item.system_page.menu_item.nil? -%>
-<p>This content item is currently not associated with any menu item.</p>
-<% end -%>
+<p>There are currently <%= @content_item_group.content_items.size -%> items in this content item group.  You may add a content item to this group with the form below:</p>
 
-<p>Choose the menu item with which this content item should be associated.  Any selection removes existing association, if one exists.</p>
-
-<ul>
-  <% MenuItem.find(:all).each do |mi| -%>
-    <li>
-      <%= link_to mi.name, content_item_menu_item_selection_path(@content_item, mi), :method => :put -%>
-      <% if @content_item.system_page.menu_item == mi -%>
-	(<strong>Currently Selected</strong>)
-      <% end -%>
-    </li>
-  <% end -%>
-</ul>
