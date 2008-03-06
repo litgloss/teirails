@@ -184,7 +184,7 @@ module ApplicationHelper
 
     if !@content_item.nil? && 
         !@content_item.groups.empty?
-      links = get_content_item_group_submenu_links(true)
+      links = get_content_item_group_submenu_links(@content_item)
     else
       links << get_ci_submenu_by_author_link
       links << get_ci_submenu_by_language_link
@@ -194,33 +194,22 @@ module ApplicationHelper
     links
   end
 
-  def get_content_item_group_submenu_links(content_item_selected = false)
+  # Returns links to other content items in the group that was 
+  # specified with this resource.
+  def get_content_item_group_submenu_links(content_item)
     links = []
 
-    cig = nil
-
-    if content_item_selected
-      # Default to choosing the first group on a content item
-      # for now.  Later add checking code so that we maintain state
-      # of the current group and pull up this continually. XXX
-      cig = @content_item.groups.find(:first)
+    if params[:group]
+      content_item_group = ContentItemGroup.find(params[:group])      
+      content_item_group.content_items.each do |c|
+        links << link_to(c.title, content_item_path(c, :group => params[:group]))
+      end
+    elsif !content_item.groups.empty?
+      content_item.groups.each do |cig|
+        links << link_to("#{cig.name} group", content_item_group_path(cig))
+      end
     else
-      if params[:id]
-        cig = ContentItemGroup.find(params[:id])      
-      end
-    end
-
-    if !cig.nil?
-      s_pgs = cig.content_items.find(:all, :order => "position")
-      cis = []
-
-      s_pgs.each do |sp|
-        cis << sp
-      end
-
-      cis.each do |c|
-        links << link_to(c.title, content_item_path(c))
-      end
+      links << "No group associations"
     end
 
     links
