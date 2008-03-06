@@ -3,7 +3,7 @@ class ContentItemGroupsController < ApplicationController
                                                     :move_higher, :move_lower,
                                                     :move_to_top, :move_to_bottom]
 
-  append_before_filter :login_required
+  append_before_filter :login_required, :except => :show
 
   def index
     if params[:type] == "system" &&
@@ -30,7 +30,12 @@ class ContentItemGroupsController < ApplicationController
   end
 
   def show
-    block_if_not_writable_by(current_user, @content_item_group)
+    # If we have one or more elements in this content item group, show the item in the first
+    # position.  Otherwise, just render the index page.
+    if !@content_item_group.content_items.empty?
+      ci = @content_item_group.content_items.find(:first, :order => :position)
+      redirect_to content_item_path(ci, :group => @content_item_group.id)
+    end
   end
 
   # Moves this element in the list to a higher position.

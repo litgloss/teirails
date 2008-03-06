@@ -1,14 +1,15 @@
 <h1>Content Item Group "<%= @content_item_group.name -%>"</h1>
 
-<% if @content_item_group.system? -%>
-  <p>
-    This content item group is empty.  If you are an administrator on
-    this site, you may want to create some system content items and
-    add sub items to it.
-  </p>
+<p>
+<% if @content_item_group.content_items.empty? -%>
+  This content item group is empty.
+<% else -%>
+  This content item group contains <%= @content_item_group.content_items.size -%> items.
 <% end -%>
+</p>
 
-<% if logged_in? && current_user.can_act_as?("administrator") -%>
+<% if logged_in? && @content_item_group.writable_by?(current_user) -%>
+
   <h2>Content Item Group Options</h2>
 
   <ul>
