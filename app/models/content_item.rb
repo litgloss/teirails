@@ -830,9 +830,11 @@ class ContentItem < ActiveRecord::Base
   def validate
     begin
       res = validate_tei_document(self.tei_data)
+    rescue XML::Parser::ParseError => e
+      errors.add(:tei_data, "- Document is not well-formed XML.")
     rescue DTDValidationError => dtd_ve
       dtd_ve.errors.each do |e|
-        errors.add('tei_data', e)
+        errors.add(:tei_data, "- " + e)
       end
     end
   end
