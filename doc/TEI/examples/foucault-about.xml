@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+	<title>About Michel Foucault</title>
+
+	<author>Public Domain</author>
+
+	<respStmt>
+	  <resp>Converted to TEI by</resp>
+	  <name>Justin S. Leitgeb</name>
+	</respStmt>
+      </titleStmt>
+
+      <publicationStmt>
+	<publisher>Unknown</publisher>
+	<pubPlace>France</pubPlace>
+      </publicationStmt>
+
+      <sourceDesc>
+	<p>http://en.wikipedia.org/wiki/Michel_Foucault</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+
+  <text>
+    <front>
+      <titlePage>
+        <docTitle>
+          <titlePart>About Michel Foucault</titlePart>
+        </docTitle>
+      </titlePage>
+    </front>
+    
+    <body>
+      
+      <p>
+	Michel Foucault (October 15, 1926–June 25, 1984) was a French
+	philosopher, historian, critic and sociologist. He held a
+	chair at the Collège de France, giving it the title "History
+	of Systems of Thought," and taught at the University of
+	California, Berkeley.
+      </p>
+
+      <p>
+	Michel Foucault is best known for his critical studies of
+	various social institutions, most notably psychiatry,
+	medicine, the human sciences, and the prison system, as well
+	as for his work on the history of human sexuality. Foucault's
+	work on power, and the relationships among power, knowledge,
+	and discourse, has been widely discussed and
+	applied. Sometimes described as postmodernist or
+	post-structuralist, in the 1960s he was more often associated
+	with the structuralist movement. Foucault later distanced
+	himself from structuralism and always rejected the
+	post-structuralist and postmodernist labels.
+      </p>
+
+    </body>
+  </text>
+</TEI>

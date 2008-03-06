@@ -11,11 +11,12 @@ class ContentItemGroupLinksController < ApplicationController
 
     # Populate this variable with possible content items to add to
     # this item.
-    @unassociated_valid_content_items = ContentItem.find(:all,
-                                                         :conditions => { 
-                                                           :system => 
-                                                           @content_item_group.system 
-                                                         })
+    @unassociated_valid_content_items = 
+      ContentItem.find(:all,
+                       :conditions => { 
+                         :system => @content_item_group.system,
+                         :parent_id => nil
+                       })
 
     @links = @content_item_group.content_item_group_links.find(:all, :order => :position)
 
