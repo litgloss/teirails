@@ -79,7 +79,7 @@
   <xd:doc class="links" type="string">Project</xd:doc>
   <xsl:param name="homeWords" />
   <xd:doc class="links" type="string"> Institution</xd:doc>
-  <xsl:param name="institution">A TEI Project</xsl:param>
+  <xsl:param name="institution" />
   <xd:doc class="links" type="anyURI"> Institution link</xd:doc>
   <xsl:param name="parentURL" />
   <xd:doc class="links" type="string"> Name of overall institution</xd:doc>
