@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :content_items, :member => {
     :annotatable => :get
+
   }, :collection => {
     :system => :get,
     :unpublished => :get,
@@ -53,9 +54,7 @@ ActionController::Routing::Routes.draw do |map|
     :move_to_top => :post,
     :move_to_bottom => :post
   } do |content_item_group|
-    content_item_group.resources :links, :controller => "content_item_group_links"
-
-    content_item_group.resources :manage_positions, :member => {
+    content_item_group.resources :links, :controller => "content_item_group_links", :member => {
       :move_higher => :post,
       :move_lower => :post,
       :move_to_top => :post,

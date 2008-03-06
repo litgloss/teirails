@@ -1,7 +1,9 @@
 class ContentItemGroupLinksController < ApplicationController
   before_filter :login_required
   
-  append_before_filter :find_content_item_group_link, :only => [:update, :destroy]
+  append_before_filter :find_content_item_group_link, :only => [ :update, :destroy, :move_higher,
+                                                                 :move_lower, :move_to_top, 
+                                                                 :move_to_bottom ]
   append_before_filter :find_content_item_group
 
   def index
@@ -15,10 +17,44 @@ class ContentItemGroupLinksController < ApplicationController
                                                            @content_item_group.system 
                                                          })
 
+    @links = @content_item_group.content_item_group_links.find(:all, :order => :position)
+
     @content_item_group.content_items.each do |ci|
       @unassociated_valid_content_items.delete(ci)
     end
   end
+
+
+  # Moves this element in the list to a higher position.
+  def move_higher
+    @content_item_group_link.move_higher
+    @content_item_group_link.save
+    flash[:notice] = "Element moved higher."
+    redirect_to content_item_group_links_path(@content_item_group_link.content_item_group)
+  end
+
+  # Moves this element in the list to a lower position.
+  def move_lower
+    @content_item_group_link.move_lower
+    @content_item_group_link.save
+    flash[:notice] = "Element moved lower."
+    redirect_to content_item_group_links_path(@content_item_group_link.content_item_group)
+  end
+
+  def move_to_top
+    @content_item_group_link.move_to_top
+    @content_item_group_link.save
+    flash[:notice] = "Element moved to top."
+    redirect_to content_item_group_links_path(@content_item_group_link.content_item_group)
+  end
+
+  def move_to_bottom
+    @content_item_group_link.move_to_bottom
+    @content_item_group_link.save
+    flash[:notice] = "Element moved to bottom."
+    redirect_to content_item_group_links_path(@content_item_group_link.content_item_group)
+  end
+
 
   # Associate this content item with the content item group.
   def create

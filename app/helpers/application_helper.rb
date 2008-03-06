@@ -44,8 +44,8 @@ module ApplicationHelper
     restful_part = nil
     id_string = ""
     if current_controller.eql?("content_item_group_links")
-      restful_part = "content_item_group_manage_content_item_positions_path"
-      id_string = "#{element.menu_item.id}, #{element.id}"
+      restful_part = "content_item_group_link_path"
+      id_string = "#{element.content_item_group.id}, #{element.id}"
     else
       restful_part = element.class.table_name.singularize +
         "_path"

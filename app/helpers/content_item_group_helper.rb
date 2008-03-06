@@ -3,7 +3,7 @@ module ContentItemGroupHelper
     links = []
 
     links << link_to('manage child pages', 
-                     content_item_group_manage_positions_path(group))
+                     content_item_group_links_path(group))
 
     movement_links = get_movement_links( group )
     
