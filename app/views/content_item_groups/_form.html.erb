@@ -4,5 +4,7 @@
 <%= f.label(:visible, 'Visible?') -%>
 <%= f.check_box :visible %><br />
 
-<%= f.label(:visible, 'System?') -%>
-<%= f.check_box :system %><br />
+<% if current_user.can_act_as?("administrator") -%>
+  <%= f.label(:visible, 'System?') -%>
+  <%= f.check_box :system %><br />
+<% end -%>

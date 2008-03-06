@@ -3,7 +3,7 @@ class ContentItemGroupsController < ApplicationController
                                                     :move_higher, :move_lower,
                                                     :move_to_top, :move_to_bottom]
 
-  append_before_filter :login_required, :except => [:show]
+  append_before_filter :login_required
 
   def index
     if params[:type] == "system" &&
@@ -25,21 +25,18 @@ class ContentItemGroupsController < ApplicationController
     @content_item_group = ContentItemGroup.new
   end
 
+  def edit
+    block_if_not_writable_by(current_user, @content_item_group)
+  end
+
   def show
-    if @content_item_group.content_items.find(:all, :conditions => { 
-                                   :published => true 
-                                 }).size > 0
-      redirect_to content_item_path(@content_item_group.
-                                    content_items.find(:first,
-                                                       :conditions => {
-                                                         :published => true
-                                                       }))
-      return
-    end
+    block_if_not_writable_by(current_user, @content_item_group)
   end
 
   # Moves this element in the list to a higher position.
   def move_higher
+    block_if_not_writable_by(current_user, @content_item_group)
+
     @content_item_group.move_higher
     @content_item_group.save
     flash[:notice] = "Element moved higher."
@@ -48,6 +45,8 @@ class ContentItemGroupsController < ApplicationController
 
   # Moves this element in the list to a lower position.
   def move_lower
+    block_if_not_writable_by(current_user, @content_item_group)
+
     @content_item_group.move_lower
     @content_item_group.save
     flash[:notice] = "Element moved lower."
@@ -55,6 +54,8 @@ class ContentItemGroupsController < ApplicationController
   end
 
   def move_to_top
+    block_if_not_writable_by(current_user, @content_item_group)
+
     @content_item_group.move_to_top
     @content_item_group.save
     flash[:notice] = "Element moved to top."
@@ -62,6 +63,8 @@ class ContentItemGroupsController < ApplicationController
   end
 
   def move_to_bottom
+    block_if_not_writable_by(current_user, @content_item)
+
     @content_item_group.move_to_bottom
     @content_item_group.save
     flash[:notice] = "Element moved to bottom."
@@ -69,6 +72,8 @@ class ContentItemGroupsController < ApplicationController
   end
 
   def destroy
+    block_if_not_writable_by(current_user, @content_item_group)
+
     if @content_item_group.destroy
       flash[:notice] = "Content item group deleted."
       redirect_to content_item_groups_path(get_system_hash_for(@content_item_group))
@@ -109,4 +114,11 @@ class ContentItemGroupsController < ApplicationController
     end
   end
 
+
+  private 
+  # Since these methods are mostly for managing groups, block access if 
+  # user is not able to at least act as an editor.
+  def authorized?
+    current_user.can_act_as?("editor")
+  end
 end
