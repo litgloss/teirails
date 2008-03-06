@@ -120,7 +120,8 @@ class ContentItemsController < ApplicationController
       content_items = ContentItem.remove_system_content_items(content_items)
     else
       content_items = ContentItem.find(:all, :conditions => 
-                                       { :published => true } )
+                                       { :published => true,
+                                         :hide_in_catalog => false } )
 
       content_items = ContentItem.remove_cloned_content_items(content_items)
       content_items = ContentItem.remove_system_content_items(content_items)
