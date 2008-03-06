@@ -23,6 +23,11 @@
       </sourceDesc>
     </fileDesc>
 
+    <profileDesc>
+      <langUsage>
+	<language ident="en-US">en-US</language>
+      </langUsage>
+    </profileDesc>
 
   </teiHeader>
 
@@ -55,36 +60,23 @@
     to the question: Was ist Aufklärung? And the respondent was
     Kant.</p>
 
-
-    <table rend="boxed" rows="1" cols="2">
-      <row>
-	<cell>
-	  A minor text, perhaps. But it seems to me that it marks the
-	  discreet entrance into the history of thought of a question
-	  that modern philosophy has not been capable of answering,
-	  but that it has never managed to get rid of, either. And one
-	  that has been repeated in various forms for two centuries
-	  now. From Hegel through Nietzsche or Max Weber to Horkheimer
-	  or Habermas, hardly any philosophy has failed to confront
-	  this same question, directly or indirectly. What, then, is
-	  this event that is called the Aufklärung and that has
-	  determined, at least in part, what we are, what we think,
-	  and what we do today ? Let us imagine that the Berlinische
-	  Monatschrift still exists and that it is asking its readers
-	  the question: What is modern philosophy ?  Perhaps we could
-	  respond with an echo: modern philosophy is the philosophy
-	  that is attempting to answer the question raised so
-	  imprudently two centuries ago: Was ist Aufklärung?
-	</cell>
-	
-	<cell>
-	  <figure>
-	    <graphic url="http://teirails.phq.org/images/3/stream"/>
-	  </figure>
-	</cell>
-      </row>
-    </table>
-
+    <p>
+      A minor text, perhaps. But it seems to me that it marks the
+      discreet entrance into the history of thought of a question that
+      modern philosophy has not been capable of answering, but that it
+      has never managed to get rid of, either. And one that has been
+      repeated in various forms for two centuries now. From Hegel
+      through Nietzsche or Max Weber to Horkheimer or Habermas, hardly
+      any philosophy has failed to confront this same question,
+      directly or indirectly. What, then, is this event that is called
+      the Aufklärung and that has determined, at least in part, what
+      we are, what we think, and what we do today ? Let us imagine
+      that the Berlinische Monatschrift still exists and that it is
+      asking its readers the question: What is modern philosophy ?
+      Perhaps we could respond with an echo: modern philosophy is the
+      philosophy that is attempting to answer the question raised so
+      imprudently two centuries ago: Was ist Aufklärung?
+    </p>
 
     
     <p>Let us linger a few moments over Kant's text. It merits attention for several reasons.</p>
