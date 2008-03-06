@@ -7,11 +7,11 @@ class ContentItemGroup < ActiveRecord::Base
   # We don't have anything really important behind this object, since 
   # individual content item permissions are still protected.  Fill this
   # method in later as necessary.
-  def readable_by?
+  def readable_by?(user)
     return true
   end
 
-  def writable_by?
+  def writable_by?(user)
     if user.class == Symbol || user.nil?
       return false
     end
