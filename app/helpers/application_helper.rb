@@ -187,8 +187,7 @@ module ApplicationHelper
     links = []
 
     if current_action.eql?("show")
-      if !@content_item.nil? && 
-          !@content_item.groups.empty?
+      if !@content_item.nil?
         links = get_content_item_group_submenu_links(@content_item)
       end
 
@@ -206,17 +205,24 @@ module ApplicationHelper
   def get_content_item_group_submenu_links(content_item)
     links = []
 
-    if params[:group]
-      content_item_group = ContentItemGroup.find(params[:group])      
+    # If there is only one group that this content item is 
+    # associated with, show other items in that group.
+    group_id = params[:group]
+    if content_item.groups.size == 1
+      group_id = content_item.groups[0].id
+    end
+
+    if group_id
+      content_item_group = ContentItemGroup.find(group_id)      
       content_item_group.content_items.each do |c|
-        links << link_to(c.title, content_item_path(c, :group => params[:group]))
+        links << link_to(c.title, content_item_path(c, :group => group_id))
       end
     elsif !content_item.groups.empty?
       content_item.groups.each do |cig|
         links << link_to("#{cig.name} group", content_item_group_path(cig))
       end
     else
-      links << "No group associations"
+      links << link_to(content_item.title, content_item_path(content_item))
     end
 
     links
