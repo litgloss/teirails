@@ -179,13 +179,20 @@ module ApplicationHelper
     return original_link.gsub(/>.*?</, "><span>#{link_text}</span><")
   end
 
+  # Displays an appropriate sub menu based on whether we are looking at 
+  # a content item or a catalog page.
   def get_content_item_submenu_links
+    current_action = request.path_parameters['action']
+
     links = []
 
-    if !@content_item.nil? && 
-        !@content_item.groups.empty?
-      links = get_content_item_group_submenu_links(@content_item)
-    else
+    if current_action.eql?("show")
+      if !@content_item.nil? && 
+          !@content_item.groups.empty?
+        links = get_content_item_group_submenu_links(@content_item)
+      end
+
+    elsif current_action =~ /^(index|by_author|by_title|by_language)$/
       links << get_ci_submenu_by_author_link
       links << get_ci_submenu_by_language_link
       links << get_ci_submenu_by_title_link
