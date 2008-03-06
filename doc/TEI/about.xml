@@ -33,15 +33,15 @@
       <div n="Intro">
 	<head>Introduction</head>
 	<p>
-	  TEI Rails is a content management system for documents
-	  encoded in TEI.  It is written in Ruby on Rails.
-	  Development funding for the project came from a grant from
-	  the National Endowment for the Humanities at the <ref
+	  TEI Rails is a content management system, writting in Ruby
+	  on Rails, for documents encoded in TEI. Development funding
+	  for the project came from a grant from the National
+	  Endowment for the Humanities at the <ref
 	  target="http://www.buffalo.edu"> University at
 	  Buffalo</ref>.  The content management system is intended to
 	  run the <ref target="http://litgloss.buffalo.edu">Litgloss
 	  archive</ref>, which is a collection of texts in a variety
-	  of languages which are annotated for pedagogical purposes.
+	  of languages featuring pedagogically-useful annotations.
 	</p>
       </div>
 
@@ -57,44 +57,58 @@
 	  document annotation.
 	</p>
 
-	<p>
-	  TEI Rails supports document versioning.  The system stores
-	  all versions created of a particular document, and
-	  authorized users may revert to previous versions at any
-	  time.
-	</p>
-	
-	<p>
-	  The system also supports a hierarchy of users and workflow
-	  for collaboration.  Without customization, the default
-	  hierarchy allows for classes of users considered to be
-	  system administrators, editors, contributors, and normal
-	  users.
-	</p>
+
+
+	<div n="Versioning">
+	  <head>Document Versioning</head>
+
+	  <p>
+	    TEI Rails, by default, stores all versions created of a
+	    particular document.  At any time, authorized users may view
+	    or revert to any one of the previous versions of a content
+	    item.
+	  </p>
+
+	</div>
+
+	<div n="Workflow">
+	  <head>Document Workflow</head>
+
+	  <p>
+	    The system also supports a hierarchy of users and workflow
+	    for collaboration.  Without customization, the default
+	    hierarchy allows for classes of users considered to be
+	    system administrators, editors, contributors, and normal
+	    users.
+	  </p>
+	  
+	  <p>
+	    TEI Rails allows for users to collaborate on documents by
+	    creating private "clones" of those documents.  A clone is
+	    basically a shallow copy of a document into a private
+	    workspace of a user.  Once a user and editor are satisfied
+	    with her changes, an editor may pull from these local
+	    changes and modify the public content item.  This approach
+	    to document workflow, which allows for "clusters" of
+	    document clones around a central document object, allows
+	    for security while also providing a "sandbox" where users
+	    less familiar with TEI may try their changes safely.
+	  </p>
+
+	</div>
+
+	<div n="Annotation">
+	  <head>Annotation</head>
 
 	<p>
-	  TEI Rails allows for users to collaborate on documents by
-	  creating private "clones" of those documents.  A clone is
-	  basically a shallow copy of a document into a private
-	  workspace of a user.  Once a user and editor are satisfied
-	  with her changes, an editor may pull from these local
-	  changes and modify the public content item.  This approach to 
-	  document workflow, which allows for "clusters" of document 
-	  clones around a central document object, allows for a secure 
-	  system while also providing a "sandbox" where users less familiar
-	  with TEI may try their changes safely.
-	</p>
-
-	<p>
-	  Multiple forms of "annotation" are supported.  TEI Rails
-	  supports many forms of document markup.  Of course,
-	  annotations may be made to a document according to the TEI
-	  guidelines for P5 and the TEI Lite DTD.  In addition to
-	  this, TEI Rails includes a web-based editor which
-	  automatically inserts "annotations" which show up on a
-	  rendered page with a javascript popup.  These are handy fo
-	  allowing users to add notes to a document with a particular
-	  knowledge of TEI or XML.
+	  TEI Rails features a variety of different forms of
+	  "annotation".  Since the native document format is TEI Lite
+	  (P5), annotations may be manually inserted into a document
+	  in a form following the TEI guidelines for version P5 and
+	  the TEI Lite DTD.  In addition to this, TEI Rails includes a
+	  web-based editor allowing users without specific knowledge
+	  of XML or TEI to insert textual or graphical annotations of
+	  words or phrases in a document text.
 	</p>
 
 	<p>
@@ -107,18 +121,30 @@
 	  Rails applications.
 	</p>
 
+	</div>
+
+	<div n="Media">
+	  <head>Media Files</head>
 	<p>
-	  TEI Rails supports image and audio uploads to be associated
-	  with content items and "litglosses" (the document markup tag
-	  mentioned above).  
+	  TEI Rails helps to associate media files with TEI documents.
+	  It allows for images and audio files to be associated with a
+	  TEI content item or with annotations made with the web-based
+	  annotation editor.  Facilities are provided so that users may
+	  upload media files via web forms.
 	</p>
 
-	<p>
-	  Finally, TEI Rails checks all input against a DTD for TEI
-	  Lite, and it passes errors from the validator to the user.
-	  No data are saved in the system if a document is not
-	  well-formed and able to be validated against a DTD.
-	</p>
+	</div>
+
+
+	<div n="ValidXML">
+	  <head>XML Validation</head>
+	  <p>
+	    TEI Rails checks all input against a DTD for TEI Lite, and
+	    it passes errors from the validator to the user.  No data
+	    are saved in the system if a document is not well-formed and
+	    able to be validated against a DTD.
+	  </p>
+	</div>
       </div>
 
       <div n="License">
