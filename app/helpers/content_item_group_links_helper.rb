@@ -1,4 +1,4 @@
-module ContentItemGroupLinkHelper
+module ContentItemGroupLinksHelper
   def get_index_item_options(ci_group_link)
     links = []
 

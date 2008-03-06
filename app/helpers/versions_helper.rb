@@ -1,4 +1,4 @@
-module VersionHelper
+module VersionsHelper
   def get_version_options(content_item, content_item_version)
     links = []
 

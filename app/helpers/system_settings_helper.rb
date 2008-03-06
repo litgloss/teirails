@@ -1,4 +1,4 @@
-module SystemSettingHelper
+module SystemSettingsHelper
   def get_type_options
     retval = ""
 

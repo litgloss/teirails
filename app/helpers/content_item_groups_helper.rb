@@ -1,4 +1,4 @@
-module ContentItemGroupHelper
+module ContentItemGroupsHelper
   def get_index_item_options(group)
     links = []
 
