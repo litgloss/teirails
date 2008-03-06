@@ -2,8 +2,6 @@ module ContentItemGroupsHelper
   def get_index_item_options(group)
     links = []
 
-    logger.info("gonna look for options.")
-
     links << link_to('manage child pages', 
                      content_item_group_links_path(group))
 

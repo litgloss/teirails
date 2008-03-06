@@ -167,7 +167,6 @@ module ApplicationHelper
       restful_part = "content_item_group_link_path"
       id_string = "#{element.content_item_group.id}, #{element.id}"
     else
-      logger.info("Got to stuff.")
       restful_part = element.class.table_name.singularize +
         "_path"
       id_string = element.id
