@@ -1,8 +1,8 @@
 require 'rexml/document'
 
-# Content item which stores documents in TEI form.  This 
-# class also contains methods for accessing and manipulating 
-# some teiHeader elements.
+# Content item which stores documents in TEI form.  This class also
+# contains methods for accessing and manipulating some teiHeader
+# elements.
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
 
@@ -23,7 +23,8 @@ class ContentItem < ActiveRecord::Base
   has_many :litglosses
 
   has_many :content_item_group_links, :dependent => :destroy
-  has_many :groups, :through => :content_item_group_links, :source => :content_item_group
+  has_many :groups, :through => :content_item_group_links, :source => 
+    :content_item_group
 
   # Get rid of clones when a perent is destroyed, and all associated
   # media objects.  Don't do this with a normal "dependent => destroy"
@@ -589,11 +590,7 @@ class ContentItem < ActiveRecord::Base
   end
 
   # When given a string of valid xhtml content, parses all href elements
-  # of type "litgloss" and re-writes them to use overlib.  This is kind 
-  # of hack-ish, but so are these types of "annotations," really.  They
-  # shouldn't be stored in-line, but this code accomodates for lazy
-  # and/or ignorant people who don't learn how to do good document markup
-  # by hand.
+  # of type "litgloss" and re-writes them to use overlib. 
   def litglosify(xhtml_content)
 
     new_doc = Document.new(xhtml_content)
