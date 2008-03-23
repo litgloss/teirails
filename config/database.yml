@@ -19,7 +19,7 @@ test:
 
 production:
   adapter: mysql
-  host: localhost
+  socket: /var/run/mysqld/mysqld.sock
   database: teirails_production
   username: tei
   password: tei
