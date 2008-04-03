@@ -341,7 +341,9 @@ class ContentItemsController < ApplicationController
       end
       
       if (logged_in? && current_user.can_act_as?("administrator"))
-        content_item.system = params[:content_item][:system]
+        if params[:content_item][:system]
+          content_item.system = params[:content_item][:system]
+        end
       end
     end
 
