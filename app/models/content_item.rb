@@ -6,6 +6,7 @@ require 'rexml/document'
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
 
+  validates_presence_of :system
 
   self.non_versioned_columns << 'published'
   self.non_versioned_columns << 'protected'
@@ -126,8 +127,6 @@ class ContentItem < ActiveRecord::Base
   # integer representing the occurrence to match in this
   # string.  It is 0-based!
   def tokenize_on_occurrence(string, term, count)
-    old_string = string
-    
     pre_string = ""
     match = ""
     post_string = ""
