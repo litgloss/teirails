@@ -675,7 +675,7 @@ class ContentItem < ActiveRecord::Base
   end
 
 
-  # Makes overlib script tag self-closing to fix the bug described
+  # Makes overlib script tag self-closing to compensate for the IE bug described
   # here:
   # http://webbugtrack.blogspot.com/ \
   #          2007/08/bug-153-self-closing-script-tag-issues.html
