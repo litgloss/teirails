@@ -6,8 +6,6 @@ require 'rexml/document'
 class ContentItem < ActiveRecord::Base
   acts_as_versioned
 
-  validates_presence_of :system
-
   self.non_versioned_columns << 'published'
   self.non_versioned_columns << 'protected'
 
@@ -279,10 +277,15 @@ class ContentItem < ActiveRecord::Base
       ci = ContentItem.new( :creator => user,
                             :published => false,
                             :tei_data => self.tei_data,
-                            :parent_id => self.id )
+                            :parent_id => self.id,
+                            :system => self.system
+                          )
 
-      ci.save
-      return ci
+      if ci.save
+        return ci
+      else
+        return nil
+      end
     else
       return nil
     end
