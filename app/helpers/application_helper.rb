@@ -17,6 +17,18 @@ module ApplicationHelper
     "</form>"
   end
 
+  # Returs an image tag for an image that is streamed off of the filesystem by the application.
+  def streamed_image_tag(image)
+    width = image.width
+    height = image.height
+
+    tag = "<img src=\"" +
+      stream_image_path(image) + "\"" +
+      " height=\"#{height}\"" +
+      " width=\"#{width}\">"
+    tag
+  end
+
   # Wraps the title method of the content item
   # so that "Unknown Title" shows up in cases
   # where it doesn't exist in the TEI.

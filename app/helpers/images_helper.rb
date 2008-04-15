@@ -91,17 +91,6 @@ module ImagesHelper
     links.join(" | ")
   end
 
-  def streamed_image_tag(image)
-    width = image.width
-    height = image.height
-
-    tag = "<img src=\"" +
-      stream_image_path(image) + "\"" +
-      " height=\"#{height}\"" +
-      " width=\"#{width}\">"
-
-    return tag
-  end
 
   # Streams image thumbnail in a link
   # to medium-sized image.  Assumes we are passed
