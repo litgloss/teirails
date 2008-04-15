@@ -17,7 +17,8 @@ module ApplicationHelper
     "</form>"
   end
 
-  # Returs an image tag for an image that is streamed off of the filesystem by the application.
+  # Returns an image tag for an image that is streamed off of the
+  # filesystem by the application.
   def streamed_image_tag(image)
     width = image.width
     height = image.height
